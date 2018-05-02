@@ -104,7 +104,7 @@ angular.module('scfApp').controller(
 								label: '',
 								cssTemplate: 'text-center',
 								sortable: false,
-								cellTemplate: '<scf-button class="btn-default gec-btn-action" ng-show="data.statusCode === txnTodoListCtrl.statusTransaction.waitForVerify" id="wait-for-verify-transaction-{{data.transactionNo}}-button" ng-click="txnTodoListCtrl.verifyTransaction(data)" title="Verify a transaction"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
+								cellTemplate: '<scf-button class="btn-sm btn-default gec-btn-action" ng-show="data.statusCode === txnTodoListCtrl.statusTransaction.waitForVerify" id="wait-for-verify-transaction-{{data.transactionNo}}-button" ng-click="txnTodoListCtrl.verifyTransaction(data)" title="Verify a transaction"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'
 							}]
 				    };
 				    

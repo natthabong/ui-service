@@ -1,24 +1,21 @@
 <div id="content" th:fragment="content">
-
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3>
-						<span id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessage | translate}}</span>
-					</h3>
-				</div>
-			</div>
+	
+	<div class="app-title">
+		<div>
+			<h1 ng-if="ctrl.isNewMode" id="header-message-label"
+					ng-bind="ctrl.headerMessage | translate"></h1>
 		</div>
-        <div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <form name="roleForm" class="form-horizontal" ng-submit="save()"
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<form name="roleForm" class="form-horizontal" ng-submit="save()"
                                 autocomplete="off">
                             <div class="form-group">
                                 <label id="role-name-label"
-                                    class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Role name' | translate}}: </label>
+                                    class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Role name' | translate}} </label>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
                                     <scf-input-text id="role-name-textbox" ng-disabled="ctrl.viewMode"
                                         ng-model="ctrl.model.roleName" maxlength="100"></scf-input-text>
@@ -39,24 +36,13 @@
                                         required' | translate}}.</span>
                             </div>
 
-                            <div lass="form-group">
+                            <div class="form-group">
                                 <div ng-repeat="group in ctrl.privilegeGroups track by $index">
                                     <label id="{{group.groupName}}-label" class="col-lg-12 col-md-12 col-sm-12 control-label">{{group.groupName}}</label>
 
                                     <div ng-repeat="privilege in group.privileges track by $index">
                                         <label class="col-lg-1 col-md-1 col-sm-1 col-xs-1 control-label"></label>
                                         <label class="checkbox-inline"> 
-<!--                                         <scf-checkbox id="{{privilege.privilegeId}}-checkbox"  -->
-<!--                                             ng-change="ctrl.checkDependValue(privilege)" -->
-<!--                                             ng-checked="selection.indexOf(fruitName) > -1" -->
-<!--                                             ng-disabled="ctrl.viewMode || privilege.isDisable"></scf-checkbox> -->
-
-<!-- 										 <input id="{{privilege.privilegeId}}-checkbox" -->
-<!-- 											ng-disabled="ctrl.viewMode || privilege.isDisable" -->
-<!-- 											type="checkbox" -->
-<!-- 											ng-checked="selection.indexOf(privilege.privilegeId) > -1" -->
-<!-- 											ng-click="toggleSelection($event, privilege)" /> -->
-
 											<input
 												type="checkbox" checklist-model="ctrl.model.privileges"
 												checklist-value="privilege" checklist-comparator="ctrl.comparePrivilege"
@@ -69,11 +55,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pull-right">
+                            <div class="form-group text-right">
                                 <scf-button id="cancel-button" class="popup-button btn" ng-click="cancel()" >{{ctrl.button | translate}}</scf-button>
                                 <scf-button id="save-button" type="submit" ng-if="!ctrl.viewMode">{{'Save' | translate}}</scf-button>
                             </div>
-                        </form>
+                     </form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="wrapper">
+        <div class="form-element">
+			<div class="panel panel-default col-md-12 padding-0">
+				<div class="panel-body">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				    </div>
                 </div>
 			</div>

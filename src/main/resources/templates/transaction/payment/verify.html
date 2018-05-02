@@ -1,16 +1,18 @@
 <div id="content" th:fragment="content" sec:authorize="hasAuthority('VERIFY_PAYMENTS_OF_MY_ORGANIZATION')">
-    <div class="panel box-shadow-none content-header">
-        <div class="panel-body">
-            <div class="col-md-12">
-                <h3 id="header-message-label" class="animated fadeInLeft">{{ 'Verify payment' | translate}}</h3>
-            </div>
-        </div>
-    </div>
-    <div class="form-element">
-        <div class="panel panel-default col-md-12 padding-0">
-            <div class="panel-body" style="padding-bottom: 30px;">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="row">
+    <div class="app-title">
+		<div>
+			<h1>
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label"
+					class="animated fadeInLeft">{{ 'Verify payment' | translate}}</span>
+			</h1>
+			<p></p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="row">
                         <div class="col-md-12">
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -95,28 +97,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+					<br/>
+					<div class="row">
                         <div class="col-md-12">&#32;</div>
                     </div>
                     <div>
                         <ng-include ng-show="ctrl.isCreateTransWithInvoice" src="'/payment-transaction/with-invoice/verify'" ng-if="true"></ng-include>
                         <ng-include ng-show="!ctrl.isCreateTransWithInvoice" src="'/payment-transaction/without-invoice/verify'" ng-if="true"></ng-include>
                     </div>
-
-                </div>
-            </div>
-
-            <div class="panel-body">
-                <div class="row">
-                    <div id="bottom-sticker">
-                        <div class="col-md-12 text-right">
-                            <scf-button id="back-button" class="btn btn-default" type="submit" ng-click="ctrl.back()">{{ 'Back' | translate}}</scf-button>
+                    <br/>
+					<div class="col-md-12 col-sm-12 text-right">
+							<scf-button id="back-button" class="btn btn-default" type="submit" ng-click="ctrl.back()">{{ 'Back' | translate}}</scf-button>
                             <scf-button id="reject-button" class="btn btn-default" type="submit" ng-click="ctrl.confirmReject()">{{ 'Reject' | translate}}</scf-button>
                             <scf-button id="approve-button" class="btn btn-default" type="submit" ng-click="ctrl.confirmApprove()">{{ 'Approve' | translate}}</scf-button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

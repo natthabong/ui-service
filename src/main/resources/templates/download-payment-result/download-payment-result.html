@@ -1,58 +1,66 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAuthority('VIEW_PAYMENTS_REFER_TO_MY_ORGANIZATION')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft">{{
-						'Download payment result' | translate}}</h3>
-				</div>
-			</div>
+
+	<div class="app-title">
+		<div>
+			<h1>
+				<h1 id="header-message-label"
+					ng-bind=" 'Download payment result' | translate"></h1>
+			</h1>
 		</div>
 	</div>
 
-	<div class="form-element">
-		<div class="panel panel-default col-md-12 padding-0">
-			<div class="panel-body">
-				<div class="col-md-12 col-sm-12 col-xs-12">
-					<form name="downloadForm" class="form-horizontal">
-						<div class="form-group" ng-if="multiLayout">
-							<label for="file" id="file-label"
-								class="col-md-2 col-sm-2 col-xs-12 control-label">{{'File'
-								| translate}}:</label>
-							<div class="col-md-3 col-sm-3 col-xs-12">
-								<scf-dropdown id="file-dropdown" ng-model="ctrl.channel"
-									component-data="ctrl.exportLayoutDropdowns"></scf-dropdown>
-							</div>
-						</div>
-						<div class="form-group">
-							<label id="payment-date-label"
-								class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Payment
-								date' | translate}}: </label>
-							<div class="col-md-3 col-sm-3 col-xs-12">
-								<scf-date-picker text-id="payment-date-textbox"
-									text-model="ctrl.paymentDate" date-format="dd/MM/yyyy"
-									th:attr="default-value=${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"
-									is-open="ctrl.openPaymentDate"
-									open-calendar-action="ctrl.openCalendarPaymentDate()"
-									button-id="payment-date-calendar-button"> </scf-date-picker>
-							</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="form-element">
+						<div class="panel panel-default col-md-12 padding-0">
+							<div class="panel-body">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<form name="downloadForm" class="form-horizontal">
+										<div class="form-group row" ng-if="multiLayout">
+											<label for="file" id="file-label"
+												class="col-md-2 col-sm-2 col-xs-12 control-label">{{'File'
+												| translate}}:</label>
+											<div class="col-md-3 col-sm-3 col-xs-12">
+												<scf-dropdown id="file-dropdown" ng-model="ctrl.channel"
+													component-data="ctrl.exportLayoutDropdowns"></scf-dropdown>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label id="payment-date-label"
+												class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Payment
+												date' | translate}}: </label>
+											<div class="col-md-3 col-sm-3 col-xs-12">
+												<scf-date-picker text-id="payment-date-textbox"
+													text-model="ctrl.paymentDate" date-format="dd/MM/yyyy"
+													th:attr="default-value=${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"
+													is-open="ctrl.openPaymentDate"
+													open-calendar-action="ctrl.openCalendarPaymentDate()"
+													button-id="payment-date-calendar-button">
+												</scf-date-picker>
+											</div>
 
-							<div class="col-sm-6 col-md-6 col-xs-12">
-								<scf-button type="submit" id="download-button"
-									ng-click="ctrl.downloadAction()">Download</scf-button>
-							</div>
-						</div>
+											<div class="col-sm-6 col-md-6 col-xs-12">
+												<scf-button type="submit" id="download-button"
+													ng-click="ctrl.downloadAction()">Download</scf-button>
+											</div>
+										</div>
 
-						<div class="form-group" ng-show="errors.paymentDate">
-							<div class="row">
-								<label class="col-md-2 col-sm-2 col-xs-12 control-label"></label>
-								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="payment-date-warning-message-label"
-									ng-bind="errors.paymentDate.message"> </span>
+										<div class="form-group row" ng-show="errors.paymentDate">
+											<div class="row">
+												<label class="col-md-2 col-sm-2 col-xs-12 control-label"></label>
+												<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+													id="payment-date-warning-message-label"
+													ng-bind="errors.paymentDate.message"> </span>
+											</div>
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,178 +1,188 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAnyAuthority('MONITOR_INTEGRATION_OF_MY_ORGANIZATION', 'MONITOR_FUNDING_INTEGRATION', 'MONITOR_FUNDING_INTEGRATION_OF_ALL_FUNDING', 'MONITOR_CUSTOMER_INTEGRATION')">
 	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3>
-						<span id="header-message-label" class="animated fadeInLeft">{{'Batch
-							job tracking' | translate}}</span>
-					</h3>
-				</div>
+		<div class="app-title">
+			<div>
+				<h1>
+					<i class="fa fa-television"></i>{{'Batch job tracking' |
+					translate}}
+				</h1>
 			</div>
 		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<form name="batchJobTrackingForm" class="form-horizontal"
-							novalidate="" ng-submit="ctrl.searchBatchJobLog()"
-							autocomplete="off">
-							<div class="form-group">
-								<label id="batch-job-label"
-									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Batch
-									job' | translate}}: </label>
-								<div class="col-md-5 col-sm-5">
-									<scf-input-text id="batch-job-textbox" ng-disabled="true"
-										ng-model="ctrl.logListModel.batchJobName" maxlength="100"
-										placeholder=""></scf-input-text>
-								</div>
+		<div class="tile">
+			<div class="tile-body">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<form name="batchJobTrackingForm" class="form-horizontal"
+						novalidate="" ng-submit="ctrl.searchBatchJobLog()"
+						autocomplete="off">
+						<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+							<label id="batch-job-label"
+								class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Batch
+								job' | translate}}: </label>
+							<div class="col-md-5 col-sm-5">
+								<scf-input-text id="batch-job-textbox" ng-disabled="true"
+									ng-model="ctrl.logListModel.batchJobName" maxlength="100"
+									placeholder=""></scf-input-text>
 							</div>
-							<div class="form-group">
-								<label id="log-date-label"
-									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Log
-									date' | translate}}:</label>
-								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<label id="log-date-from-label" for="log-date-from-label"
-										class="control-label">{{'From' | translate}}: </label>
-									<scf-date-picker-from text-id="log-date-from-textbox"
-										button-id="log-date-from-button"
-										text-model="ctrl.logListModel.logDateFrom"
-										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
-										open-calendar-action="ctrl.openCalendarDateFrom()"
-										max-date="ctrl.logListModel.logDateTo">
-									</scf-date-picker-from>
-								</div>
-								<div class="col-md-2 col-sm-3 gec-calendar-group">
-									<scf-input-text id="log-time-hour-from-textbox"
-										ng-model="ctrl.logListModel.logTimeFromHour" maxlength="2" placeholder="HH"></scf-input-text>
-									<label for="colon-from" style="line-height: 30px;">&nbsp;:&nbsp;</label>
-									<scf-input-text id="log-time-minute-from-textbox"
-										ng-model="ctrl.logListModel.logTimeFromMinute" maxlength="2"
-										placeholder="MM"></scf-input-text>
-								</div>
+						</div>
+						<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+							<label id="log-date-label"
+								class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Log
+								date' | translate}}:</label> <label id="log-date-from-label"
+								for="log-date-from-label"
+								class="col-md-1 col-sm-1 text-right control-label">{{'From'
+								| translate}}: </label>
+							<div class="col-md-3 col-sm-3 gec-calendar-group">
+								<scf-date-picker-from text-id="log-date-from-textbox"
+									button-id="log-date-from-button"
+									text-model="ctrl.logListModel.logDateFrom"
+									date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom"
+									open-calendar-action="ctrl.openCalendarDateFrom()"
+									max-date="ctrl.logListModel.logDateTo">
+								</scf-date-picker-from>
 							</div>
-							<div class="form-group">
-								<label id="log-date-label"
-									class="col-md-2 col-sm-2 control-label"></label>
-								<div class="col-md-3 col-sm-3 gec-calendar-group">
-									<label id="log-date-to-label" for="log-date-to-label"
-										class="control-label">{{'to' | translate}}: </label>
-									<scf-date-picker-to text-id="log-date-to-textbox"
-										button-id="log-date-to-button"
-										text-model="ctrl.logListModel.logDateTo"
-										date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
-										open-calendar-action="ctrl.openCalendarDateTo()"
-										min-date="ctrl.logListModel.logDateFrom">
-									</scf-date-picker-to>
-								</div>
-								<div class="col-md-2 col-sm-3 gec-calendar-group">
-									<scf-input-text id="log-time-hour-to-textbox"
-										ng-model="ctrl.logListModel.logTimeToHour" maxlength="2" placeholder="HH"></scf-input-text>
-									<label for="colon-to" style="line-height: 30px;">&nbsp;:&nbsp;</label>
-									<scf-input-text id="log-time-minute-to-textbox"
-										ng-model="ctrl.logListModel.logTimeToMinute" maxlength="2" placeholder="MM"></scf-input-text>
-								</div>
+							<div class="col-md-2 col-sm-3 gec-calendar-group">
+								<scf-input-text id="log-time-hour-from-textbox"
+									ng-model="ctrl.logListModel.logTimeFromHour" maxlength="2"
+									placeholder="HH"></scf-input-text>
 							</div>
-							<div class="form-group" ng-show="ctrl.wrongDateFormat">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="log-date-format-warning-message-label">{{'Wrong date
-									or time format data' | translate}}.</span>
+							<label for="colon-from" style="line-height: 30px;">&nbsp;:&nbsp;</label>
+							<div class="col-md-2 col-sm-3 gec-calendar-group">
+								<scf-input-text id="log-time-minute-from-textbox"
+									ng-model="ctrl.logListModel.logTimeFromMinute" maxlength="2"
+									placeholder="MM"></scf-input-text>
 							</div>
-							<div class="form-group" ng-show="ctrl.wrongDateFromTo">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="log-date-from-to-warning-message-label">{{'From date
-									must be less than or equal to To date' | translate}}.</span>
+						</div>
+						<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+							<label id="log-date-label"
+								class="col-md-2 col-sm-2 col-xs-12 control-label"></label><label
+								id="log-date-to-label" for="log-date-to-label"
+								class="col-md-1 col-sm-1 text-right control-label">{{'to'
+								| translate}}: </label>
+							<div class="col-md-3 col-sm-3 gec-calendar-group">
+								<scf-date-picker-to text-id="log-date-to-textbox"
+									button-id="log-date-to-button"
+									text-model="ctrl.logListModel.logDateTo"
+									date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo"
+									open-calendar-action="ctrl.openCalendarDateTo()"
+									min-date="ctrl.logListModel.logDateFrom">
+								</scf-date-picker-to>
 							</div>
-							<div class="form-group">
-								<label id="process-no-label"
-									class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Process
-									no' | translate}}: </label>
-								<div class="col-md-5 col-sm-5">
-									<scf-input-text id="process-no-textbox"
-										ng-model="ctrl.logListModel.processNo" maxlength="100"
-										placeholder=""></scf-input-text>
-								</div>
-								<div class="col-md-3 col-sm-3">
-									<scf-button type="submit" id="search-button"
-										class="btn-default" ng-bind="'Search' | translate"></scf-button>
-								</div>
+							<div class="col-md-2 col-sm-3 gec-calendar-group">
+								<scf-input-text id="log-time-hour-to-textbox"
+									ng-model="ctrl.logListModel.logTimeToHour" maxlength="2"
+									placeholder="HH"></scf-input-text>
 							</div>
-						</form>
-						<div ng-show="ctrl.showInfomation">
-							<div class="row">
-								<div class="col-md-12 col-sm-12 text-right">
-									<div class="row">
-										<div class="col-md-12 col-sm-12">
-											<span> <b
-												ng-bind="ctrl.pagingController.splitePageTxt"
-												id="batch-job-tracking-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-													dropdown-id="page-limit-dropdown" name="batch-job-tracking"
-													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-													total-page="ctrl.pagingController.pagingModel.totalPage"
-													current-page="ctrl.pagingController.pagingModel.currentPage"
-													page-size-list="ctrl.pagingController.pageSizeList"
-													page-action="ctrl.searchBatchJobLog"></scf-pagination>
-											</span>
-										</div>
+							<label for="colon-to" style="line-height: 30px;">&nbsp;:&nbsp;</label>
+							<div class="col-md-2 col-sm-3 gec-calendar-group">
+								<scf-input-text id="log-time-minute-to-textbox"
+									ng-model="ctrl.logListModel.logTimeToMinute" maxlength="2"
+									placeholder="MM"></scf-input-text>
+							</div>
+						</div>
+						<div class="form-group row col-md-12 col-sm-12 col-xs-12"
+							ng-show="ctrl.wrongDateFormat">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="log-date-format-warning-message-label">{{'Wrong date
+								or time format data' | translate}}.</span>
+						</div>
+						<div class="form-group row col-md-12 col-sm-12 col-xs-12"
+							ng-show="ctrl.wrongDateFromTo">
+							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+							<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+								id="log-date-from-to-warning-message-label">{{'From date
+								must be less than or equal to To date' | translate}}.</span>
+						</div>
+						<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+							<label id="process-no-label"
+								class="col-md-2 col-sm-2 col-xs-12 control-label">{{'Process
+								no' | translate}}: </label>
+							<div class="col-md-5 col-sm-5">
+								<scf-input-text id="process-no-textbox"
+									ng-model="ctrl.logListModel.processNo" maxlength="100"
+									placeholder=""></scf-input-text>
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<scf-button type="submit" id="search-button"
+									class="btn-default btn-sm" ng-bind="'Search' | translate"></scf-button>
+							</div>
+						</div>
+					</form>
+					<div ng-show="ctrl.showInfomation">
+						<div class="row">
+							<div class="col-md-12">
+								<table id="batch-job-tracking-table"
+									class="table table-striped table-bordered" cellspacing="0">
+									<thead>
+										<tr>
+											<th id="date-header-label" ng-bind="'Date' | translate">Date</th>
+											<th id="process-no-header-label"
+												ng-bind="'Process no' | translate">Process no</th>
+											<th id="batch-job-header-label"
+												ng-bind="'Batch job' | translate">Batch job</th>
+											<th id="node-header-label" ng-bind="'Node' | translate">Node</th>
+											<th id="ip-address-header-label" ng-bind="'IP' | translate">IP</th>
+											<th id="action-header-label" ng-bind="'Action' | translate">Action</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-class="record.completed?'': 'message-warnning'"
+											ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+											<td class="text-center"><span
+												id="date-{{record.trackingId}}-label"
+												ng-bind="record.actionTime | date: 'dd/MM/yyyy HH:mm:ss': 'UTC+0700'"></span>
+											</td>
+											<td class="text-left"><span
+												id="process-no-{{record.id}}-label"
+												ng-bind="record.processNo"></span></td>
+											<td class="text-left"><span
+												id="batch-job-{{record.id}}-label"
+												ng-bind="ctrl.logListModel.batchJobName"></span></td>
+											<td class="text-left"><span
+												id="node-{{record.id}}-label"
+												ng-bind="record.node | translate"></span></td>
+											<td class="text-center"><span
+												id="ip-address-{{record.id}}-label"
+												ng-bind="record.ipAddress"></span></td>
+											<td class="text-left"><div
+													id="action-{{record.id}}-label"
+													style="word-wrap: break-word;"
+													ng-bind="(record.action) | translate : (record.parameters)">
+												</div></td>
+											<td class="text-center"><scf-button class="btn btn-sm"
+													id="view-{{record.id}}-button" title="View"
+													ng-disabled="!record.hasDetail"
+													ng-click="ctrl.viewDetail(record)"> <i
+													class="fa fa-search" aria-hidden="true"></i> </scf-button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-sm-12 text-right">
+								<div class="row">
+									<div class="col-md-12 col-sm-12">
+										<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+											id="batch-job-tracking-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+												dropdown-id="page-limit-dropdown" name="batch-job-tracking"
+												page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+												total-page="ctrl.pagingController.pagingModel.totalPage"
+												current-page="ctrl.pagingController.pagingModel.currentPage"
+												page-size-list="ctrl.pagingController.pageSizeList"
+												page-action="ctrl.searchBatchJobLog"></scf-pagination>
+										</span>
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="responsive-table">
-									<table id="batch-job-tracking-table"
-										class="table table-striped table-bordered" cellspacing="0">
-										<thead>
-											<tr>
-												<th id="date-header-label" ng-bind="'Date' | translate">Date</th>
-												<th id="process-no-header-label"
-													ng-bind="'Process no' | translate">Process no</th>
-												<th id="batch-job-header-label"
-													ng-bind="'Batch job' | translate">Batch job</th>
-												<th id="node-header-label" ng-bind="'Node' | translate">Node</th>
-												<th id="ip-address-header-label" ng-bind="'IP' | translate">IP</th>
-												<th id="action-header-label" ng-bind="'Action' | translate">Action</th>
-												<th></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-class="record.completed?'': 'message-warnning'"
-												ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
-												<td class="text-center"><span
-													id="date-{{record.trackingId}}-label"
-													ng-bind="record.actionTime | date: 'dd/MM/yyyy HH:mm:ss': 'UTC+0700'"></span>
-												</td>
-												<td class="text-left"><span
-													id="process-no-{{record.id}}-label"
-													ng-bind="record.processNo"></span></td>
-												<td class="text-left"><span
-													id="batch-job-{{record.id}}-label"
-													ng-bind="ctrl.logListModel.batchJobName"></span></td>
-												<td class="text-left"><span
-													id="node-{{record.id}}-label"
-													ng-bind="record.node | translate"></span></td>
-												<td class="text-center"><span
-													id="ip-address-{{record.id}}-label"
-													ng-bind="record.ipAddress"></span></td>
-												<td class="text-left"><div
-														id="action-{{record.id}}-label"
-														style="word-wrap: break-word;"
-														ng-bind="(record.action) | translate : (record.parameters)">
-													</div></td>
-												<td class="text-center"><scf-button
-														class="btn-default gec-btn-action"
-														id="view-{{record.id}}-button" title="View" ng-disabled="!record.hasDetail" ng-click="ctrl.viewDetail(record)">
-													<i class="fa fa-search" aria-hidden="true"></i> </scf-button></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div id="fixed-bottom" class="col-md-12 text-right">
-									<scf-button type="submit" id="back-button" class="btn-default"
-										ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
-								</div>
+						</div>
+						<br/><br/>
+						<div>
+							<div id="fixed-bottom" class="col-md-12 text-right">
+								<scf-button type="submit" id="back-button" class="btn-default"
+									ng-bind="'Back' | translate" ng-click="ctrl.backPage()"></scf-button>
 							</div>
 						</div>
 					</div>

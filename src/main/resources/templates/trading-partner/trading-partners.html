@@ -2,23 +2,30 @@
 	sec:authorize="hasAuthority('VIEW_ALL_TRADING_PARTNERS')">
 	<input type="hidden" ng-init="ctrl.canManage=true"
 		sec:authorize="hasAuthority('MANAGE_ALL_TRADING_PARTNERS')" />
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'Trading partner list' | translate">Trading partner
-						list</h3>
-				</div>
-			</div>
+	<div class="app-title">
+		<div>
+			<h1>
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label" class="animated fadeInLeft">
+				{{'Trading partner list' | translate}}</span>
+			</h1>
+			<p>Page for manage trading partners.</p>
 		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="col-md-12 text-right">
+						<scf-button id="new-button"
+														ng-disabled="!ctrl.canManage" class="btn btn-default"
+														ng-click="ctrl.createNew()"><i class="fa fa-lg fa-plus"></i>{{'New' |
+													translate}}</scf-button>
+					</div>
+					<div id="advance-search">
 						<form name="tradingPartnerForm" ng-submit="ctrl.search()"
 							autocomplete="off" class="form-horizontal">
-							<div class="form-group">
+							<div class="form-group row">
 								<label for="sponsor-textbox"
 									class="col-md-2 col-sm-3 col-xs-12 control-label"
 									id="organize-label">{{'Organization'| translate}}: </label>
@@ -31,80 +38,71 @@
 										class="btn-default">{{'Search' | translate}}</scf-button>
 								</div>
 							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div>
-									<div class="col-md-12 col-sm-12 text-right">
-										<div class="row">
-											<div class="col-md-12 col-sm-12 text-right">
-												<span> <scf-button id="new-button"
-														ng-disabled="!ctrl.canManage" class="btn btn-default"
-														ng-click="ctrl.createNew()">{{'New' |
-													translate}}</scf-button>
-												</span> <br /> <br />
-											</div>
-											<div class="col-md-12 col-sm-12">
-												<span> <b
-													ng-bind="ctrl.pagingController.splitePageTxt"
-													id="trading-partner-list-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-														dropdown-id="trading-partner-page-limit-dropdown"
-														name="trading-partner"
-														page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-														total-page="ctrl.pagingController.pagingModel.totalPage"
-														current-page="ctrl.pagingController.pagingModel.currentPage"
-														page-size-list="ctrl.pagingController.pageSizeList"
-														page-action="ctrl.search"></scf-pagination>
-												</span>
-											</div>
-										</div>
-									</div>
-									<div class="responsive-table">
-										<table id="trading-partner-table"
-											class="table table-striped table-bordered" cellspacing="0">
-											<thead>
-												<tr>
-													<th ng-bind="'numbero' | translate">No.</th>
-													<th ng-bind="'Buyer name' | translate"></th>
-													<th ng-bind="'Supplier name' | translate"></th>
-													<th ng-bind="'status' | translate"></th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr
-													ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
-													<td class="text-right"><span
-														id="$rowNo-{{$index + 1}}-label" ng-bind="{{$index + 1}}"></span></td>
-													<td class="text-left"><span
-														id="buyer-name-{{$index + 1}}-label"
-														ng-bind="record.buyerName | translate"></span></td>
-													<td class="text-left"><span
-														id="supplier-name-{{$index + 1}}-label"
-														ng-bind="record.supplierName | translate"></span></td>
-													<td class="text-center"><span
-														id="status-{{$index + 1}}-label" ng-bind="record.status | translate"></span></td>
-													<td class="text-center"><scf-button
-															id="{{$index + 1}}-edit-button"
-															class="btn-default gec-btn-action"
-															ng-disabled="!ctrl.canManage"
-															ng-click="ctrl.edit(record)" title="Edit"> <i
-															class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
-															id="{{$index + 1}}-setup-button"
-															class="btn-default gec-btn-action"
-															ng-click="ctrl.setup(record)"
-															title="Configure a trade finance"> <i
-															class="fa fa-cog" aria-hidden="true"></i></scf-button> <scf-button
-															id="{{$index + 1}}-delete-button"
-															class="btn-default gec-btn-action"
-															ng-disabled="!ctrl.canManage"
-															ng-click="ctrl.deleteTP(record)" title="Delete">
-														<i class="fa fa-trash-o" aria-hidden="true"></i></scf-button></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
 						</form>
+					</div>
+					<div class="row">
+						<div class="col-md-12 responsive-table">
+							<table id="trading-partner-table"
+								class="table table-striped table-bordered" cellspacing="0">
+								<thead>
+									<tr>
+										<th ng-bind="'numbero' | translate">No.</th>
+										<th ng-bind="'Buyer name' | translate"></th>
+										<th ng-bind="'Supplier name' | translate"></th>
+										<th ng-bind="'status' | translate"></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+										<td class="text-right"><span
+											id="$rowNo-{{$index + 1}}-label" ng-bind="{{$index + 1}}"></span></td>
+										<td class="text-left"><span
+											id="buyer-name-{{$index + 1}}-label"
+											ng-bind="record.buyerName | translate"></span></td>
+										<td class="text-left"><span
+											id="supplier-name-{{$index + 1}}-label"
+											ng-bind="record.supplierName | translate"></span></td>
+										<td class="text-center"><span
+											id="status-{{$index + 1}}-label" ng-bind="record.status | translate"></span></td>
+										<td class="text-center"><scf-button
+												id="{{$index + 1}}-edit-button"
+												class="btn btn-sm"
+												ng-disabled="!ctrl.canManage"
+												ng-click="ctrl.edit(record)" title="Edit"> <i
+												class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button> <scf-button
+												id="{{$index + 1}}-setup-button"
+												class="btn btn-sm"
+												ng-click="ctrl.setup(record)"
+												title="Configure a trade finance"> <i
+												class="fa fa-cog" aria-hidden="true"></i></scf-button> <scf-button
+												id="{{$index + 1}}-delete-button"
+												class="btn btn-sm"
+												ng-disabled="!ctrl.canManage"
+												ng-click="ctrl.deleteTP(record)" title="Delete">
+											<i class="fa fa-trash-o" aria-hidden="true"></i></scf-button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-md-12 col-sm-12 text-right">
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<span> <b
+										ng-bind="ctrl.pagingController.splitePageTxt"
+										id="trading-partner-list-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+										dropdown-id="trading-partner-page-limit-dropdown"
+										name="trading-partner"
+										page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+										total-page="ctrl.pagingController.pagingModel.totalPage"
+										current-page="ctrl.pagingController.pagingModel.currentPage"
+										page-size-list="ctrl.pagingController.pageSizeList"
+										page-action="ctrl.search"></scf-pagination>
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

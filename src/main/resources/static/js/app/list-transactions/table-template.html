@@ -1,4 +1,4 @@
-<table st-table="componentDatas" class="table table-bordered">
+<table st-table="componentDatas" class="table table-hover table-bordered table-striped">
 	<thead>
 		<tr>
 			<th class="text-center" scf-th="column"
@@ -6,14 +6,13 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat-start="data in componentDatas track by $id(data)"
-			ng-class-odd="tr-odd" ng-class-even="tr-even">
+		<tr ng-repeat="data in componentDatas track by $id(data)">
 
 			<td scf-td="data" ng-repeat="column in tableColumns"
 				column-render="column" index-no="$parent.$index"
 				page-options="pageOptions"></td>
 		</tr>
-		<tr ng-repeat-end ng-class-odd="tr-odd" ng-class-even="tr-even">
+<!-- 		<tr ng-repeat-end> -->
 			<!--<td></td>-->
 			<!--<td colspan="{{tableColumns.length-1}}"><div
 					ng-if="data | isDisplayTransactionErrorMessage">
@@ -25,6 +24,6 @@
 							02-888-8822</span>
 					</strong>
 				</div></td>  -->
-		</tr>
+<!-- 		</tr> -->
 	</tbody>
 </table>

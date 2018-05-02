@@ -6,6 +6,19 @@
 			id="wait-for-verify-transaction-header-label"
 			ng-bind="dashboardItem.headerLabel"></h3>
 
+		
+		<!-- Start Table-->
+		<div class="row">
+			<div class="col-md-12">
+				<scf-data-table id="wait-for-verify-transaction-table"
+					class="transaction-table"
+					component-config="txnTodoListCtrl.dataTable"
+					component-datas="txnTodoListCtrl.pagingController.tableRowCollection"
+					current-page="txnTodoListCtrl.pagingController.pagingModel.currentPage"
+					record-per-page="txnTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
+					clear-sort-order="txnTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-12 col-sm-12 text-right">
 				<span> <b ng-bind="txnTodoListCtrl.pagingController.splitePageTxt"
@@ -20,19 +33,6 @@
 			</div>
 		</div>
 		
-		<!-- Start Table-->
-		<div class="row">
-			<div class="col-md-12">
-				<scf-data-table id="wait-for-verify-transaction-table"
-					class="transaction-table"
-					component-config="txnTodoListCtrl.dataTable"
-					component-datas="txnTodoListCtrl.pagingController.tableRowCollection"
-					current-page="txnTodoListCtrl.pagingController.pagingModel.currentPage"
-					record-per-page="txnTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
-					clear-sort-order="txnTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
-			</div>
-			<div id="fixed-bottom" class="col-md-12"></div>
-		</div>
 	</div>
 
 </div>

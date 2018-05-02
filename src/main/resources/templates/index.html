@@ -1,22 +1,331 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="description"
+	content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular." />
+<!-- Twitter meta-->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:site" content="@pratikborsadiya" />
+<meta property="twitter:creator" content="@pratikborsadiya" />
+<!-- Open Graph Meta-->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Vali Admin" />
+<meta property="og:title" content="Vali - Free Bootstrap 4 admin theme" />
+<meta property="og:url"
+	content="http://pratikborsadiya.in/blog/vali-admin" />
+<meta property="og:image"
+	content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png" />
+<meta property="og:description"
+	content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular." />
 <div ng-controller="ScfHomeCtrl as scfCtrl">
-<head th:replace="fragments/head :: headTag"></head>
-<title ng-bind="scfCtrl.title"></title>
+	<title ng-bind="scfCtrl.title"></title>
+</div>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Main CSS-->
+<link th:href="@{/assets/css/main.css}" href="../static/assets/css/main.css}" rel="stylesheet" />
+<!-- <link rel="stylesheet" type="text/css" href="css/main.css"></link> -->
+<!-- Custom Style CSS-->
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
+<!-- <link th:href="@{/assets/css/style.css}" href="../static/assets/css/style.css}" rel="stylesheet" /> -->
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<script th:src="@{/js/addition-libs.js}"
+	src="../static/js/angular-bootstrap.js"></script>
+<!-- controller -->
+<script th:src="@{/js/app/scf-app.js}" src="../static/js/app/scf-app.js"></script>
+<script th:src="@{/js/app/shared/utils/web-helper.js}"
+	src="../static/js/app/shared/utils/web-helper.js"></script>
 
-<body ng-app="scfApp">
-		
-	<div id="wrapper">
-		<header th:replace="fragments/header :: header"></header>
-		<nav th:replace="fragments/sidebar :: sidebar"></nav>
-		<nav th:replace="fragments/notification :: notification"></nav>
+<script th:src="@{/js/app/authen/authentication.js}"
+	src="../static/js/app/authentication.js"></script>
 
-		<div class="container-fluid mimin-wrapper" ui-view="">
+<!-- Mimin Theme -->
+<!-- plugins -->
+<script th:src="@{/js/plugins/jquery.nicescroll.js}"
+	src="../static/js/plugins/jquery.nicescroll.js"></script>
 
+<!-- End Mimin Theme -->
+<link th:href="@{/css/loading-overlay.css}" href="../static/css/loading-overlay.css" rel="stylesheet" />
+<script th:src="@{/js/plugins/loading-overlay.js}"
+	src="../static/js/plugins/loading-overlay.js"></script>
+<script th:src="@{/js/plugins/ngDialog.js}"
+	src="../static/js/plugins/ngDialog.js"></script>
+
+<!-- Analytic -->
+<script th:src="@{/js/plugins/analytic/d3.js}"
+	src="../static/js/plugins/analytic/d3.js"></script>
+<script th:src="@{/js/plugins/analytic/nv.d3.js}"
+	src="../static/js/plugins/analytic/nv.d3.js"></script>
+<script
+	th:src="@{/js/plugins/analytic/angularjs-nvd3-directives.min.js}"
+	src="../static/js/plugins/analytic/angularjs-nvd3-directives.min.js"></script>
+<link th:href="@{/js/plugins/analytic/nv.d3.css}" rel="stylesheet"
+	href="../static/js/plugins/analytic/nv.d3.css" />
+
+<!-- GECSCF Component -->
+<script th:src="@{/js/app/common/scf-component.js}"
+	src="../static/js/app/common/scf-component.js"></script>
+<script th:src="@{/js/app/components/scfjs.js}"
+	src="../static/js/app/components/scfjs.js"></script>
+
+<script th:src="@{/js/app/common/scf-common-service.js}"
+	src="../static/js/app/common/scf-common-service.js"></script>
+<!-- 	<script th:src="@{/js/app/common/ui-bootstrap-tpls-1.1.0.js}" src="../static/js/app/common/ui-bootstrap-tpls-1.1.0.js"></script>	 -->
+
+<script th:src="@{/js/app/dashboard/dashboard-controller.js}"
+	src="../static/js/app/dashboard/dashboard-controller.js"></script>
+
+<script th:src="@{/js/app/shared/directives/ui.module.js}"
+	src="../static/js/app/shared/directives/ui.module.js"></script>
+<script th:src="@{/js/app/modules/document-list/document.module.js}"
+	src="../static/js/app/modules/document-list/document.module.js"></script>
+<script th:src="@{/js/app/modules/organize/organize.module.js}"
+	src="../static/js/app/modules/organize/organize.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/organize.configuration.module.js}"
+	src="../static/js/app/modules/organize/configuration/organize.configuration.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/file-layout/organize.configuration.fileLayout.module.js}"
+	src="../static/js/app/modules/organize/configuration/file-layout/organize.configuration.fileLayout.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/product-type/product-type.module.js}"
+	src="../static/js/app/modules/organize/configuration/product-type/product-type.module.js"></script>
+<script th:src="@{/js/app/modules/profile/profile.module.js}"
+	src="../static/js/app/modules/profile/profile.module.js"></script>
+<script th:src="@{/js/app/modules/user/user.module.js}"
+	src="../static/js/app/modules/user/user.module.js"></script>
+<script th:src="@{/js/app/modules/account/account.module.js}"
+	src="../static/js/app/modules/account/account.module.js"></script>
+<script
+	th:src="@{/js/app/modules/supplier-credit-information/supplier-credit-information.module.js}"
+	src="../static/js/app/modules/supplier-credit-information/supplier-credit-information.module.js"></script>
+<script
+	th:src="@{/js/app/modules/buyer-credit-information/buyer-credit-information.module.js}"
+	src="../static/js/app/modules/buyer-credit-information/buyer-credit-information.module.js"></script>
+<script
+	th:src="@{/js/app/modules/remittance-advice/bank/remittance-advice-bank.module.js}"
+	src="../static/js/app/modules/remittance-advice/bank/remittance-advice-bank.module.js"></script>
+<script
+	th:src="@{/js/app/modules/remittance-advice/customer/remittance-advice-customer.module.js}"
+	src="../static/js/app/modules/remittance-advice/customer/remittance-advice-customer.module.js"></script>
+<script
+	th:src="@{/js/app/modules/trading-partner/trading-partner.module.js}"
+	src="../static/js/app/modules/trading-partner/trading-partner.module.js"></script>
+<script
+	th:src="@{/js/app/modules/trading-partner/financing/trade-finance.module.js}"
+	src="../static/js/app/modules/trading-partner/financing/trade-finance.module.js"></script>
+<script th:src="@{/js/app/modules/transaction/transaction.module.js}"
+	src="../static/js/app/modules/transaction/transaction.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/export-payment/organize.configuration.exportPayment.module.js}"
+	src="../static/js/app/modules/organize/configuration/export-payment/organize.configuration.exportPayment.module.js"></script>
+<script
+	th:src="@{/js/app/sponsor-configuration/workflow/workflow.module.js}"
+	src="../static/js/app/sponsor-configuration/workflow/workflow.module.js"></script>
+<script
+	th:src="@{/js/app/modules/download-payment-result/download-payment-result.module.js}"
+	src="../static/js/app/modules/download-payment-result/download-payment-result.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/display/organize.configuration.display.module.js}"
+	src="../static/js/app/modules/organize/configuration/display/organize.configuration.display.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/product-type/product-type.module.js}"
+	src="../static/js/app/modules/organize/configuration/product-type/product-type.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/mapping-data/mapping-data.module.js}"
+	src="../static/js/app/modules/organize/configuration/mapping-data/mapping-data.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/customer-code/customer-code.module.js}"
+	src="../static/js/app/modules/organize/configuration/customer-code/customer-code.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/channel/organize.configuration.channel.module.js}"
+	src="../static/js/app/modules/organize/configuration/channel/organize.configuration.channel.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/channel/import/organize.configuration.channel.import.module.js}"
+	src="../static/js/app/modules/organize/configuration/channel/import/organize.configuration.channel.import.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/channel/export/organize.configuration.channel.export.module.js}"
+	src="../static/js/app/modules/organize/configuration/channel/export/organize.configuration.channel.export.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/general-information/general-info.module.js}"
+	src="../static/js/app/modules/organize/configuration/general-information/general-info.module.js"></script>
+<script
+	th:src="@{/js/app/modules/organize/configuration/payment-date-formulas/payment-date-formula.module.js}"
+	src="../static/js/app/modules/organize/configuration/payment-date-formulas/payment-date-formula.module.js"></script>
+<script th:src="@{/js/app/modules/monitor/monitoring.module.js}"
+	src="../static/js/app/modules/monitor/monitoring.module.js"></script>
+<script
+	th:src="@{/js/app/modules/document-upload-log/document-upload-log.module.js}"
+	src="../static/js/app/modules/document-upload-log/document-upload-log.module.js"></script>
+<script th:src="@{/js/app/modules/funding-profile/funding.module.js}"
+	src="../static/js/app/modules/funding-profile/funding.module.js"></script>
+<script
+	th:src="@{/js/app/modules/funding-profile/configuration/funding-profile.configuration.module.js}"
+	src="../static/js/app/modules/funding-profile/configuration/funding-profile.configuration.module.js"></script>
+
+<script th:src="@{/js/app/shared/directives/auto-suggest.js}"
+	src="../static/js/app/shared/directives/auto-suggest.js"></script>
+<script th:src="@{/js/app/shared/directives/input-text.js}"
+	src="../static/js/app/shared/directives/input-text.js"></script>
+<script th:src="@{/js/app/shared/directives/input-numeric.js}"
+	src="../static/js/app/shared/directives/input-numeric.js"></script>
+<script th:src="@{/js/app/shared/directives/file-upload.js}"
+	src="../static/js/app/shared/directives/file-upload.js"></script>
+<script th:src="@{/js/app/shared/directives/checkbox-button.js}"
+	src="../static/js/app/shared/directives/checkbox-button.js"></script>
+<script th:src="@{/js/app/shared/directives/organization-logo.js}"
+	src="../static/js/app/shared/directives/organization-logo.js"></script>
+<script th:src="@{/js/test/libs/checklist-model.js}"
+	src="../static/js/test/libs/checklist-model.js"></script>
+
+</head>
+<body class="app sidebar-mini rtl" ng-app="scfApp">
+	<!-- Navbar-->
+	<header class="app-header" ng-controller="ScfHomeCtrl as ctrl">
+		<!-- Sidebar toggle button-->
+		<a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
+			aria-label="Hide Sidebar"></a>
+		<a class="app-header__logo" href="index.html"><img
+					ng-src="assets/img/logo.png" class="logo-img" alt="user name" ui-sref="/dashboard" id="gec-home-link" 
+					ui-sref-opts="{reload: true, inherit: false}"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" /></a>
+		<a class="app-header__text  hidden-xs" ui-sref="/home"  
+					ui-sref-opts="{reload: true, inherit: false}"> <b><span id="title" ng-bind="ctrl.banner"></span></b>
+		</a>
+		<!-- Navbar Right Menu-->
+		<ul class="app-nav">
+			<!-- User Menu-->
+			<li class="dropdown"><a class="app-nav__item" id="profile-menu" href=""
+				data-toggle="dropdown" aria-label="Open Profile Menu"><i
+					class="fa fa-user fa-lg"></i></a>
+				<ul class="dropdown-menu settings-menu dropdown-menu-right">
+					<li><a class="dropdown-item" id="my-activity-log-menu" ui-sref="/my-activity-log"> 
+						{{'My activity log' | translate}}</a></li>
+					<li><a class="dropdown-item" id="change-password-menu" ui-sref="/change-password"> 
+						{{'Change password' | translate}}</a></li>
+				</ul></li>
+			<li class="dropdown"><a ui-sref="/dashboard"
+					ui-sref-opts="{reload: true, inherit: false}"
+					class="app-nav__item" title="Home" id="home-link"><span
+						class="fa fa-home fa-lg "></span></a></li>
+			<li ng-controller="LogoutController as logoutCtroller" class="dropdown"><a
+					id="logout-link" href="#" ng-click="logoutCtroller.logout()"
+					class="app-nav__item" title="Sign Out"><span
+						class="fa fa-power-off fa-lg"></span></a></li>
+		</ul>
+	</header>
+	<!-- Sidebar menu-->
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<aside class="app-sidebar" ng-controller="ScfHomeCtrl as ctrl">
+		<div class="app-sidebar__user">
+			<img class="app-sidebar__user-avatar"
+				data-ng-src="data:image/png;base64,{{ctrl.organizeHeader.memberLogo}}" data-err-src="img/avatar.jpg" 
+				alt="User Image" />
+			<div>
+				<p class="app-sidebar__user-name"><span id="display-name" title="{{userInfo.displayName}}" class="user-name" ng-bind="userInfo.displayName">Avanta</span></p>
+				<p class="app-sidebar__user-designation">
+					<span class="user-name ellipsis" title="{{ctrl.organizeHeader.organizeName}}" ng-bind="ctrl.organizeHeader.organizeName"></span>
+				</p>
+			</div>
+		</div>
+		<ul class="app-menu" ng-controller="MenuController as ctrl">
+
+			<li ng-repeat="menuItem in ctrl.menu track by $id(menuItem)"
+				ng-click="toggle = !toggle" ng-class="{'is-expanded' : toggle}"
+				class="treeview"><a class="app-menu__item" href=""
+				data-toggle="treeview" id="{{menuItem.menuId + '-menu'}}"><i
+					class="app-menu__icon {{menuItem.icon}}"></i><span
+					class="app-menu__label" ng-bind="menuItem.menuId | translate">....</span><i
+					class="treeview-indicator fa fa-angle-right"></i></a>
+				<ul class="treeview-menu">
+					<li ng-repeat="child in menuItem.children"><a
+						class="treeview-item"
+						ui-sref-opts="{reload: true, inherit: false}"
+						id="{{child.menuId+'-menu'}}" ng-click="ctrl.goTo(child.url)"
+						href="{{'#' + child.url}}"><i class="icon fa fa-circle-o"></i>
+							<span ng-bind="child.menuId
+										| translate"></span></a></li>
+				</ul></li>
+		</ul>
+	</aside>
+	<main class="app-content" ui-view="">
+	</main>
+	<div class="space-20"></div>
+	<div class="app-footer">
+		<div class="footer-container">
+			<div class="row">
+<!-- 				<div class="col-lg-2"> -->
+<!-- 				</div> -->
+				<div class="col-lg-12 text-left">
+					<span
+						th:text="${'All rights reserved 2016 General Electronic Commerce Services Co., Ltd.' }"></span>
+					  <span th:text="${'Version'}"></span>
+                    <span th:text="${productVersion}"></span>
+				</div>
+<!-- 				<div class="col-lg-2 text-right"> -->
+<!-- 					<span>Version 1.0-b4</span> -->
+<!-- 				</div> -->
+			</div>
 		</div>
 	</div>
-	<footer th:replace="fragments/footer :: footer"></footer>
+<!-- 	<footer th:replace="fragments/footer :: footer"></footer> -->
+	<!-- Essential javascripts for application to work-->
+
+	<script src="js/main.js"></script>
+
+
+	<!-- The javascript plugin to display page loading on top-->
+	<script src="js/plugins/pace.min.js"></script>
+
+
+	<!-- Page specific javascripts-->
+	<script type="text/javascript" src="js/plugins/chart.js"></script>
+	<script type="text/javascript">
+    var data = {
+      labels: ["January", "February", "March", "April", "May"],
+      datasets: [{
+        label: "My First dataset",
+        fillColor: "rgba(220,220,220,0.2)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        data: [65, 59, 80, 81, 56]
+      }, {
+        label: "My Second dataset",
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(151,187,205,1)",
+        data: [28, 48, 40, 19, 86]
+      }]
+    };
+    var pdata = [{
+      value: 300,
+      color: "#46BFBD",
+      highlight: "#5AD3D1",
+      label: "Complete"
+    }, {
+      value: 50,
+      color: "#F7464A",
+      highlight: "#FF5A5E",
+      label: "In-Progress"
+    }]
+
+    var ctxl = $("#lineChartDemo").get(0).getContext("2d");
+    var lineChart = new Chart(ctxl).Line(data);
+
+    var ctxp = $("#pieChartDemo").get(0).getContext("2d");
+    var pieChart = new Chart(ctxp).Pie(pdata);
+  </script>
+
 </body>
-</div>
 </html>

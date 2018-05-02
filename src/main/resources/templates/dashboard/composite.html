@@ -3,9 +3,9 @@
 	<h3 class="animated fadeInLeft"
 		id="{{dashboardItem.headerLabel | convertToHeadderId}}">{{dashboardItem.headerLabel}}</h3>
 	<div class="row">
-		<div ng-repeat="it in layout.children"
-			class="col-lg-{{it.columnSizeLg}} col-md-{{it.columnSizeMd}} col-sm-{{it.columnSizeSm}} col-xs-{{it.columnSizeXs}}"
-			ng-include="it.dashboardItem.url"
+		<div ng-repeat="it in dashboardItem.children"
+			class="col-xs-{{it.columnSizeXs}} col-sm-{{it.columnSizeSm}} col-md-{{it.columnSizeMd}} col-lg-{{it.columnSizeMd}} "
+			ng-include="it.url"
 			scf-show-on-mobile="it.showOnMobile"></div>
 	</div>
 </div>

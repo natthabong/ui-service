@@ -1,14 +1,16 @@
 <div id="content" th:fragment="content">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="col-md-12">
 					<h3 id="error-header-message-label" class="animated fadeInLeft" ng-bind="ctrl.errorCode"></h3>
 					<p ng-bind="ctrl.errorCode | translate" id="error-message-label" />
 					<p>
 						<scf-button type="submit" id="back-button"
 							ng-bind="'Back' | translate" ui-sref="/home" />
 					</p>
+				</div>
 				</div>
 			</div>
 		</div>

@@ -1,91 +1,116 @@
-<div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT')">
-    <div id="wrapper">
-        <div class="panel box-shadow-none content-header">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <h3 id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessageLabel | translate}}</h3>
-                </div>
-            </div>
-        </div>
-        <div class="form-element">
-            <div class="panel panel-default col-md-12 padding-0">
-                <div class="panel-body">
+<div id="content" th:fragment="content"
+	sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_DOCUMENT_LAYOUT')">
+	<div class="app-title">
+		<div>
+			<h1>
+				<span id="header-message-label" class="animated fadeInLeft">{{ctrl.headerMessageLabel
+					| translate}}</span>
+			</h1>
+		</div>
+	</div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <label id="display-name-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Display name' | translate}}: </label>
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <label id="display-name-label" ng-bind="ctrl.dataModel.displayName"></label>
-                            </div>
-                            <div class="col-md-5 col-sm-4"></div>
-                        </div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="form-element">
+						<div class="panel panel-default col-md-12 padding-0">
+							<div class="panel-body">
 
-                    </div>
+								<div class="form-group row">
+										<label id="display-name-label"
+											class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Display
+											name' | translate}}: </label>
+										<div class="col-md-3 col-sm-4 col-xs-12">
+											<label id="display-name-label"
+												ng-bind="ctrl.dataModel.displayName"></label>
+										</div>
+										<div class="col-md-5 col-sm-4"></div>
+								</div>
 
-                    <div class="form-group" ng-show="ctrl.showProductType">
-                        <div class="row">
-                            <label id="display-name-label" class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Product type' | translate}}: </label>
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <label id="display-name-label" ng-bind="(ctrl.dataModel.product.productType ? (ctrl.dataModel.product.productType +': '+ ctrl.dataModel.product.displayName) : 'Default')"></label>
-                            </div>
-                            <div class="col-md-5 col-sm-4"></div>
-                        </div>
-                    </div>
-                    <br />
-                    <fieldset>
-                        <legend ng-bind="'Document display column' | translate"></legend>
-                        <div class="responsive-table">
-                            <table id="display-config-item-table" class="table table-striped table-bordered" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th id="sequence-no-header-label" ng-bind="'No' | translate">No</th>
-                                        <th id="gecscf-field-name-header-label" ng-bind="'GECSCF field name' | translate">GECSCF field name</th>
-                                        <th id="th-label-header-label" ng-bind="'TH Label' | translate">TH Label</th>
-                                        <th id="en-label-header-label" ng-bind="'EN Label' | translate">EN Label</th>
-                                        <th id="order-header-label" ng-bind="'Order' | translate" colspan="2">Order</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat-start="record in ctrl.dataModel.items track by $index" ng-class="$even?'tr-odd':'tr-even'">
+								<div class="form-group row" ng-show="ctrl.showProductType">
+										<label id="display-name-label"
+											class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Product
+											type' | translate}}: </label>
+										<div class="col-md-3 col-sm-4 col-xs-12">
+											<label id="display-name-label"
+												ng-bind="(ctrl.dataModel.product.productType ? (ctrl.dataModel.product.productType +': '+ ctrl.dataModel.product.displayName) : 'Default')"></label>
+										</div>
+										<div class="col-md-5 col-sm-4"></div>
+								</div>
+								<br />
+								<fieldset>
+									<legend ng-bind="'Document display column' | translate"></legend>
+									<div class="responsive-table">
+										<table id="display-config-item-table"
+											class="table table-striped table-bordered" cellspacing="0">
+											<thead>
+												<tr>
+													<th id="sequence-no-header-label"
+														ng-bind="'No' | translate">No</th>
+													<th id="gecscf-field-name-header-label"
+														ng-bind="'GECSCF field name' | translate">GECSCF
+														field name</th>
+													<th id="th-label-header-label"
+														ng-bind="'TH Label' | translate">TH Label</th>
+													<th id="en-label-header-label"
+														ng-bind="'EN Label' | translate">EN Label</th>
+													<th id="order-header-label" ng-bind="'Order' | translate"
+														colspan="2">Order</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													ng-repeat-start="record in ctrl.dataModel.items track by $index"
+													ng-class="$even?'tr-odd':'tr-even'">
 
-                                        <td class="text-right"><label class="label-control" id="sequence-no-{{$index+1}}-label" ng-bind="{{$index+1}}"></label></td>
+													<td class="text-right"><label class="label-control"
+														id="sequence-no-{{$index+1}}-label" ng-bind="{{$index+1}}"></label></td>
 
-                                        <td class="text-left">
-                                            <label class="label-control" id="gecscf-field-name-{{$index+1}}-label" ng-bind="record.documentField.displayFieldName"></label>
-                                        </td>
+													<td class="text-left"><label class="label-control"
+														id="gecscf-field-name-{{$index+1}}-label"
+														ng-bind="record.documentField.displayFieldName"></label></td>
 
-                                        <td class="text-left">
-                                            <label class="label-control" id="th-label-{{$index+1}}" ng-bind="record.labelTH"></label>
-                                        </td>
+													<td class="text-left"><label class="label-control"
+														id="th-label-{{$index+1}}" ng-bind="record.labelTH"></label>
+													</td>
 
-                                        <td class="text-left">
-                                            <label class="label-control" id="en-label-{{$index+1}}" ng-bind="record.labelEN"></label>
-                                        </td>
+													<td class="text-left"><label class="label-control"
+														id="en-label-{{$index+1}}" ng-bind="record.labelEN"></label>
+													</td>
 
-                                        <td class="text-center">
-                                            <label class="label-control" id="order-{{$index+1}}-label">{{record.sortType}} {{record.sortSequenceNo}}</label>
-                                        </td>
-                                    </tr>
-                                    <tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
-                                        <td colspan="5">
-                                            <p id="description-{{$index+1}}-label" ng-bind="ctrl.displayExample(record)"></p>
-                                        </td>
-                                    </tr>
+													<td class="text-center"><label class="label-control"
+														id="order-{{$index+1}}-label">{{record.sortType}}
+															{{record.sortSequenceNo}}</label></td>
+												</tr>
+												<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+													<td colspan="5">
+														<p id="description-{{$index+1}}-label"
+															ng-bind="ctrl.displayExample(record)"></p>
+													</td>
+												</tr>
 
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </fieldset>
+											</tbody>
+										</table>
+									</div>
+								</fieldset>
 
-                </div>
+							</div>
 
-                <div class="panel-body">
-                    <div class="col-md-12 col-sm-12 text-right">
-                        <scf-button id="document-display-back-button" class="popup-button" data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()" ng-bind="'Back' | translate"></scf-button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							<div class="panel-body">
+								<div class="col-md-12 col-sm-12 text-right">
+									<scf-button id="document-display-back-button"
+										class="popup-button" data-dismiss="modal"
+										ng-click="ctrl.backToSponsorConfigPage()"
+										ng-bind="'Back' | translate"></scf-button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>

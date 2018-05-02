@@ -1,12 +1,11 @@
 <div th:fragment="content">
-    <div class="panel panel-default">
+    <div class="panel panel-default  col-md-12 padding-0">
         <div class="panel-body" style="min-height: 360px;">
             <div class="row">
                 <div class="col-lg-10 col-md-10 col-xs-10">
-                    <h3 class="animated fadeInLeft" id="payment-amount-formula-header-label">{{'Payment amount formula' | translate}}</h3>
+                    <h5 class="animated fadeInLeft" id="payment-amount-formula-header-label">{{'Payment amount formula' | translate}}</h5>
                 </div>
                 <div class="col-lg-2 col-md-2 col-xs-2 text-right">
-                    <br />
                     <scf-button class="btn-default gec-btn-action" id="payment-formula-new-button" title="New a formula" ng-disabled="true">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </scf-button>

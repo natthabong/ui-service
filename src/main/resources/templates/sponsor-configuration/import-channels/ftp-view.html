@@ -1,6 +1,6 @@
 <div th:fragment="content">
 	<div id="wrapper">
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="file-protocol-label"> {{'File protocol' |
 					translate}}: </label>
@@ -12,7 +12,7 @@
 			</div>
 			<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="host-name-label"> {{'Host name' | translate}}: </label>
 			</div>
@@ -29,7 +29,7 @@
 					{{ctrl.channelModel.jobInformation.ftpDetail.remotePort}}</label>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="ftp-user-label"> {{'FTP user' | translate}}: </label>
 			</div>
@@ -41,7 +41,7 @@
 			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="remote-directory-label"> {{'Remote directory' |
 					translate}}: </label>
@@ -53,7 +53,7 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="filename-pattern-label"> {{'File name pattern' |
 					translate}}: </label>
@@ -72,7 +72,7 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="file-encryption-label"> {{'File encryption' |
 					translate}}: </label>
@@ -90,7 +90,7 @@
 		</div>
 
 
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="retry-label"> {{'Retry' | translate}}: </label>
 			</div>
@@ -109,7 +109,7 @@
 		</div>
 
 
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="post-process-label"> {{'Post process' |
 					translate}}: </label>
@@ -122,7 +122,7 @@
 			<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="remote-backup-directory-label"> {{'Remote backup
 					directory' | translate}}: </label>
@@ -139,7 +139,7 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="frequency-label"> {{'Frequency' | translate}}: </label>
 			</div>
@@ -233,16 +233,16 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 				<label id="run-time-label"> {{'Run time' | translate}}: </label>
 			</div>
-			<div class="form-group">
+			<div class="form-group row">
 				<div class="col-md-8 col-sm-9 col-xs-12"
 					ng-if="ctrl.channelModel.runtimeType == 'INTERVAL'">
 					<label id="runtime-type-interval-label" class="control-label">
 						{{ 'Interval' | translate}} </label>
-					<div class="form-group">
+					<div class="form-group row">
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 							<label id="begin-time-label"> {{'Begin time' |
 								translate}}: </label>
@@ -259,7 +259,7 @@
 								{{ctrl.channelModel.endTime}}</label>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group row">
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 							<label id="delayed-interval-label"> {{'Delayed interval
 								(sec)' | translate}}: </label>
@@ -274,7 +274,7 @@
 				<div class="col-md-8 col-sm-9 col-xs-12" ng-if="ctrl.channelModel.runtimeType == 'FIXED'">
 					<label id="runtime-type-fixed-label" class="control-label">
 						{{ 'Fixed' | translate}} </label>
-					<div class="form-group">
+					<div class="form-group row">
 						<div class="col-md-2 col-sm-3 col-xs-12 control-label">
 							<span id="{{runtime}}-label"
 								ng-repeat-start="runtime in ctrl.runTimes" href="#">{{runtime}}</span><span

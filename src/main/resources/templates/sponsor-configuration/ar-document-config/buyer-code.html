@@ -3,7 +3,7 @@
         <input type="hidden" ng-init="ctrl.manageConfig=true" sec:authorize="hasAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_BUYER_CODES')" />
         <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_CUSTOMER_ORGANIZATIONS_BUYER_CODES_OF_ALL_FUNDING', 'VIEW_ALL_CUSTOMER_ORGANIZATIONS_BUYER_CODES')" />
 
-        <div class="panel panel-default">
+        <div class="panel panel-default  col-md-12 padding-0">
             <div class="panel-body" style="min-height: 200px;">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 text-right">
@@ -21,8 +21,8 @@
                                         <span id="buyer-code-list-label">{{'Buyer code list' | translate}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn-default gec-btn-action" id="buyer-code-list-view-button" ng-click="ctrl.view(ctrl.buyerdata, 'RECEIVABLE')" title="View a buyer code"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
-                                        <scf-button ng-disabled="ctrl.unauthenConfig()" id="buyer-code-list-setup-button" class="btn-default gec-btn-action" ng-click="ctrl.config(ctrl.buyerdata, 'RECEIVABLE')" title="Config a buyer code"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn btn-sm" id="buyer-code-list-view-button" ng-click="ctrl.view(ctrl.buyerdata, 'RECEIVABLE')" title="View a buyer code"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenConfig()" id="buyer-code-list-setup-button" class="btn btn-sm" ng-click="ctrl.config(ctrl.buyerdata, 'RECEIVABLE')" title="Config a buyer code"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
                                     </td>
                                 </tr>
                             </tbody>

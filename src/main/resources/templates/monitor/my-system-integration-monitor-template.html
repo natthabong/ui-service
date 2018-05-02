@@ -1,33 +1,33 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAnyAuthority('MONITOR_INTEGRATION_OF_MY_ORGANIZATION')">
 	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12" ng-if="ctrl.isDisplay">
-					<h3 id="header-message-label" class="animated fadeInLeft"
-						>System integration monitor ({{ctrl.monitorOwnerModel.name}})</h3>
+		<div class="app-title">
+			<div>
+				<h1>
+					<i class="fa fa-television"></i>{{'System integration monitor' |
+					translate}} ({{ctrl.monitorOwnerModel.name}})
+				</h1>
+			</div>
+		</div>
+		<div class="tile">
+			<div class="tile-body">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+					ng-if="ctrl.isDisplay">
+					<form name="organizeForm" ng-submit="ctrl.check()"
+						autocomplete="off" class="form-horizontal">
+						<div class="form-group row">
+							<div class="col-lg-3 col-md-3 col-sm-2">
+								<scf-button type="submit" id="check-button" class="btn-default btn-sm">{{'Check'
+								| translate}}</scf-button>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+							ng-if="ctrl.readyToShow">
+							<div ng-include="'/system-integration-monitor/batch-job-monitor'"></div>
+						</div>
+					</form>
 				</div>
 			</div>
-        </div>
-        <div class="form-element">
-            <div class="panel panel-default col-md-12 padding-0">
-                <div class="panel-body">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="ctrl.isDisplay">		
-                        <form name="organizeForm" ng-submit="ctrl.check()"
-                            autocomplete="off" class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-md-3 col-sm-2">
-                                    <scf-button type="submit" id="check-button"
-                                        class="btn-default">{{'Check' | translate}}</scf-button>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="ctrl.readyToShow">
-                                <div ng-include="'/system-integration-monitor/batch-job-monitor'"></div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		</div>
+	</div>
 </div>

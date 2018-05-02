@@ -1,34 +1,38 @@
 <div id="content" th:fragment="content">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft"
+	<div class="app-title">
+		<div>
+			<h3 id="header-message-label" class="animated fadeInLeft"
 						ng-bind="'Remittance advice' | translate">Remittance advice</h3>
-				</div>
-			</div>
 		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-                    <div class="col-md-12" block-ui="summary-internal-block">
-                        <form name="createForm" class="form-horizontal">
-                            <div class="form-group">
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="col-md-12 text-right">
+						<button type="button" class="btn btn-primary"
+							data-toggle="collapse" data-target="#advance-search">
+							<i class="fa fa-fw fa-lg fa-search"></i> Search
+						</button>
+					</div>
+					<div id="advance-search">
+						<form name="createForm" class="form-horizontal">
+                            <div class="form-group row">
                                 <label for="dateTypeRadio" class="col-md-2 col-sm-3 control-label"></label>
                                 <div class="col-md-9 col-sm-8">
-                                    <label class="radio-inline"> <scf-radio
+                                    <label class="col-md-2 col-sm-2 radio-inline"> <scf-radio
 											id="effective-date-type"
 											ng-value="ctrl.dateSelected.effectiveDate"
 											name="date-type-radio"
 											ng-model="ctrl.listRemittanceAdvice.dateType"></scf-radio>
 										{{'Effective date' | translate}}
-									</label> <label class="radio-inline"> <scf-radio
+									</label> <label class="col-md-2 col-sm-2 radio-inline"> <scf-radio
 											id="maturity-date-type"
 											ng-value="ctrl.dateSelected.maturityDate"
 											name="date-type-radio"
 											ng-model="ctrl.listRemittanceAdvice.dateType"></scf-radio>
 										{{'Maturity date' | translate}}
-									</label> <label class="radio-inline"> <scf-radio
+									</label> <label class="col-md-2 col-sm-2 radio-inline"> <scf-radio
 											id="remittance-date-type"
 											ng-value="ctrl.dateSelected.remittanceDate"
 											name="date-type-radio"
@@ -39,28 +43,27 @@
                                 <div class="col-md-1 col-sm-1"></div>
                             </div>
 <!-- 							Date -->
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label id="date-label" class="col-md-2 col-sm-3 control-label">{{'Date'
 									| translate}}:</label>
+								<label id="from-label" for="date-from-calendar" class="control-label">{{'from' | translate}}: </label>
                                 <div class="col-md-3 col-sm-3 gec-calendar-group">
-                                    <label id="from-label" for="date-from-calendar" class="control-label">{{'from' | translate}}: </label>
                                     <scf-date-picker-from text-id="date-from-textbox" button-id="date-from-calendar-button" text-model="ctrl.dateModel.dateFrom" date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateFrom" open-calendar-action="ctrl.openCalendarDateFrom()" max-date="ctrl.dateModel.dateTo">
                                     </scf-date-picker-from>
-
                                 </div>
+                                <label id="to-label" for="date-to-calendar" class="control-label">{{'to' | translate}}: </label>
                                 <div class="col-md-3 col-sm-3 gec-calendar-group">
-                                    <label id="to-label" for="date-to-calendar" class="control-label">{{'to' | translate}}: </label>
                                     <scf-date-picker-to text-id="date-to-textbox" button-id="date-to-calendar-button" text-model="ctrl.dateModel.dateTo" date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDateTo" open-calendar-action="ctrl.openCalendarDateTo()" min-date="ctrl.dateModel.dateFrom">
                                     </scf-date-picker-to>
                                 </div>
                                 <div class="col-md-4 col-sm-3"></div>
                             </div>
-                            <div class="form-group" ng-show="ctrl.invalidDateCriteria">
+                            <div class="form-group row" ng-show="ctrl.invalidDateCriteria">
                                 <label class="col-md-2 col-sm-4 col-xs-12 control-label"></label>
                                 <span class="col-md-6 col-sm-4 col-xs-12 error-msg" id="date-format-warning-message-label" ng-bind="ctrl.invalidDateCriteriaMsg.message | translate"></span>
                             </div>
 <!-- 							Remittance Of -->
- 							<div class="form-group">
+ 							<div class="form-group row">
                                 <label for="dealer" id="remittance-of-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Remittance of' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
@@ -69,7 +72,7 @@
                                 </div>
                             </div>
 <!-- 							Supplier -->
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label for="supplier-auto-suggest" id="supplier-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Supplier'
 									| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
@@ -80,7 +83,7 @@
 								<div class="col-md-3 col-sm-2"></div>
                             </div>
 <!-- 							Buyer -->
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label for="buyer-auto-suggest" id="buyer-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Buyer'
 									| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
@@ -91,7 +94,7 @@
 								<div class="col-md-3 col-sm-2"></div>
                             </div>
 <!-- 							Paid Status and Transaction No -->
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label for="dealer" id="paid-status-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Paid Status' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
@@ -109,7 +112,7 @@
                                 </div>
                             </div>
 <!-- 							Close Status -->
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label for="dealer" id="close-status-label" class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Close status' | translate}}: </label>
 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
@@ -121,21 +124,9 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
-					<div class="text-right">
-						<div class="col-md-12 col-sm-12">
-							<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-								id="remittance-advice-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-									dropdown-id="remittance-advice-page-limit-dropdown"
-									name="remittance-advice"
-									page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-									total-page="ctrl.pagingController.pagingModel.totalPage"
-									current-page="ctrl.pagingController.pagingModel.currentPage"
-									page-size-list="ctrl.pagingController.pageSizeList"
-									page-action="ctrl.searchRemittanceAdvice"></scf-pagination>
-							</span>
-						</div>
 					</div>
+					<br/><br/>
+						<!-- Start Table-->
 					<div class="responsive-table">
 						<table id="remittance-advice-table"
 							class="table table-striped table-bordered" cellspacing="0">
@@ -223,8 +214,22 @@
 							</tbody>
 						</table>
 					</div>
+					<div class="col-md-12 col-sm-12 text-right">
+						<div class="col-md-12 col-sm-12">
+							<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+								id="remittance-advice-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+									dropdown-id="remittance-advice-page-limit-dropdown"
+									name="remittance-advice"
+									page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+									total-page="ctrl.pagingController.pagingModel.totalPage"
+									current-page="ctrl.pagingController.pagingModel.currentPage"
+									page-size-list="ctrl.pagingController.pageSizeList"
+									page-action="ctrl.searchRemittanceAdvice"></scf-pagination>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </div>

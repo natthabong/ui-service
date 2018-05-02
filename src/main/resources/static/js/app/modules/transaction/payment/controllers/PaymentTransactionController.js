@@ -765,20 +765,20 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 				label: 'Action',
 				cssTemplate: 'text-center',
 				sortData: false,
-				cellTemplate:'<scf-button class="btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionNo}}-verify-button" ng-click="ctrl.verifyTransaction(data)" title="Verify"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
-				'<scf-button id="transaction-{{data.transactionNo}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-default gec-btn-action"  ng-click="ctrl.approveTransaction(data)" title="Approve"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
-				'<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.viewTransaction(data)" title="View"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>'+
-				'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry && (data.statusCode != ctrl.statusDocuments.insufficientFunds))}}" ng-click="ctrl.retry(data)" title="Re-check"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></scf-button>'+
-	            '<scf-button class="btn-default gec-btn-action" ng-show ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="data.statusCode != ctrl.statusPaymentSuccess" title="Print">'+
+				cellTemplate:'<scf-button class="btn-sm btn-default gec-btn-action" ng-disabled="!(ctrl.verify && (data.statusCode === ctrl.statusDocuments.waitForVerify))" id="transaction-{{data.transactionNo}}-verify-button" ng-click="ctrl.verifyTransaction(data)" title="Verify"><i class="fa fa-inbox" aria-hidden="true"></i></scf-button>'+
+				'<scf-button id="transaction-{{data.transactionNo}}-approve-button" ng-disabled="!(ctrl.approve &&(data.statusCode === ctrl.statusDocuments.waitForApprove))" class="btn-sm btn-default gec-btn-action"  ng-click="ctrl.approveTransaction(data)" title="Approve"><i class="fa fa-check-square-o" aria-hidden="true"></i></scf-button>' +
+				'<scf-button class="btn-sm btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-view-button" ng-disabled="{{!ctrl.canView}}" ng-click="ctrl.viewTransaction(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'+
+				'<scf-button id="transaction-{{data.transactionNo}}-re-check-button" class="btn-sm btn-default gec-btn-action" ng-disabled="{{!(data.retriable && ctrl.canRetry && (data.statusCode != ctrl.statusDocuments.insufficientFunds))}}" ng-click="ctrl.retry(data)" title="Re-check"><i class="fa fa-refresh" aria-hidden="true"></i></scf-button>'+
+	            '<scf-button class="btn-sm btn-default gec-btn-action" ng-show ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="data.statusCode != ctrl.statusPaymentSuccess" title="Print">'+
 				'<span class="dropdown"><span class="dropdown-toggle" data-toggle="dropdown" id="transaction-{{data.transactionNo}}-print-button">'+
 	            '<i class="fa fa-print" aria-hidden="true"></i></span>'+
 	            '<ul class="dropdown-menu">'+
 	            '<li><a id="evident-form-button" ng-click="ctrl.printEvidence(data)">{{"Evidence form" | translate}}</a></li>'+
 	            '<li role="separator" class="divider"></li>'+
 	            '<li><a id="credit-advice-form-button" ng-click="ctrl.generateCreditAdviceForm(data)">{{"Credit advice form" | translate}}</a></li></ul></span></scf-button>'+
-	            '<scf-button class="btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-print-button-disable" ng-hide ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="true" title="Print"><i class="fa fa-print" aria-hidden="true"></i></scf-button>'+
-				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
-	            //+ '<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendPayment(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>'
+	            '<scf-button class="btn-sm btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-print-button-disable" ng-hide ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="true" title="Print"><i class="fa fa-print" aria-hidden="true"></i></scf-button>'+
+				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-sm btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+	            //+ '<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-sm btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendPayment(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>'
 			}]
 	    };
 	
@@ -802,11 +802,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 			var hasReject = vm.reject != undefined && vm.reject == true;
 			var isWaitForPaymentResult = data.statusCode == vm.statusDocuments.waitForPaymentResult;
 			var isAfterToday = TransactionService.isAfterToday(data, vm.serverTime);
-			console.log(data.transactionNo);
-			console.log(hasReject);
-			console.log(isWaitForPaymentResult);
-			console.log(isAfterToday);
-			
+		
 			var hasRejectInsufficientFunds = vm.rejectInsufficientFunds != undefined && vm.rejectInsufficientFunds == true;
 			var isInsufficientFunds = data.statusCode == vm.statusDocuments.insufficientFunds;
 			

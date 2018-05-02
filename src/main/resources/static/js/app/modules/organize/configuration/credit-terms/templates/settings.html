@@ -14,7 +14,7 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<form name="creditTermSetup" class="form-horizontal">
-					<div class="form-group">
+					<div class="form-group row">
 						<label id="credit-term-code-label" for="credit-term-code-textbox"
 							class="col-md-3 col-sm-3 col-xs-12 control-label"><span
 							ng-bind="'Credit term code' | translate"></span>:</label>
@@ -23,18 +23,18 @@
 								ng-model="ctrl.model.creditterm.creditTermCode" maxlength="255"></scf-input-text>
 						</div>
 					</div>
-					<div class="form-group" ng-show="ctrl.isRequired">
+					<div class="form-group row" ng-show="ctrl.isRequired">
 						<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
 						<span class="col-md-8 col-sm-8 col-xs-12 error-msg"
 							id="credit-term-code-warning-message-label">{{'Credit term code is
 							required' | translate}}.</span>
 					</div>
-					<div class="form-group">
+					<div class="form-group row">
 						<label id="select-formula-label" for="expected-value"
 							class="col-md-12 col-sm-12 col-xs-12 control-label"> <span
 							ng-bind="'Step 1:  Select formula' | translate"></span></label>
 					</div>
-					<div class="form-group">
+					<div class="form-group row">
 						<div class="col-md-4 col-sm-4 col-xs-4">
 							<label id="actual-sponsor-payment-date-label"
 								for="expected-value"> <span
@@ -63,15 +63,15 @@
 
 					</div>
 
-					<div class="form-group">
+					<div class="form-group row">
 						<label id="setup-parameter-label" for="expected-value"
 							class="col-md-12 col-sm-12 col-xs-12 control-label"> <span
 							ng-bind="'Step 2:  Setup parameter' | translate"></span>
 						</label>
 					</div>
 
-					<div class="form-group">
-						<div class="form-group">
+					<div class="form-group row">
+						<div class="form-group row">
 							<div class="col-md-offset-1 col-md-10 col-sm-8 col-xs-8">
 
 								<div class="panel start-date-panel panel-shadow">
@@ -82,7 +82,7 @@
 									</div>
 
 									<div class="panel-body">
-										<div class="form-group">
+										<div class="form-group row">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
@@ -102,7 +102,7 @@
 											</div>
 										</div>
 
-										<div class="form-group" ng-show="ctrl.isAfterDocumentDate">
+										<div class="form-group row" ng-show="ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label" id="from-period-date-label">
@@ -128,14 +128,14 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-group" ng-show="ctrl.isDateLessThan">
+										<div class="form-group row" ng-show="ctrl.isDateLessThan">
 											<label class="col-md-4 col-sm-4 col-xs-4 control-label"></label>
 											<span class="col-md-7 col-sm-7 col-xs-7 error-msg" 
 											ng-bind="'From date must be less than or equal to To date.' | translate">
 											</span>
 										</div>
 
-										<div class="form-group" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
+										<div class="form-group row" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label">
@@ -154,7 +154,7 @@
 											</div>
 										</div>
 
-										<div class="form-group" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
+										<div class="form-group row" ng-show="ctrl.isFromDocumentDate || ctrl.isAfterDocumentDate">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4 control-label" id="start-month-type-label">
@@ -179,7 +179,7 @@
 											</div>
 										</div>
 										
-										<div class="form-group" ng-show="ctrl.isErrorMonth">
+										<div class="form-group row" ng-show="ctrl.isErrorMonth">
 											<label class="col-md-4 col-sm-4 col-xs-4 control-label"></label>
 											<span class="col-md-7 col-sm-7 col-xs-7 error-msg"
 												id="start-month-type-warning-message-label"
@@ -193,7 +193,7 @@
 						</div>
 
 
-						<div class="form-group" ng-show="ctrl.useCreditTerm">
+						<div class="form-group row" ng-show="ctrl.useCreditTerm">
 							<div class="col-md-offset-1 col-md-10 col-sm-8 col-xs-8">
 
 								<div class="panel credit-term-panel panel-shadow">
@@ -203,7 +203,7 @@
 									</div>
 
 									<div class="panel-body">
-										<div class="form-group">
+										<div class="form-group row">
 											<div class="col-md-12 col-sm-12 col-xs-12">
 												<div class="row">
 													<div class="col-md-4 col-sm-4 col-xs-4">
@@ -226,7 +226,7 @@
 											</div>
 										</div>
 										
-										<div class="form-group" ng-show="ctrl.isErrorCreditTerm">
+										<div class="form-group row" ng-show="ctrl.isErrorCreditTerm">
 											<label class="col-md-4 col-sm-4 col-xs-4 control-label"></label>
 											<span class="col-md-7 col-sm-7 col-xs-7 error-msg"
 												id="credit-term-warning-message-label"
@@ -240,7 +240,7 @@
 						</div>
 
 
-						<div class="form-group" ng-show="ctrl.usePaymentPeriod">
+						<div class="form-group row" ng-show="ctrl.usePaymentPeriod">
 							<div class="col-md-offset-1 col-md-10 col-sm-8 col-xs-8">
 
 								<div class="panel payment-period-panel panel-shadow">

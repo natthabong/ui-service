@@ -2,79 +2,71 @@
 	sec:authorize="hasAuthority('VIEW_ALL_FUNDING_PROFILE')">
 	<input type="hidden" ng-init="ctrl.canManage=true"
 		sec:authorize="hasAuthority('MANAGE_ALL_FUNDING_PROFILE')" />
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'funding-profile-list' | translate">Funding Profile List</h3>
-				</div>
-			</div>
+	<div class="app-title">
+		<div>
+			<h1>
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label" class="animated fadeInLeft">{{'Lender Profile List' | translate}}</span>
+			</h1>
+			<p>Page for manage lender.</p>
 		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div>
-							<div class="col-md-12 col-sm-12 text-right">
-								<div class="row">
-									<div class="col-md-12 col-sm-12 text-right">
-										<span> 
-											<scf-button id="new-button" ng-disabled="!ctrl.canManage" ng-click="ctrl.createNew()" class="btn btn-default">
-												{{'New' | translate}}
-											</scf-button>
-										</span> <br /> <br />
-									</div>
-									<div class="col-md-12 col-sm-12">
-										<span> <b
-											ng-bind="ctrl.pagingController.splitePageTxt"
-											id="funding-profile-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-												dropdown-id="funding-profile-page-limit-dropdown"
-												name="funding-profile"
-												page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-												total-page="ctrl.pagingController.pagingModel.totalPage"
-												current-page="ctrl.pagingController.pagingModel.currentPage"
-												page-size-list="ctrl.pagingController.pageSizeList"
-												page-action="ctrl.search"></scf-pagination>
-										</span>
-									</div>
-									<div class="responsive-table">
-										<table id="funding-profile-table"
-											class="table table-striped table-bordered" cellspacing="0">
-											<thead>
-												<tr>
-													<th class="text-left" ng-bind="'Tax ID' | translate"></th>
-													<th class="text-left" ng-bind="'Funding code' | translate"></th>
-													<th ng-bind="'Funding name' | translate"></th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
-													<td class="text-left"><span
-														id="tax-id-{{$index + 1}}-label"
-														ng-bind="record.fundingId"></span></td>
-													<td class="text-left"><span
-														id="funding-code-{{$index + 1}}-label"
-														ng-bind="record.bankCode"></span></td>
-													<td class="text-left"><span
-														id="funding-name-{{$index + 1}}-label"
-														ng-bind="record.fundingName | translate"></span></td>
-													<td class="text-center">
-														<scf-button
-															id="{{$index + 1}}-edit-button"
-															class="btn-default gec-btn-action"
-															ng-disabled="!ctrl.canManage"
-															ng-click="ctrl.edit(record)" title="Edit"> <i
-															class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="col-md-12 text-right">
+						<scf-button id="new-button" ng-disabled="!ctrl.canManage"
+							ng-click="ctrl.createNew()" class="btn btn-default">
+						{{'New' | translate}} </scf-button>
+					</div>
+					<br/><br/>
+					<!-- Start Table-->
+					<div class="responsive-table">
+						<table id="funding-profile-table"
+							class="table table-striped table-bordered" cellspacing="0">
+							<thead>
+								<tr>
+									<th class="text-left" ng-bind="'Tax ID' | translate"></th>
+									<th class="text-left" ng-bind="'Funding code' | translate"></th>
+									<th ng-bind="'Funding name' | translate"></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+									<td class="text-left"><span
+										id="tax-id-{{$index + 1}}-label" ng-bind="record.fundingId"></span></td>
+									<td class="text-left"><span
+										id="funding-code-{{$index + 1}}-label"
+										ng-bind="record.bankCode"></span></td>
+									<td class="text-left"><span
+										id="funding-name-{{$index + 1}}-label"
+										ng-bind="record.fundingName | translate"></span></td>
+									<td class="text-center">
+										<button type="button" ng-disabled="!ctrl.canManage"
+											class="btn-default gec-btn-action btn-sm btn"
+											id="edit-{{record.fundingId}}-button" ng-click="ctrl.edit(record)"
+											title="Edit">
+											<ng-transclude>
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i></ng-transclude>
+										</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-12 col-sm-12 text-right">
+						<span> <b
+									ng-bind="ctrl.pagingController.splitePageTxt"
+									id="funding-profile-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+									dropdown-id="funding-profile-page-limit-dropdown"
+									name="funding-profile"
+									page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+									total-page="ctrl.pagingController.pagingModel.totalPage"
+									current-page="ctrl.pagingController.pagingModel.currentPage"
+									page-size-list="ctrl.pagingController.pageSizeList"
+									page-action="ctrl.search"></scf-pagination>
+						</span>
 					</div>
 				</div>
 			</div>

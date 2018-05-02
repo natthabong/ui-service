@@ -2,170 +2,181 @@
 	sec:authorize="hasAnyAuthority(
 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="edit-import-channel-header-label"
-						class="animated fadeInLeft">{{'Edit import channel' |
-						translate}}</h3>
-				</div>
-			</div>
+	<div class="app-title">
+		<div>
+			<h1>
+				<span id="header-message-label" class="animated fadeInLeft">{{'Edit
+					import channel' | translate}}</span>
+			</h1>
 		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<form name="createForm" class="form-horizontal">
-						<div class="form-group" ng-if="ctrl.manageAllFunding">
-							<label id="funding-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
-								| translate}}: </label>
-							<div class="col-md-4 col-sm-3 col-xs-11">
-								<label ng-repeat="funding in ctrl.fundings" class="col-md-10 col-sm-10 col-xs-10 padding-0"> <input
-									type="checkbox" checklist-model="ctrl.channelModel.fundings"
-									checklist-value="funding" checklist-comparator="ctrl.compareFunding"
-									id="funding-{{funding.fundingName}}-checkbox" />
-									{{funding.fundingName}}
-								</label><br />
-							</div>
-							<div class="col-md-6 col-sm-4"></div>
-						</div>
-						<div class="form-group">
-							<label id="channel-label" for="dealer"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Channel'
-								| translate}}: </label>
-							<div class="col-md-3 col-sm-4 col-xs-12">
-								<scf-dropdown id="channel-dropdown"
-									ng-model="ctrl.channelModel.channelType"
-									component-data="ctrl.channelDropdown" ng-disabled="true"></scf-dropdown>
-							</div>
-							<div class="col-md-6 col-sm-4"></div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							&nbsp;&nbsp;
-							<scf-checkbox
-								id="clear-existing-documents-before-import-file-checkbox"
-								ng-model="ctrl.channelModel.clearExistingDoc"
-								ng-disabled="!ctrl.manageAll"></scf-checkbox>
-							<label class="checkbox-inline"
-								id="clear-existing-documents-before-import-file-label"
-								style="padding-bottom: 10px;">{{'Clear existing
-								documents before import file' | translate}}</label>
-						</div>
-						<div class="form-group">
-							<label id="display-name-label"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Display name' | translate}}: </label>
-							<div class="col-md-4 col-sm-5 col-xs-12">
-								<scf-input-text id="display-name-textbox" maxlength="100"
-									ng-model="ctrl.channelModel.displayName"></scf-input-text>
-							</div>
-							<div class="col-md-4 col-sm-4"></div>
-						</div>
-						<div class="form-group"	ng-show="errors.displayName">
-							<div ng-show="errors.displayName">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="dispplay-name-warning-message-label"
-									ng-bind="errors.displayName.message"> </span>
-							</div>
-						</div>
-						<div class="form-group" >
-							<label id="file-layout-label" for="dealer"
-								class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
-								layout' | translate}}: </label>
-							<div class="col-md-3 col-sm-4 col-xs-12">
-								<scf-dropdown id="file-layout-dropdown" convert-to-number=""
-									ng-model="ctrl.channelModel.layoutConfigId"
-									component-data="ctrl.fileLayouts" ng-hide="false"></scf-dropdown>
-							</div>
-							<div class="col-md-6 col-sm-4"></div>
-						</div>
-						<div class="form-group"
-							ng-show="errors.layout">
-							<div ng-show="errors.layout">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="layout-warning-message-label"
-									ng-bind="errors.layout.message"> </span>
-							</div>
-						</div>	
-						<ng-include ng-show="ctrl.isSetupFTP"
-							src="'/sponsor-configuration/import-channels/ftp-settings'"
-							ng-if="true"></ng-include>					
-						<div class="form-group">
-							<label id="active-date-label"
-								class="col-md-2 col-sm-3 control-label">{{'Active date'
-								| translate}}:</label>
-							<div class="col-md-3 col-sm-4 gec-calendar-group">
-								<scf-date-picker text-id="active-date-textbox"
-									text-model="ctrl.channelModel.activeDate"
-									date-format="dd/MM/yyyy" is-open="ctrl.openActiveDate"
-									open-calendar-action="ctrl.openCalendarActiveDate()"
-									max-date="ctrl.channelModel.expiryDate"
-									ng-disabled="!ctrl.manageAll" button-id="active-date-button">
-								</scf-date-picker>
-							</div>
-							<div>
-								<div class="col-md-2 col-sm-3 col-xs-2"
-									style="padding-left: 25px;">
-									<scf-checkbox id="expire-date-checkbox"
-										ng-model="ctrl.isUseExpireDate" ng-disabled="!ctrl.manageAll"></scf-checkbox>
-									<label id="expire-date-label" class="checkbox-inline"
-										style="padding-bottom: 10px;">{{'Expire date' |
-										translate}}:</label>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="form-element">
+						<div class="panel panel-default col-md-12 padding-0">
+							<div class="panel-body">
+								<form name="createForm" class="form-horizontal">
+									<div class="form-group row" ng-if="ctrl.manageAllFunding">
+										<label id="funding-label"
+											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Funding'
+											| translate}}: </label>
+										<div class="col-md-4 col-sm-3 col-xs-11">
+											<label ng-repeat="funding in ctrl.fundings"
+												class="col-md-10 col-sm-10 col-xs-10 padding-0"> <input
+												type="checkbox" checklist-model="ctrl.channelModel.fundings"
+												checklist-value="funding"
+												checklist-comparator="ctrl.compareFunding"
+												id="funding-{{funding.fundingName}}-checkbox" />
+												{{funding.fundingName}}
+											</label><br />
+										</div>
+										<div class="col-md-6 col-sm-4"></div>
+									</div>
+									<div class="form-group row">
+										<label id="channel-label" for="dealer"
+											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Channel'
+											| translate}}: </label>
+										<div class="col-md-3 col-sm-4 col-xs-12">
+											<scf-dropdown id="channel-dropdown"
+												ng-model="ctrl.channelModel.channelType"
+												component-data="ctrl.channelDropdown" ng-disabled="true"></scf-dropdown>
+										</div>
+										<div class="col-md-6 col-sm-4"></div>
+									</div>
+									<div class="form-group row">
+										<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+										&nbsp;&nbsp;
+										<scf-checkbox
+											id="clear-existing-documents-before-import-file-checkbox"
+											ng-model="ctrl.channelModel.clearExistingDoc"
+											ng-disabled="!ctrl.manageAll"></scf-checkbox>
+										<label class="checkbox-inline"
+											id="clear-existing-documents-before-import-file-label"
+											style="padding-bottom: 10px;">{{'Clear existing
+											documents before import file' | translate}}</label>
+									</div>
+									<div class="form-group row">
+										<label id="display-name-label"
+											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Display
+											name' | translate}}: </label>
+										<div class="col-md-4 col-sm-5 col-xs-12">
+											<scf-input-text id="display-name-textbox" maxlength="100"
+												ng-model="ctrl.channelModel.displayName"></scf-input-text>
+										</div>
+										<div class="col-md-4 col-sm-4"></div>
+									</div>
+									<div class="form-group row" ng-show="errors.displayName">
+										<div ng-show="errors.displayName">
+											<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+											<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+												id="dispplay-name-warning-message-label"
+												ng-bind="errors.displayName.message"> </span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label id="file-layout-label" for="dealer"
+											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'File
+											layout' | translate}}: </label>
+										<div class="col-md-3 col-sm-4 col-xs-12">
+											<scf-dropdown id="file-layout-dropdown" convert-to-number=""
+												ng-model="ctrl.channelModel.layoutConfigId"
+												component-data="ctrl.fileLayouts" ng-hide="false"></scf-dropdown>
+										</div>
+										<div class="col-md-6 col-sm-4"></div>
+									</div>
+									<div class="form-group row" ng-show="errors.layout">
+										<div ng-show="errors.layout">
+											<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+											<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+												id="layout-warning-message-label"
+												ng-bind="errors.layout.message"> </span>
+										</div>
+									</div>
+									<ng-include ng-show="ctrl.isSetupFTP"
+										src="'/sponsor-configuration/import-channels/ftp-settings'"
+										ng-if="true"></ng-include>
+									<div class="form-group row">
+										<label id="active-date-label"
+											class="col-md-2 col-sm-3 control-label">{{'Active
+											date' | translate}}:</label>
+										<div class="col-md-3 col-sm-4 gec-calendar-group">
+											<scf-date-picker text-id="active-date-textbox"
+												text-model="ctrl.channelModel.activeDate"
+												date-format="dd/MM/yyyy" is-open="ctrl.openActiveDate"
+												open-calendar-action="ctrl.openCalendarActiveDate()"
+												max-date="ctrl.channelModel.expiryDate"
+												ng-disabled="!ctrl.manageAll" button-id="active-date-button">
+											</scf-date-picker>
+										</div>
+										<div>
+											<div class="col-md-2 col-sm-3 col-xs-2"
+												style="padding-left: 25px;">
+												<scf-checkbox id="expire-date-checkbox"
+													ng-model="ctrl.isUseExpireDate"
+													ng-disabled="!ctrl.manageAll"></scf-checkbox>
+												<label id="expire-date-label" class="checkbox-inline"
+													style="padding-bottom: 10px;">{{'Expire date' |
+													translate}}:</label>
+											</div>
+											<div class="col-md-3 col-sm-3 gec-calendar-group"
+												style="padding-left: 35px;">
+												<scf-date-picker text-id="expire-date-textbox"
+													text-model="ctrl.channelModel.expiryDate"
+													date-format="dd/MM/yyyy" is-open="ctrl.openExpireDate"
+													open-calendar-action="ctrl.openCalendarExpireDate()"
+													min-date="ctrl.channelModel.activeDate"
+													ng-disabled="!ctrl.isUseExpireDate || !ctrl.manageAll"
+													button-id="expire-date-button"> </scf-date-picker>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row"
+										ng-show="errors.activeDate || errors.expiryDate">
+										<div ng-show="errors.activeDate">
+											<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+											<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+												id="active-date-warning-message-label"
+												ng-bind="errors.activeDate.message"> </span>
+										</div>
+										<div ng-show="errors.expiryDate">
+											<label class="col-md-5 col-sm-3 col-xs-12 control-label"
+												ng-show="!errors.activeDate"></label> <label
+												class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+												class="col-md-3 col-sm-3 col-xs-12 error-msg"
+												id="expire-date-warning-message-label"
+												ng-bind="errors.expiryDate.message"> </span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+										&nbsp;&nbsp;
+										<scf-checkbox id="suspend-checkbox"
+											ng-model="ctrl.channelModel.suspend"
+											ng-disabled="!ctrl.manageAll"></scf-checkbox>
+										<label class="checkbox-inline" id="suspend-label"
+											style="padding-bottom: 10px;">{{'Suspend' |
+											translate}}</label>
+									</div>
+								</form>
+								<div class="col-md-12 col-sm-12 text-right">
+									<scf-button id="cancel-button" class="popup-button"
+										data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+										ng-bind="'Cancel' | translate"></scf-button>
+									<scf-button id="save-button" type="submit"
+										ng-disabled="!ctrl.manageAll" ng-click="ctrl.saveChannel()">{{'Save'
+									| translate}}</scf-button>
 								</div>
-								<div class="col-md-3 col-sm-3 gec-calendar-group"
-									style="padding-left: 35px;">
-									<scf-date-picker text-id="expire-date-textbox"
-										text-model="ctrl.channelModel.expiryDate"
-										date-format="dd/MM/yyyy" is-open="ctrl.openExpireDate"
-										open-calendar-action="ctrl.openCalendarExpireDate()"
-										min-date="ctrl.channelModel.activeDate"
-										ng-disabled="!ctrl.isUseExpireDate || !ctrl.manageAll"
-										button-id="expire-date-button"> </scf-date-picker>
-								</div>
 							</div>
 						</div>
-						<div class="form-group"
-							ng-show="errors.activeDate || errors.expiryDate">
-							<div ng-show="errors.activeDate">
-								<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="active-date-warning-message-label"
-									ng-bind="errors.activeDate.message"> </span>
-							</div>
-							<div ng-show="errors.expiryDate">
-								<label class="col-md-5 col-sm-3 col-xs-12 control-label"
-									ng-show="!errors.activeDate"></label> <label
-									class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
-									class="col-md-3 col-sm-3 col-xs-12 error-msg"
-									id="expire-date-warning-message-label"
-									ng-bind="errors.expiryDate.message"> </span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
-							&nbsp;&nbsp;
-							<scf-checkbox id="suspend-checkbox"
-								ng-model="ctrl.channelModel.suspend"
-								ng-disabled="!ctrl.manageAll"></scf-checkbox>
-							<label class="checkbox-inline" id="suspend-label"
-								style="padding-bottom: 10px;">{{'Suspend' | translate}}</label>
-						</div>
-					</form>
-					<div class="col-md-12 col-sm-12 text-right">
-						<scf-button id="cancel-button" class="popup-button"
-							data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
-							ng-bind="'Cancel' | translate"></scf-button>
-						<scf-button id="save-button" type="submit"
-							ng-disabled="!ctrl.manageAll" ng-click="ctrl.saveChannel()">{{'Save'
-						| translate}}</scf-button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<input type="hidden" ng-init="ctrl.manageAll=true"
 		sec:authorize="hasAnyAuthority('MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS',
 	'MANAGE_ALL_CUSTOMER_ORGANIZATIONS_IMPORT_CHANNELS_OF_ALL_FUNDING')" />

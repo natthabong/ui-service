@@ -8,6 +8,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+<!-- Main CSS-->
+<link th:href="@{/assets/css/main.css}" href="../static/assets/css/main.css}" rel="stylesheet" />
+<!-- Custom Style CSS-->
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+
 <title ng-bind="controller.title"></title>
 
 <!-- WRO4J CSS -->
@@ -21,14 +26,14 @@
 	rel="stylesheet" />
 <link th:href="@{/css/gecscf.css}" href="../static/css/gecscf.css"
 	rel="stylesheet" />
-<link th:href="@{/css/login.css}" href="../static/css/login.css"
-	rel="stylesheet" />
+<!-- <link th:href="@{/css/login.css}" href="../static/css/login.css" -->
+<!-- 	rel="stylesheet" /> -->
 <link th:href="@{/css/loading-overlay.css}"
 	href="../static/css/loading-overlay.css" rel="stylesheet" />
-<link th:href="@{/assets/css/theme.css}"
-	href="../static/assets/css/theme.css}" rel="stylesheet" />
-<link th:href="@{/assets/css/login.css}"
-	href="../static/assets/css/login.css}" rel="stylesheet" />
+<!-- <link th:href="@{/assets/css/theme.css}" -->
+<!-- 	href="../static/assets/css/theme.css}" rel="stylesheet" /> -->
+<!-- <link th:href="@{/assets/css/login.css}" -->
+<!-- 	href="../static/assets/css/login.css}" rel="stylesheet" /> -->
 <!-- controller -->
 <script th:src="@{/js/app/scf-app.js}" src="../static/js/app/scf-app.js"></script>
 
@@ -67,24 +72,24 @@
     you can substitue the span of reauth email for a input with the email and
     include the remember me checkbox
     -->
-
-	<div class="container">
-		<div class="wrapper">
+    
+    <section class="login-content">
+    	<div class="login-box">
 
 			<form id="loginForm" role="form" method="post" name="Login_Form"
-				class="form-signin" autocomplete="off"
+				class="login-form" autocomplete="off"
 				ng-submit="controller.login()">
-				<h3 class="form-signin-heading text-center">
+				<h3 class="login-head text-center">
 					<img ng-src="assets/img/logo_login.png" alt="" />
 				</h3>
-				<hr class="spartan" />
+<!-- 				<hr class="spartan" /> -->
 				<div class="alert alert-danger" role="alert"
 					ng-if="controller.error">
 					<span id="login-message-label">{{controller.errorMessage}}</span>
 				</div>
-				<div class="input-group">
+				<div class="form-group">
 					<span class="input-group-addon" id="sizing-addon1"> <i
-						class="fa fa-user"></i>
+						class="fa fa-user"></i> <label class="control-label">USERNAME</label>
 					</span> <input type="text" class="form-control" id="username"
 						name="username" ng-model="controller.username"
 						placeholder="Username" />
@@ -94,9 +99,9 @@
 						is required.</span>
 				</div>
 				<br ng-if="controller.usernameRequired" />
-				<div class="input-group">
+				<div class="form-group">
 					<span class="input-group-addon" id="sizing-addon1"> <i
-						class="fa fa-lock"></i>
+						class="fa fa-lock"></i> <label class="control-label">PASSWORD</label>
 					</span> <input type="password" class="form-control" id="password"
 						ng-model="controller.password" name="password"
 						placeholder="Password" /> <input type="hidden"
@@ -113,11 +118,18 @@
 					<span id="password-error-message-label" style="color: red">password
 						is required.</span>
 				</div>
-				<button class="btn btn-lg btn-primary btn-block" name="Submit"
-					type="submit">Login</button>
+				<div class="form-group btn-container">
+					<button class="btn btn-primary btn-block" name="Submit"
+					type="submit"><i class="fa fa-sign-in fa-lg fa-fw"></i>Login</button>
+				</div>
+				
 			</form>
 		</div>
-	</div>
+    </section>
+
+<!-- 	<div class="container"> -->
+		
+<!-- 	</div> -->
 	<!-- /container -->
 
 	<!-- Placed at the end of the document so the pages load faster -->

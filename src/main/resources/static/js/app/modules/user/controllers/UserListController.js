@@ -295,9 +295,9 @@ userModule
 					{
 					    cssTemplate : 'text-center',
 					    sortable : false,
-					    cellTemplate : '<scf-button ng-disabled="false" class="btn-default gec-btn-action" id="view-{{data.displayName}}-button" ng-click="ctrl.viewUser(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
-						    + '<scf-button ng-disabled="!ctrl.canResetPwd" class="btn-default gec-btn-action" id="reset-password-{{data.displayName}}-button" ng-click="ctrl.resetPasswordUser(data)" title="Reset password"><i class="fa fa-unlock-alt" aria-hidden="true"></i></scf-button>'
-						    + '<scf-button ng-disabled="!ctrl.manageAll" class="btn-default gec-btn-action" id="edit-{{data.displayName}}-button" ng-click="ctrl.editUser(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+					    cellTemplate : '<scf-button ng-disabled="false" class="btn-default gec-btn-action btn-sm" id="view-{{data.displayName}}-button" ng-click="ctrl.viewUser(data)" title="View"><i class="fa fa-search" aria-hidden="true"></i></scf-button>'
+						    + '<scf-button ng-disabled="!ctrl.canResetPwd" class="btn-default gec-btn-action btn-sm" id="reset-password-{{data.displayName}}-button" ng-click="ctrl.resetPasswordUser(data)" title="Reset password"><i class="fa fa-unlock-alt" aria-hidden="true"></i></scf-button>'
+						    + '<scf-button ng-disabled="!ctrl.manageAll" class="btn-default gec-btn-action btn-sm" id="edit-{{data.displayName}}-button" ng-click="ctrl.editUser(data)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 					} ]
 			    }
 

@@ -1,177 +1,200 @@
 <div id="content" th:fragment="content">
-	<div class="panel box-shadow-none content-header">
-		<div class="panel-body">
-			<div class="col-md-12">
-				<h3 id="header-message-label" class="animated fadeInLeft">{{
-					'Validate and Submit' | translate}}</h3>
-			</div>
+
+	<div class="app-title">
+		<div>
+			<h1>
+				<h1 id="header-message-label"
+					ng-bind=" 'Validate and Submit' | translate"></h1>
+			</h1>
 		</div>
 	</div>
-	<div class="form-element">
-		<div class="panel panel-default col-md-12 padding-0">
-			<div class="panel-body" style="padding-bottom: 30px;">
-				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group">
-						<div class="row">
-							
-							<label ng-bind="'Buyer' | translate" id="buyer-label" class="col-md-2 col-sm-3 col-xs-12 control-label"></label>:
-							<div class="col-md-8 col-sm-7 col-xs-12">
-							<span id="sponsor-label"
-								ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.sponsorName"></span>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="form-element">
+						<div class="panel panel-default col-md-12 padding-0">
+							<div class="panel-body" style="padding-bottom: 30px;">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="form-group row">
+										<div class="row">
+
+											<label ng-bind="'Buyer' | translate" id="buyer-label"
+												class="col-md-2 col-sm-3 col-xs-12 control-label"></label>:
+											<div class="col-md-8 col-sm-7 col-xs-12">
+												<span id="sponsor-label"
+													ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.sponsorName"></span>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+											<b id="total-select-doc-label">{{ 'Selected' |
+												translate}}&#32;{{validateAndSubmitCtrl.transactionModel.documents.length}}&#32;{{
+												'Records' | translate}}</b>:
+										</div>
+										<div class="col-md-9 text-right">
+											<div class="row">
+
+												<div class="col-md-12">
+													<b ng-bind="validateAndSubmitCtrl.splitePageTxt"
+														id="document-paging-label"></b> &nbsp;&nbsp;
+													<scf-pagination
+														page-size-model="validateAndSubmitCtrl.pageModel.pageSizeSelectModel"
+														total-page="validateAndSubmitCtrl.pageModel.totalPage"
+														current-page="validateAndSubmitCtrl.pageModel.currentPage"
+														page-size-list="validateAndSubmitCtrl.pageSizeList"
+														page-action="validateAndSubmitCtrl.searchDocument"></scf-pagination>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<scf-layout-table
+												component-config="validateAndSubmitCtrl.dataTable"
+												component-datas="validateAndSubmitCtrl.documentDisplay"
+												current-page="validateAndSubmitCtrl.pageModel.currentPage"
+												record-per-page="validateAndSubmitCtrl.pageModel.pageSizeSelectModel">
+											</scf-layout-table>
+										</div>
+										<div id="fixed-bottom" class="col-md-12"></div>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3">
-							<b id="total-select-doc-label">{{ 'Selected' |
-								translate}}&#32;{{validateAndSubmitCtrl.transactionModel.documents.length}}&#32;{{
-								'Records' | translate}}</b>:
-						</div>
-						<div class="col-md-9 text-right">
-							<div class="row">
-								
-								<div class="col-md-12">
-									<b ng-bind="validateAndSubmitCtrl.splitePageTxt" id="document-paging-label"></b>
-                                        &nbsp;&nbsp;
-									<scf-pagination
-										page-size-model="validateAndSubmitCtrl.pageModel.pageSizeSelectModel"
-										total-page="validateAndSubmitCtrl.pageModel.totalPage"
-										current-page="validateAndSubmitCtrl.pageModel.currentPage"
-										page-size-list="validateAndSubmitCtrl.pageSizeList"
-										page-action="validateAndSubmitCtrl.searchDocument"></scf-pagination>
+
+							<div class="panel-body">
+								<div class="row">
+									<div id="bottom-sticker">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<div class="row">
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+													<label id="transaction-amount-label"> <b
+														ng-bind="'Transaction amount' | translate"></b>
+													</label>:
+												</div>
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+													<span id="validate-transaction-amount-label"
+														ng-bind="validateAndSubmitCtrl.transactionModel.transactionAmount | number:2"></span>
+													&nbsp;<span ng-bind="'THB' | translate"></span>
+												</div>
+												<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+													<label id="pre-drawdown-percentage-label"> <b
+														ng-bind="'Pre-drawdown percentage' | translate"></b>
+													</label>:
+												</div>
+												<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+													<span id="pre-drawdown-percentage-value-label"
+														ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>%
+												</div>
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
+
+											</div>
+											<div class="row">
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+													<label id="loan-account-label"> <b
+														ng-bind="'Loan account' | translate"></b>
+													</label>:
+												</div>
+												<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+													<span id="loan-account-value-label"
+														ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.accountNoFormat"></span>
+												</div>
+
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+													<label id="available-label"> <b
+														ng-bind="'Available' | translate"></b>
+													</label>:
+												</div>
+												<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+													<span id="available-value-label"
+														ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.supplierAvailableAmount | number: 2"></span>&nbsp;
+													&nbsp;<span ng-bind="'THB' | translate"></span>&nbsp; <label
+														id="interest-rate-value-label"
+														ng-hide="validateAndSubmitCtrl.tradingpartnerInfoModel.accountType == 'OVERDRAFT'">
+														<span>(Int.</span> <span
+														ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.interestRate"></span>
+														<span>)</span>
+													</label>
+
+												</div>
+
+
+											</div>
+
+											<div class="row">
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+													<label id="transaction-date-label"> <b
+														ng-bind="'Transaction date' | translate"></b>:
+													</label>
+												</div>
+												<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+													<label id="transaction-date-value-label"
+														ng-bind="validateAndSubmitCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></label>
+												</div>
+
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+													<label id="sponsor-payment-date-label"> <b
+														ng-bind="'Buyer payment date' | translate"></b>:
+													</label>
+												</div>
+												<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+													<label id="sponsor-payment-date-value-label"
+														ng-bind="validateAndSubmitCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></label>
+												</div>
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
+											</div>
+											<div class="row">
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+													<label id="loan-maturity-date-label"> <b
+														ng-bind="'Loan maturity date' | translate"></b>:
+													</label>
+												</div>
+												<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+													<label id="loan-maturity-date-value-label"
+														ng-bind="validateAndSubmitCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></label>
+												</div>
+												<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+
+												<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+												<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right"></div>
+												<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
+											</div>
+											<div class="row">
+												<label
+													class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
+												<div>
+													<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+														ng-show="ctrl.accountNotSupportSpecialDirectDebit"
+														id="account-no-not-support-special-direct-debit-error-message-label"
+														ng-bind="'Account is not support special debit' | translate"></span>
+												</div>
+											</div>
+
+										</div>
+										<div class="col-md-12 text-right">
+											<scf-button id="back-to-create-button"
+												class="btn btn-default" type="submit"
+												ng-click="validateAndSubmitCtrl.backToCreate()">{{
+											'Back' | translate}}</scf-button>
+											<scf-button id="submit-button" class="btn btn-default"
+												type="submit"
+												ng-click="validateAndSubmitCtrl.submitTransaction()">{{
+											'Submit' | translate}}</scf-button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<scf-layout-table
-								component-config="validateAndSubmitCtrl.dataTable"
-								component-datas="validateAndSubmitCtrl.documentDisplay"
-								current-page="validateAndSubmitCtrl.pageModel.currentPage" 
-								record-per-page="validateAndSubmitCtrl.pageModel.pageSizeSelectModel">
-							</scf-layout-table>
-						</div>
-						<div id="fixed-bottom" class="col-md-12"></div>
-					</div>
-				</div>
-			</div>
-
-			<div class="panel-body">
-				<div class="row">
-					<div id="bottom-sticker">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="row">
-                    	 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                    	 	<label id="transaction-amount-label">
-                    	 		<b ng-bind="'Transaction amount' | translate"></b>
-                    	 	</label>:
-                    	 </div>	 
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        	<span id="validate-transaction-amount-label"
-							ng-bind="validateAndSubmitCtrl.transactionModel.transactionAmount | number:2"></span>
-							&nbsp;<span ng-bind="'THB' | translate"></span>
-                        </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
-                        </div>
-                        
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        	<label id="pre-drawdown-percentage-label">
-                        		<b ng-bind="'Pre-drawdown percentage' | translate"></b>
-                        	</label>:
-						</div>
-						<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-							<span id="pre-drawdown-percentage-value-label"
-							ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>%
-						</div>
-						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
-                        
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                     	 	<label id="loan-account-label">
-                     	 		<b ng-bind="'Loan account' | translate"></b>
-                     	 	</label>:
-                     	 </div>	 
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        	<span id="loan-account-value-label"
-                        	ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.accountNoFormat"></span>
-                        </div>
-                         
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        	<label id="available-label">
-                         		<b ng-bind="'Available' | translate"></b>
-                         	</label>:
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-							<span id="available-value-label" ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.supplierAvailableAmount | number: 2"></span>&nbsp;
-							&nbsp;<span ng-bind="'THB' | translate"></span>&nbsp;
-
-                            <label id="interest-rate-value-label" ng-hide="validateAndSubmitCtrl.tradingpartnerInfoModel.accountType == 'OVERDRAFT'">
-										<span>(Int.</span>
-										<span ng-bind="validateAndSubmitCtrl.tradingpartnerInfoModel.interestRate"></span>
-										<span>)</span>
-							  </label>
-							  
-						  </div>
-						
-						   
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        	<label id="transaction-date-label">
-                        	<b	ng-bind="'Transaction date' | translate"></b>:</label>
-                        </div>	 
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        	<label id="transaction-date-value-label" ng-bind="validateAndSubmitCtrl.transactionModel.transactionDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></label>
-                        </div> 
-                         
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                        	<label id="sponsor-payment-date-label">
-                    		<b	ng-bind="'Buyer payment date' | translate"></b>:</label>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        	<label id="sponsor-payment-date-value-label" ng-bind="validateAndSubmitCtrl.transactionModel.sponsorPaymentDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></label>
-                        </div>
-						 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>	
-					 </div>
-					 <div class="row">
-	                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-	                     	<label id="loan-maturity-date-label">
-	                     	<b	ng-bind="'Loan maturity date' | translate"></b>:</label>
-	                     </div>	 
-	                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-	                     	<label id="loan-maturity-date-value-label" ng-bind="validateAndSubmitCtrl.transactionModel.maturityDate | date: 'dd/MM/yyyy' : 'UTC+0700'"></label>
-	                     </div>
-	                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
-	                      
-	                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
-	                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right"></div>
-						 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>	
-					 </div>
-                    <div class="row">
-                        <label class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
-                        <div>
-                            <span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="ctrl.accountNotSupportSpecialDirectDebit" id="account-no-not-support-special-direct-debit-error-message-label" ng-bind="'Account is not support special debit' | translate"></span>
-                        </div>
-                    </div>
-                    
-                </div>
-						<div class="col-md-12 text-right">
-							<scf-button id="back-to-create-button" class="btn btn-default"
-								type="submit" ng-click="validateAndSubmitCtrl.backToCreate()">{{
-							'Back' | translate}}</scf-button>
-							<scf-button id="submit-button" class="btn btn-default"
-								type="submit"
-								ng-click="validateAndSubmitCtrl.submitTransaction()">{{
-							'Submit' | translate}}</scf-button>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+
 	<scf-modal visible="validateDataPopup">
 	<div class="modal-content">
 		<div class="modal-header">
@@ -180,19 +203,26 @@
 					<image width="70" height="70" ng-src="img/success-icon.png"></image>
 				</div>
 				<div class="col-md-10 col-sm-10">
-					<h2><span class="gec-pop-up-font-size-green" id="success-header-message-label" ng-bind="'Add new transaction success.' | translate">Add new transaction success.</span></h2>
+					<h2>
+						<span class="gec-pop-up-font-size-green"
+							id="success-header-message-label"
+							ng-bind="'Add new transaction success.' | translate">Add
+							new transaction success.</span>
+					</h2>
 				</div>
 			</div>
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-md-2 col-sm-2">
-				</div>
+				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10 col-xs-12">
 					<h2 id="transaction-no">
-						<b class="gec-pop-up-font-size" ng-bind="'Transaction No.' | translate">Transaction No.</b>
-						<span class="gec-pop-up-font-size">:</span>
-						<span class="gec-pop-up-font-size" ng-bind="validateAndSubmitCtrl.transactionNo" id="transaction-no-label"></span>
+						<b class="gec-pop-up-font-size"
+							ng-bind="'Transaction No.' | translate">Transaction No.</b> <span
+							class="gec-pop-up-font-size">:</span> <span
+							class="gec-pop-up-font-size"
+							ng-bind="validateAndSubmitCtrl.transactionNo"
+							id="transaction-no-label"></span>
 					</h2>
 				</div>
 			</div>
@@ -215,7 +245,7 @@
 					<scf-button type="submit" data-dismiss="modal"
 						id="popup-view-history-button"
 						ng-click="validateAndSubmitCtrl.viewHistory()"
-						ng-bind="'View history' | translate"></scf-button>						
+						ng-bind="'View history' | translate"></scf-button>
 				</div>
 			</div>
 		</div>
@@ -229,24 +259,26 @@
 					<image width="70" height="70" ng-src="img/error-icon.png"></image>
 				</div>
 				<div class="col-md-10 col-sm-10" style="color: red;">
-					<h2 ng-bind="'Add new transaction fail.' | translate">Add new transaction fail.</h2>
+					<h2 ng-bind="'Add new transaction fail.' | translate">Add new
+						transaction fail.</h2>
 				</div>
 			</div>
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-md-2 col-sm-2">
-				</div>	
+				<div class="col-md-2 col-sm-2"></div>
 				<div class="col-md-10 col-sm-10 col-xs-12">
 					<h3 id="error-message-label" class="gec-pop-up-font-size"
-						ng-bind="validateAndSubmitCtrl.errorMsgPopup | translate"></h3>				
-				</div>						
+						ng-bind="validateAndSubmitCtrl.errorMsgPopup | translate"></h3>
+				</div>
 			</div>
-		</div>	
+		</div>
 		<div class="modal-footer">
 			<div class="row">
-				<div class="col-xs-12 text-right">					
-					<scf-button id="back-button" class="popup-button" data-dismiss="modal" ng-click="validateAndSubmitCtrl.backToCreate()"
+				<div class="col-xs-12 text-right">
+					<scf-button id="back-button" class="popup-button"
+						data-dismiss="modal"
+						ng-click="validateAndSubmitCtrl.backToCreate()"
 						ng-bind="'Back' | translate"></scf-button>
 				</div>
 			</div>

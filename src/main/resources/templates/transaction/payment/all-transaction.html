@@ -1,127 +1,121 @@
-<div id="content" th:fragment="content" sec:authorize="hasAuthority('VIEW_ALL_PAYMENTS')">
-    <div id="wrapper">
-        <div class="panel box-shadow-none content-header">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'Payment transaction' | translate">Payment transaction
-                    </h3>
-                </div>
-            </div>
-        </div>
-        <div class="form-element" ng-controller="PaymentTransactionController as ctrl" ng-if="ctrl.getUserInfoSuccess">
-            <div class="panel panel-default col-md-12 padding-0">
-                <div class="panel-body">
-                    <div class="col-md-12">
-                        <div ng-include="'/payment-transaction/components/criteria-search'"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div ng-include="'/payment-transaction/components/list-transaction'"></div>
-                    </div>
-                </div>
+<div id="content" th:fragment="content"
+	sec:authorize="hasAuthority('VIEW_ALL_PAYMENTS')">
 
-                <div class="panel-body" block-ui="summary-internal-block">
-                    <div class="row">
-                        <div id="bottom-sticker">
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="internal-step-label">{{'Internal step' |
-											translate}}</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="internal-step-record-label" ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalRecord"></span>&nbsp;
-                                        <span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="internal-step-amount-label" ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalAmount | number: 2"></span>&nbsp;
-                                        <span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-3 col-sm-1"></div>
-                                </div>
-                            </div>
+	<div class="app-title">
+		<div>
+			<h1>
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label"
+					class="animated fadeInLeft"
+					ng-bind="'Payment transaction' | translate">Payment
+					transaction</span>
+			</h1>
+		</div>
+	</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="wait-for-payment-result-label">{{'Wait for
-											payment result' | translate}}</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-payment-result-record-label" ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_PAYMENT_RESULT.totalRecord"></span>&nbsp;
-                                        <span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="wait-for-payment-result-amount-label" ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_PAYMENT_RESULT.totalAmount | number: 2"></span>&nbsp;
-                                        <span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-3 col-sm-1"></div>
-                                </div>
-                            </div>
+	<div class="row" ng-if="ctrl.getUserInfoSuccess">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="col-md-12 text-right">
+						<button type="button" class="btn btn-primary"
+							data-toggle="collapse" data-target="#advance-search">
+							<i class="fa fa-fw fa-lg fa-search"></i> Search
+						</button>
+					</div>
+					<div id="advance-search">
+						<div class="col-md-12">
+							<div
+								ng-include="'/payment-transaction/components/criteria-search'"></div>
+						</div>
+					</div>
+					<div
+						ng-include="'/payment-transaction/components/list-transaction'"></div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="payment-success-label">{{'Payment success'
-											| translate}}</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="payment-success-record-label" ng-bind="ctrl.summaryStatusGroup.PAYMENT_SUCCESS.totalRecord"></span>&nbsp;
-                                        <span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="payment-success-amount-label" ng-bind="ctrl.summaryStatusGroup.PAYMENT_SUCCESS.totalAmount | number: 2"></span>&nbsp;
-                                        <span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-3 col-sm-1"></div>
-                                </div>
-                            </div>
+					<div ng-controller="PaymentTransactionController as ctrl"
+						ng-if="ctrl.getUserInfoSuccess">
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<label class="col-md-2 col-sm-3"></label> <label
+									class="col-md-2 col-sm-2"><span
+									id="internal-step-label">{{'Internal step' | translate}}</span>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <span
+									id="internal-step-record-label"
+									ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalRecord"></span>&nbsp;
+									<span ng-bind="'records' | translate"></span>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <span
+									id="internal-step-amount-label"
+									ng-bind="ctrl.summaryStatusGroup.INTERNAL_STEP.totalAmount | number: 2"></span>&nbsp;
+									<span ng-bind="'THB' | translate"></span></label>
+							</div>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <span id="payment-fail-label">{{'Payment fail' |
-											translate}}</span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="payment-fail-record-label" ng-bind="ctrl.summaryStatusGroup.PAYMENT_FAIL.totalRecord"></span>&nbsp;
-                                        <span ng-bind="'records' | translate"></span>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <span id="payment-fail-amount-label" ng-bind="ctrl.summaryStatusGroup.PAYMENT_FAIL.totalAmount | number: 2"></span>&nbsp;
-                                        <span ng-bind="'THB' | translate"></span>
-                                    </div>
-                                    <div class="col-md-3 col-sm-1"></div>
-                                </div>
-                            </div>
+							<div class="col-md-12 col-sm-12">
+								<label class="col-md-2 col-sm-3"></label> <label
+									class="col-md-2 col-sm-2"> <span
+									id="wait-for-payment-result-label">{{'Wait for payment
+										result' | translate}}</span>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <span
+									id="wait-for-payment-result-record-label"
+									ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_PAYMENT_RESULT.totalRecord"></span>&nbsp;
+									<span ng-bind="'records' | translate"></span>
 
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-horizontal">
-                                    <span class="col-md-2 col-sm-3"></span>
-                                    <div class="col-md-3 col-sm-3">
-                                        <b><span id="grand-total-label">{{'Grand total' |
-												translate}}</span></b>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <b><span id="grand-total-record-label"
-											ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalRecord"></span>&nbsp;<span
-											ng-bind="'records' | translate"></span></b>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 text-right">
-                                        <b><span id="grand-total-amount-label"
-											ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalAmount | number: 2"></span>&nbsp;<span
-											ng-bind="'THB' | translate"></span></b>
-                                    </div>
-                                    <div class="col-md-3 col-sm-1"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <span
+									id="wait-for-payment-result-amount-label"
+									ng-bind="ctrl.summaryStatusGroup.WAIT_FOR_PAYMENT_RESULT.totalAmount | number: 2"></span>&nbsp;
+									<span ng-bind="'THB' | translate"></span>
+								</label>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<label class="col-md-2 col-sm-3"></label> <label
+									class="col-md-2 col-sm-2"> <span
+									id="payment-success-label">{{'Payment success' |
+										translate}}</span>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <span
+									id="payment-success-record-label"
+									ng-bind="ctrl.summaryStatusGroup.PAYMENT_SUCCESS.totalRecord"></span>&nbsp;
+									<span ng-bind="'records' | translate"></span>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <span
+									id="payment-success-amount-label"
+									ng-bind="ctrl.summaryStatusGroup.PAYMENT_SUCCESS.totalAmount | number: 2"></span>&nbsp;
+									<span ng-bind="'THB' | translate"></span>
+								</label>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<label class="col-md-2 col-sm-3"></label> <label
+									class="col-md-2 col-sm-2"> <span
+									id="payment-fail-label">{{'Payment fail' | translate}}</span>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <span
+									id="payment-fail-record-label"
+									ng-bind="ctrl.summaryStatusGroup.PAYMENT_FAIL.totalRecord"></span>&nbsp;
+									<span ng-bind="'records' | translate"></span>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <span
+									id="payment-fail-amount-label"
+									ng-bind="ctrl.summaryStatusGroup.PAYMENT_FAIL.totalAmount | number: 2"></span>&nbsp;
+									<span ng-bind="'THB' | translate"></span>
+								</label>
+							</div>
+
+							<div class="col-md-12 col-sm-12">
+								<label class="col-md-2 col-sm-3"></label> <label
+									class="col-md-2 col-sm-2"> <b><span
+										id="grand-total-label">{{'Grand total' | translate}}</span></b>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <b><span
+										id="grand-total-record-label"
+										ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalRecord"></span>&nbsp;<span
+										ng-bind="'records' | translate"></span></b>
+								</label> <label class="col-md-2 col-sm-2 text-right"> <b><span
+										id="grand-total-amount-label"
+										ng-bind="ctrl.summaryStatusGroup.GRAND_TOTAL.totalAmount | number: 2"></span>&nbsp;<span
+										ng-bind="'THB' | translate"></span></b>
+								</label>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>

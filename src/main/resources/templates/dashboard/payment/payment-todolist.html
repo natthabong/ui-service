@@ -6,6 +6,20 @@
 			id="wait-for-verify-payments-header-label"
 			ng-bind="dashboardItem.headerLabel"></h3>
 
+		<!-- Start Table-->
+		<div class="row">
+			<div class="col-md-12">
+				<scf-data-table id="wait-for-verify-payments-table"
+					class="transaction-table"
+					component-config="paymentTodoListCtrl.dataTable"
+					component-datas="paymentTodoListCtrl.pagingController.tableRowCollection"
+					current-page="paymentTodoListCtrl.pagingController.pagingModel.currentPage"
+					record-per-page="paymentTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
+					clear-sort-order="paymentTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
+			</div>
+			<div id="fixed-bottom" class="col-md-12"></div>
+		</div>
+
 		<div class="row">
 			<div class="col-md-12 col-sm-12 text-right">
 				<span> <b
@@ -19,20 +33,6 @@
 						page-action="paymentTodoListCtrl.loadData"></scf-pagination>
 				</span>
 			</div>
-		</div>
-
-		<!-- Start Table-->
-		<div class="row">
-			<div class="col-md-12">
-				<scf-data-table id="wait-for-verify-payments-table"
-					class="transaction-table"
-					component-config="paymentTodoListCtrl.dataTable"
-					component-datas="paymentTodoListCtrl.pagingController.tableRowCollection"
-					current-page="paymentTodoListCtrl.pagingController.pagingModel.currentPage"
-					record-per-page="paymentTodoListCtrl.pagingController.pagingModel.pageSizeSelectModel"
-					clear-sort-order="paymentTodoListCtrl.pagingController.pagingModel.clearSortOrder"></scf-data-table>
-			</div>
-			<div id="fixed-bottom" class="col-md-12"></div>
 		</div>
 	</div>
 
