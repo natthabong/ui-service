@@ -1,25 +1,23 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAnyAuthority('MONITOR_ALL_TRACKING_LOG')">
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3>
-						<span id="header-message-label" class="animated fadeInLeft">{{'Transaction
+	<div class="app-title">
+		<div>
+			<h1>
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label" class="animated fadeInLeft">{{'Transaction
 							tracking detail' | translate}}</span>
-					</h3>
-				</div>
-			</div>
+			</h1>
+			<p></p>
 		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<!-- Start Column Panel-->
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<form name="viewTransacntionTrackingDetailForm"
 							class="form-horizontal" novalidate="" autocomplete="off">
 
-							<div class="form-group">
+							<div class="form-group row">
 								<label id="ref-no-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Ref
 									no' | translate}}:</label> <label
@@ -29,7 +27,7 @@
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
 
-							<div class="form-group">
+							<div class="form-group row">
 								<label id="process-no-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Process
 									no' | translate}}:</label> <label
@@ -39,7 +37,7 @@
 								<div class="col-md-3 col-sm-2"></div>
 							</div>
 
-							<div class="form-group">
+							<div class="form-group row">
 								<label id="message-label"
 									class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Message'
 									| translate}}:</label> <br />
