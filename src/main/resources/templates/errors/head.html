@@ -1,184 +1,51 @@
 <head th:fragment="headTag">
-<meta name="description"
-	content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular." />
-<!-- Twitter meta-->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:site" content="@pratikborsadiya" />
-<meta property="twitter:creator" content="@pratikborsadiya" />
-<!-- Open Graph Meta-->
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Vali Admin" />
-<meta property="og:title" content="Vali - Free Bootstrap 4 admin theme" />
-<meta property="og:url"
-	content="http://pratikborsadiya.in/blog/vali-admin" />
-<meta property="og:image"
-	content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png" />
-<meta property="og:description"
-	content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular." />
-<div ng-controller="ScfHomeCtrl as scfCtrl">
-	<title ng-bind="scfCtrl.title"></title>
-</div>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<!-- Main CSS-->
-<link th:href="@{/assets/css/main.css}"
-	href="../static/assets/css/main.css}" rel="stylesheet" />
-<!-- <link rel="stylesheet" type="text/css" href="css/main.css"></link> -->
-<!-- Custom Style CSS-->
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<!-- <link th:href="@{/assets/css/style.css}" href="../static/assets/css/style.css}" rel="stylesheet" /> -->
-<!-- Font-icon css-->
-<link rel="stylesheet" type="text/css"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-<script th:src="@{/js/addition-libs.js}"
-	src="../static/js/angular-bootstrap.js"></script>
-<!-- controller -->
-<script th:src="@{/js/app/scf-app.js}" src="../static/js/app/scf-app.js"></script>
-<script th:src="@{/js/app/shared/utils/web-helper.js}"
-	src="../static/js/app/shared/utils/web-helper.js"></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    
+    <!-- Twitter meta-->
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:site" content="@pratikborsadiya" />
+	<meta property="twitter:creator" content="@pratikborsadiya" />
+	<!-- Open Graph Meta-->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Vali Admin" />
+	<meta property="og:title" content="Vali - Free Bootstrap 4 admin theme" />
+	<meta property="og:url"
+		content="http://pratikborsadiya.in/blog/vali-admin" />
+	<meta property="og:image"
+		content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png" />
+	<meta property="og:description"
+		content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular." />
 
-<script th:src="@{/js/app/authen/authentication.js}"
-	src="../static/js/app/authentication.js"></script>
+	<!-- Main CSS-->
+	<link th:href="@{/assets/css/main.css}" href="../static/assets/css/main.css}" rel="stylesheet" />
+	<!-- <link rel="stylesheet" type="text/css" href="css/main.css"></link> -->
+	<!-- Custom Style CSS-->
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Timeline CSS -->
+    <link th:href="@{/css/timeline.css}" href="../static/css/timeline.css" rel="stylesheet" />
+	<!-- GECSCF Component -->
+	<link th:href="@{/js/app/common/scf-component.css}" href="../static/app/common/scf-component.css" rel="stylesheet" />
+	
+    <!-- WRO4J CSS -->
+    <link th:href="@{/css/angular-bootstrap.css}" href="../static/css/angular-bootstrap.css" rel="stylesheet"/>
+    <script th:src="@{/js/angular-bootstrap.js}" src="../static/js/angular-bootstrap.js"></script>
+	
+    <!-- Mimin Theme -->
+    <!-- plugins -->
+    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet" />
+    <link th:href="@{/css/loading-overlay.css}" href="../static/css/loading-overlay.css" rel="stylesheet" />
+    <!-- GECSCF CSS -->
+    <link th:href="@{/css/gecscf.css}" href="../static/css/gecscf.css" rel="stylesheet" />
+    <link th:href="@{/js/app/components/scfjs.css}" href="../static/js/app/components/scfjs.css" rel="stylesheet" />
 
-<!-- Mimin Theme -->
-<!-- plugins -->
-<script th:src="@{/js/plugins/jquery.nicescroll.js}"
-	src="../static/js/plugins/jquery.nicescroll.js"></script>
-
-<!-- End Mimin Theme -->
-<link th:href="@{/css/loading-overlay.css}"
-	href="../static/css/loading-overlay.css" rel="stylesheet" />
-<script th:src="@{/js/plugins/loading-overlay.js}"
-	src="../static/js/plugins/loading-overlay.js"></script>
-<script th:src="@{/js/plugins/ngDialog.js}"
-	src="../static/js/plugins/ngDialog.js"></script>
-
-<!-- Analytic -->
-<script th:src="@{/js/plugins/analytic/d3.js}"
-	src="../static/js/plugins/analytic/d3.js"></script>
-<script th:src="@{/js/plugins/analytic/nv.d3.js}"
-	src="../static/js/plugins/analytic/nv.d3.js"></script>
-<script
-	th:src="@{/js/plugins/analytic/angularjs-nvd3-directives.min.js}"
-	src="../static/js/plugins/analytic/angularjs-nvd3-directives.min.js"></script>
-<link th:href="@{/js/plugins/analytic/nv.d3.css}" rel="stylesheet"
-	href="../static/js/plugins/analytic/nv.d3.css" />
-
-<!-- GECSCF Component -->
-<script th:src="@{/js/app/common/scf-component.js}"
-	src="../static/js/app/common/scf-component.js"></script>
-<script th:src="@{/js/app/components/scfjs.js}"
-	src="../static/js/app/components/scfjs.js"></script>
-
-<script th:src="@{/js/app/common/scf-common-service.js}"
-	src="../static/js/app/common/scf-common-service.js"></script>
-<!-- 	<script th:src="@{/js/app/common/ui-bootstrap-tpls-1.1.0.js}" src="../static/js/app/common/ui-bootstrap-tpls-1.1.0.js"></script>	 -->
-
-<script th:src="@{/js/app/dashboard/dashboard-controller.js}"
-	src="../static/js/app/dashboard/dashboard-controller.js"></script>
-
-<script th:src="@{/js/app/shared/directives/ui.module.js}"
-	src="../static/js/app/shared/directives/ui.module.js"></script>
-<script th:src="@{/js/app/modules/document-list/document.module.js}"
-	src="../static/js/app/modules/document-list/document.module.js"></script>
-<script th:src="@{/js/app/modules/organize/organize.module.js}"
-	src="../static/js/app/modules/organize/organize.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/organize.configuration.module.js}"
-	src="../static/js/app/modules/organize/configuration/organize.configuration.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/file-layout/organize.configuration.fileLayout.module.js}"
-	src="../static/js/app/modules/organize/configuration/file-layout/organize.configuration.fileLayout.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/product-type/product-type.module.js}"
-	src="../static/js/app/modules/organize/configuration/product-type/product-type.module.js"></script>
-<script th:src="@{/js/app/modules/profile/profile.module.js}"
-	src="../static/js/app/modules/profile/profile.module.js"></script>
-<script th:src="@{/js/app/modules/user/user.module.js}"
-	src="../static/js/app/modules/user/user.module.js"></script>
-<script th:src="@{/js/app/modules/account/account.module.js}"
-	src="../static/js/app/modules/account/account.module.js"></script>
-<script
-	th:src="@{/js/app/modules/supplier-credit-information/supplier-credit-information.module.js}"
-	src="../static/js/app/modules/supplier-credit-information/supplier-credit-information.module.js"></script>
-<script
-	th:src="@{/js/app/modules/buyer-credit-information/buyer-credit-information.module.js}"
-	src="../static/js/app/modules/buyer-credit-information/buyer-credit-information.module.js"></script>
-<script
-	th:src="@{/js/app/modules/remittance-advice/bank/remittance-advice-bank.module.js}"
-	src="../static/js/app/modules/remittance-advice/bank/remittance-advice-bank.module.js"></script>
-<script
-	th:src="@{/js/app/modules/remittance-advice/customer/remittance-advice-customer.module.js}"
-	src="../static/js/app/modules/remittance-advice/customer/remittance-advice-customer.module.js"></script>
-<script
-	th:src="@{/js/app/modules/trading-partner/trading-partner.module.js}"
-	src="../static/js/app/modules/trading-partner/trading-partner.module.js"></script>
-<script
-	th:src="@{/js/app/modules/trading-partner/financing/trade-finance.module.js}"
-	src="../static/js/app/modules/trading-partner/financing/trade-finance.module.js"></script>
-<script th:src="@{/js/app/modules/transaction/transaction.module.js}"
-	src="../static/js/app/modules/transaction/transaction.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/export-payment/organize.configuration.exportPayment.module.js}"
-	src="../static/js/app/modules/organize/configuration/export-payment/organize.configuration.exportPayment.module.js"></script>
-<script
-	th:src="@{/js/app/sponsor-configuration/workflow/workflow.module.js}"
-	src="../static/js/app/sponsor-configuration/workflow/workflow.module.js"></script>
-<script
-	th:src="@{/js/app/modules/download-payment-result/download-payment-result.module.js}"
-	src="../static/js/app/modules/download-payment-result/download-payment-result.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/display/organize.configuration.display.module.js}"
-	src="../static/js/app/modules/organize/configuration/display/organize.configuration.display.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/product-type/product-type.module.js}"
-	src="../static/js/app/modules/organize/configuration/product-type/product-type.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/mapping-data/mapping-data.module.js}"
-	src="../static/js/app/modules/organize/configuration/mapping-data/mapping-data.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/customer-code/customer-code.module.js}"
-	src="../static/js/app/modules/organize/configuration/customer-code/customer-code.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/channel/organize.configuration.channel.module.js}"
-	src="../static/js/app/modules/organize/configuration/channel/organize.configuration.channel.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/channel/import/organize.configuration.channel.import.module.js}"
-	src="../static/js/app/modules/organize/configuration/channel/import/organize.configuration.channel.import.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/channel/export/organize.configuration.channel.export.module.js}"
-	src="../static/js/app/modules/organize/configuration/channel/export/organize.configuration.channel.export.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/general-information/general-info.module.js}"
-	src="../static/js/app/modules/organize/configuration/general-information/general-info.module.js"></script>
-<script
-	th:src="@{/js/app/modules/organize/configuration/payment-date-formulas/payment-date-formula.module.js}"
-	src="../static/js/app/modules/organize/configuration/payment-date-formulas/payment-date-formula.module.js"></script>
-<script th:src="@{/js/app/modules/monitor/monitoring.module.js}"
-	src="../static/js/app/modules/monitor/monitoring.module.js"></script>
-<script
-	th:src="@{/js/app/modules/document-upload-log/document-upload-log.module.js}"
-	src="../static/js/app/modules/document-upload-log/document-upload-log.module.js"></script>
-<script th:src="@{/js/app/modules/funding-profile/funding.module.js}"
-	src="../static/js/app/modules/funding-profile/funding.module.js"></script>
-<script
-	th:src="@{/js/app/modules/funding-profile/configuration/funding-profile.configuration.module.js}"
-	src="../static/js/app/modules/funding-profile/configuration/funding-profile.configuration.module.js"></script>
-
-<script th:src="@{/js/app/shared/directives/auto-suggest.js}"
-	src="../static/js/app/shared/directives/auto-suggest.js"></script>
-<script th:src="@{/js/app/shared/directives/input-text.js}"
-	src="../static/js/app/shared/directives/input-text.js"></script>
-<script th:src="@{/js/app/shared/directives/input-numeric.js}"
-	src="../static/js/app/shared/directives/input-numeric.js"></script>
-<script th:src="@{/js/app/shared/directives/file-upload.js}"
-	src="../static/js/app/shared/directives/file-upload.js"></script>
-<script th:src="@{/js/app/shared/directives/checkbox-button.js}"
-	src="../static/js/app/shared/directives/checkbox-button.js"></script>
-<script th:src="@{/js/app/shared/directives/organization-logo.js}"
-	src="../static/js/app/shared/directives/organization-logo.js"></script>
-<script th:src="@{/js/test/libs/checklist-model.js}"
-	src="../static/js/test/libs/checklist-model.js"></script>
-
+<!-- 	<link th:href="@{/assets/css/theme.css}" -->
+<!-- 	href="../static/assets/css/theme.css}" rel="stylesheet" /> -->
+    <!-- Mimin Theme -->
+    <!-- plugins -->
+    <script th:src="@{/js/plugins/jquery.nicescroll.js}" src="../static/js/plugins/jquery.nicescroll.js"></script>
+	
 </head>

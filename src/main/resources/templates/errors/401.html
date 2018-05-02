@@ -8,34 +8,35 @@
 <title ng-bind="ctrl.title"></title>
 <body ng-app="scfError">
 
-<!-- 	<div id="wrapper"> <header th:replace="errors/header :: header"></header> -->
-		
-		<header class="app-header">
-			<a class="app-header__logo" href=""><img
-					th:src="@{assets/img/logo.png}" class="logo-img" alt="user name" ui-sref="/dashboard" id="gec-home-link" 
-					ui-sref-opts="{reload: true, inherit: false}"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" /></a>
-		</header>
+		<header th:replace="errors/header :: header"></header>
 
-		<div id="content" th:fragment="content">
-			<div id="wrapper">
-				<div class="panel box-shadow-none content-header">
-					<div class="panel-body">
-						<div class="col-md-12">
-							<h3 id="error-message-label" class="animated fadeInLeft"
-								ng-bind="'You have exceeded the maximum session idle time or session has expired.'"></h3>
-							<p class="text-right">
-								<a class="btn btn-primary btn-lg" type="submit" id="ok-button"
-									th:href="@{/login}">OK</a>
-							</p>
+		<div class="app-content-error" id="content" th:fragment="content">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="tile">
+						<div class="tile-body">
+							<div class="col-md-12 text-right">
+								<div class="panel box-shadow-none content-header">
+									<div class="panel-body">
+										<div class="col-md-12">
+											<h3 id="error-message-label" class="animated fadeInLeft"
+												ng-bind="'You have exceeded the maximum session idle time or session has expired.'"></h3>
+											<p class="text-right">
+												<a class="btn btn-default btn-lg" type="submit" id="ok-button"
+													th:href="@{/login}">OK</a>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
+	</div>
 	<script th:src="@{/js/app/modules/errors/errors.module.js}"
 		src="../static/js/js/app/modules/errors/errors.module.js"></script>
-	<footer th:replace="fragments/footer :: footer"></footer>
+<!-- 	<footer th:replace="fragments/footer :: footer"></footer> -->
 </body>
 </div>
 </html>

@@ -1,42 +1,44 @@
 <div th:fragment="content"
 	sec:authorize="hasAnyAuthority('VIEW_PAYMENTS_OF_MY_ORGANIZATION')">
-	<div class="panel new-document-panel panel-shadow"
+	<div class="card mb-3 new-document-panel panel-shadow"
 		ng-controller="JourneyNewDocumentPaymentController as ctrl"
 		ng-init="ctrl.load()">
-		<a class="mouse-pointer" id="new-document-button"
-			ng-click="ctrl.documentList()">
-			<div class="panel-heading txn-journey">
-				<span class="pull-left" ng-bind="ctrl.headerLabel"></span> <span
-					class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-				<div class="clearfix"></div>
-			</div>
+		<a class="card-header mouse-pointer" id="new-document-button"
+			ng-click="ctrl.documentList()"> <span class="pull-left"
+			ng-bind="it.headerLabel"></span> <span class="pull-right"><i
+				class="fa fa-arrow-circle-right fa-2"></i></span>
+			<div class="clearfix"></div>
 		</a>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-lg-2 col-xs-2">
-					<i class="fa fa-file-text-o" style="font-size: 2.5em"></i>
+		<div class="card-body row">
+			<div class="col-lg-2 col-md-2 col-xs-2 text-center">
+				<i class="fa fa-file-text-o" style="font-size: 2.5em"></i>
+			</div>
+			<div
+				class="col-lg-9 col-md-10 col-xs-10 text-right transaction-journey-lg">
+				<div class="col-xs-12 text-right ">
+					<span id="payment-new-document-total-label" class="huge"
+						ng-bind="ctrl.totalDocument"></span> <span
+						ng-bind="'doc' | translate"></span>
 				</div>
-				<div class="col-lg-9 col-xs-10 text-right transaction-journey-lg">
-					<div class="row">
-						<div class="col-xs-12 text-right ">
-							<span id="payment-new-document-total-label" class="huge"
-								ng-bind="ctrl.totalDocument"></span> <span
-								ng-bind="'doc' | translate"></span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-right">
-							<span ng-bind="'Payable' | translate"></span> <span
-								id="payment-new-document-payable-amount-label"
-								ng-bind="ctrl.payableAmount"></span> <span
-								ng-bind="'THB' | translate"></span>
-						</div>
-						<div class="col-xs-12 text-right">
-							<span>&nbsp;</span>
-						</div>
-					</div>
+				<div class="col-xs-12 text-right">
+					<span ng-bind="'Payable' | translate"></span> <span
+						id="payment-new-document-payable-amount-label"
+						ng-bind="ctrl.payableAmount"></span> <span
+						ng-bind="'THB' | translate"></span>
+				</div>
+				<div class="col-xs-12 text-right">
+					<span>&nbsp;</span>
 				</div>
 			</div>
 		</div>
+		<ng-form> <input type="hidden"
+			ng-init="newDocCtrl.isMaker=true"
+			sec:authorize="hasAuthority('CREATE_PAYMENTS_OF_MY_ORGANIZATION')" /></ng-form>
+		<ng-form> <input type="hidden"
+			ng-init="newDocCtrl.isSuppliler=true"
+			sec:authorize="hasAnyAuthority('APPROVE_PAYMENTS_OF_MY_ORGANIZATION', 'VERIFY_PAYMENTS_OF_MY_ORGANIZATION')" /></ng-form>
+		<ng-form> <input type="hidden"
+			ng-init="newDocCtrl.canViewDocs=true"
+			sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
 	</div>
 </div>
