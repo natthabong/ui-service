@@ -1,22 +1,29 @@
 <div id="content" th:fragment="content" sec:authorize="hasAnyAuthority('VIEW_ALL_BUYER_CREDIT_INFORMATION', 'VIEW_BUYER_CREDIT_INFORMATION_OF_MY_ORGANIZATION', 'VIEW_BUYER_CREDIT_INFORMATION_REFER_TO_MY_ORGANIZATION')">
 	<div id="wrapper">
 		<input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAnyAuthority('VIEW_ALL_BUYER_CREDIT_INFORMATION', 'VIEW_BUYER_CREDIT_INFORMATION_OF_MY_ORGANIZATION', 'VIEW_BUYER_CREDIT_INFORMATION_REFER_TO_MY_ORGANIZATION')" />
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft" ng-bind="'Buyer credit information' | translate">Buyer credit information
-					</h3>
-				</div>
+		<div class="app-title">
+			<div>
+				<h1>
+					<i class="fa fa-file-text-o"></i> <span id="header-message-label" class="animated fadeInLeft">{{'Buyer credit information' | translate}}</span>
+				</h1>
+				<p>Page for manage buyer credit information.</p>
 			</div>
 		</div>
-		<div class="form-element">
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
+		<div class="row">
+			<div class="col-md-12">
+				<div class="tile">
+					<div class="tile-body">
+						<div class="col-md-12 text-right">
+							<button type="button" class="btn btn-primary"
+								data-toggle="collapse" data-target="#advance-search">
+								<i class="fa fa-fw fa-lg fa-search"></i> Search
+							</button>
+						</div>
+					</div>
+					<div id="advance-search">
 						<form name="buyerCreditInformationForm" autocomplete="off" class="form-horizontal">
 							<br />
-							<div class="form-group" ng-show="ctrl.showBuyer">
+							<div class="form-group row" ng-show="ctrl.showBuyer">
 								<label for="sponsor-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label" id="buyer-label">{{'Buyer'| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<gec-auto-suggest model="ctrl.buyerAutoSuggestModel" ng-model="ctrl.buyer" id="buyer-auto-suggest" name="buyerCode" maxlength="100"></gec-auto-suggest>
@@ -25,7 +32,7 @@
 									<scf-button type="submit" id="search-button" class="btn-default" ng-bind="'Search' | translate" ng-click="ctrl.search()"></scf-button>
 								</div>
 							</div>
-							<div class="form-group" ng-show="ctrl.showSupplier">
+							<div class="form-group row" ng-show="ctrl.showSupplier">
 								<label for="sponsor-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label" id="supplier-label">{{'Supplier'| translate}}: </label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<gec-auto-suggest model="ctrl.supplierAutoSuggestModel" ng-model="ctrl.supplier" id="supplier-auto-suggest" name="supplierCode"
@@ -36,67 +43,71 @@
 									    ng-click="ctrl.search()"></scf-button>
 								</div>
 							</div>
-							<div class="text-right">
-								<div class="col-md-12 col-sm-12">
-									<span>
-										<b ng-bind="ctrl.pagingController.splitePageTxt" id="buyer-credit-information-paging-label"></b> &nbsp;&nbsp;
-										<scf-pagination dropdown-id="buyer-credit-information-page-limit-dropdown" name="buyer-credit-information" page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-										    total-page="ctrl.pagingController.pagingModel.totalPage" current-page="ctrl.pagingController.pagingModel.currentPage"
-										    page-size-list="ctrl.pagingController.pageSizeList" page-action="ctrl.search"></scf-pagination>
-									</span>
-								</div>
-							</div>
-							<div class="responsive-table">
-								<table id="buyer-credit-information-table" class="table table-striped table-bordered" cellspacing="0">
-									<thead>
-										<tr>
-											<th id="$rowNo-header-label" ng-bind="'No.' | translate">No.</th>
-											<th id="account-no-header-label" ng-bind="'Account No.' | translate">Account No.</th>
-											<th id="credit-limit-header-label" ng-bind="'Credit limit' | translate">Credit limit</th>
-											<th id="buyer-header-label" ng-bind="'Buyer' | translate" ng-show="ctrl.showBuyer">Buyer</th>
-											<th id="supplier-header-label" ng-bind="'Supplier' | translate" ng-show="ctrl.showSupplier">Supplier</th>
-											<th id="available-header-label" ng-bind="'Available' | translate">Available</th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
-											<td class="text-right">
-												<span id="$rowNo-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.rowNo"></span>
-											</td>
-											<td class="text-center">
-												<span ng-show="record.showAccountFlag" id="account-no-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="ctrl.getAccountNoToDisplay(record)"></span>
-											</td>
-											<td class="text-right">
-												<span ng-show="record.showAccountFlag" id="credit-limit-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.creditLimit | number : 2"></span>
-											</td>
-											<td class="text-center" ng-show="!ctrl.buyerMode">
-											<organization-logo ng-model="record.tradeFinances" obj-attr="buyer" logo-attr="memberLogo" name-attr="memberName" id-attr="memberId"></organization-logo>
-<!-- 												<span id="buyer-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.buyerName | translate"></span> -->
-											</td>
-											<td class="text-center" ng-show="!ctrl.supplierMode">
-											<organization-logo ng-model="record.tradeFinances" obj-attr="supplier" logo-attr="memberLogo" name-attr="memberName" id-attr="memberId"></organization-logo>
-<!-- 												<img id="supplier-" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}" -->
-<!-- 												/> -->
-											</td>
-											<td class="text-right">
-												<span ng-show="record.showAccountFlag" id="available-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="(record.remainingAmount - record.pendingAmount)  | number : 2"></span>
-											</td>
-											<td class="text-center">
-												<scf-button class="btn-default gec-btn-action" id="view-{{record.accountId}}-{{record.buyerName}}-button" ng-click="ctrl.view(record)" ng-disabled="ctrl.unauthenView()" ng-show="record.showAccountFlag" title="View">
-													<i class="fa fa-search" aria-hidden="true"></i>
-												</scf-button>
-												<button type="button" class="btn-default gec-btn-action btn" ng-show="record.showAccountFlag" id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
-												    ng-click="ctrl.enquiryAvailableBalance(record)" title="Enquiry">
-													<i class="fa fa-repeat" aria-hidden="true"></i>
-												</button>
-												
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
 						</form>
+					</div>
+					<div class="row">
+						<div class="col-md-12 responsive-table">
+							<table id="buyer-credit-information-table" class="table table-striped table-hover table-bordered" cellspacing="0">
+								<thead>
+									<tr>
+										<th id="$rowNo-header-label" ng-bind="'No.' | translate">No.</th>
+										<th id="account-no-header-label" ng-bind="'Account No.' | translate">Account No.</th>
+										<th id="credit-limit-header-label" ng-bind="'Credit limit' | translate">Credit limit</th>
+										<th id="buyer-header-label" ng-bind="'Buyer' | translate" ng-show="ctrl.showBuyer">Buyer</th>
+										<th id="supplier-header-label" ng-bind="'Supplier' | translate" ng-show="ctrl.showSupplier">Supplier</th>
+										<th id="available-header-label" ng-bind="'Available' | translate">Available</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="record in ctrl.pagingController.tableRowCollection track by $index">
+										<td class="text-right">
+											<span id="$rowNo-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.rowNo"></span>
+										</td>
+										<td class="text-center">
+											<span ng-show="record.showAccountFlag" id="account-no-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="ctrl.getAccountNoToDisplay(record)"></span>
+										</td>
+										<td class="text-right">
+											<span ng-show="record.showAccountFlag" id="credit-limit-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.creditLimit | number : 2"></span>
+										</td>
+										<td class="text-center" ng-show="!ctrl.buyerMode">
+										<organization-logo ng-model="record.tradeFinances" obj-attr="buyer" logo-attr="memberLogo" name-attr="memberName" id-attr="memberId"></organization-logo>
+	<!-- 												<span id="buyer-name-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="record.buyerName | translate"></span> -->
+										</td>
+										<td class="text-center" ng-show="!ctrl.supplierMode">
+										<organization-logo ng-model="record.tradeFinances" obj-attr="supplier" logo-attr="memberLogo" name-attr="memberName" id-attr="memberId"></organization-logo>
+	<!-- 												<img id="supplier-" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}" -->
+	<!-- 												/> -->
+										</td>
+										<td class="text-right">
+											<span ng-show="record.showAccountFlag" id="available-{{record.accountId}}-{{record.buyerName}}-label" ng-bind="(record.remainingAmount - record.pendingAmount)  | number : 2"></span>
+										</td>
+										<td class="text-center">
+											<scf-button class="btn btn-sm" id="view-{{record.accountId}}-{{record.buyerName}}-button" ng-click="ctrl.view(record)" ng-disabled="ctrl.unauthenView()" ng-show="record.showAccountFlag" title="View">
+												<i class="fa fa-search" aria-hidden="true"></i>
+											</scf-button>
+											<button type="button" class="btn btn-sm" ng-show="record.showAccountFlag" id="credit-information-{{record.accountId}}-{{record.buyerName}}-button"
+											    ng-click="ctrl.enquiryAvailableBalance(record)" title="Enquiry">
+												<i class="fa fa-repeat" aria-hidden="true"></i>
+											</button>
+											
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-md-12 col-sm-12 text-right">
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<span>
+									<b ng-bind="ctrl.pagingController.splitePageTxt" id="buyer-credit-information-paging-label"></b> &nbsp;&nbsp;
+									<scf-pagination dropdown-id="buyer-credit-information-page-limit-dropdown" name="buyer-credit-information" page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+									    total-page="ctrl.pagingController.pagingModel.totalPage" current-page="ctrl.pagingController.pagingModel.currentPage"
+									    page-size-list="ctrl.pagingController.pageSizeList" page-action="ctrl.search"></scf-pagination>
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
