@@ -14,7 +14,7 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12 padding-10">
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="group-name" id="password-label"
 							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Password' | translate"></span>:</label>
@@ -23,14 +23,14 @@
 								ng-model="ctrl.model.credential"	maxlength="100"></scf-input-password>
 						</div>
 					</div>
-					<div class="form-group" ng-if="errors.credential">
+					<div class="form-group row" ng-if="errors.credential">
 						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
 						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
 							id="password-warning-message-label"
 							ng-bind="errors.credential | translate"></span>
 					</div>
 					<br/><br/>
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="group-name" id="result-label"
 							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Result' | translate"></span>:</label>
@@ -41,18 +41,18 @@
 							<label><span ng-bind="'Drawdown success ' | translate"></span></label>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group row">
 						<label for="group-name" id="reason-label"
 							class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"><span
 							ng-bind="'Reason' | translate"></span>:</label>
 					</div>
-					<div class="form-group">
+					<div class="form-group row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<scf-input-text id="reason-textbox"
 								ng-model="ctrl.model.reason" maxlength="100"></scf-input-text>
 						</div>
 					</div>
-					<div class="form-group" ng-show="errors.reason">
+					<div class="form-group row" ng-show="errors.reason">
 						<label class="col-lg-3 col-md-3 col-sm-4 col-xs-12 control-label"></label>
 						<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6 error-msg"
 							id="reason-warning-message-label"
