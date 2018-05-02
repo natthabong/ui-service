@@ -1,27 +1,35 @@
 <div th:fragment="content">
-    <div id="wrapper">
-        <div class="row">
-            <div class="col-md-3">
-                <label id="total-select-doc-label">{{ 'Selected' |
-								translate}}&#32;{{ctrl.transactionModel.documents.length}}&#32;{{
-								'Records' | translate}}</label>:
-            </div>
-            <div class="col-md-9 text-right">
-                <div class="row">
-                    <div class="col-md-12">
-                        <b id="verify-payment-paging-label" ng-bind="ctrl.pagingController.splitePageTxt"></b> &nbsp;&nbsp;
-                        <scf-pagination dropdown-id="page-limit-dropdown" name="verify-payment" page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel" total-page="ctrl.pagingController.pagingModel.totalPage" current-page="ctrl.pagingController.pagingModel.currentPage"
-                            page-size-list="ctrl.pagingController.pageSizeList" page-action="ctrl.searchDocument"></scf-pagination>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <scf-layout-table id="document-table" component-config="ctrl.dataTable" component-datas="ctrl.pagingController.tableRowCollection" current-page="ctrl.pagingController.pagingModel.currentPage" record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel">
-                </scf-layout-table>
-            </div>
-            <div id="fixed-bottom" class="col-md-12"></div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-md-12">
+			<scf-layout-table id="document-table"
+				component-config="ctrl.dataTable"
+				component-datas="ctrl.pagingController.tableRowCollection"
+				current-page="ctrl.pagingController.pagingModel.currentPage"
+				record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel">
+			</scf-layout-table>
+		</div>
+		<div id="fixed-bottom" class="col-md-12"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<label id="total-select-doc-label">{{ 'Selected' |
+				translate}}&#32;{{ctrl.transactionModel.documents.length}}&#32;{{
+				'Records' | translate}}</label>:
+		</div>
+		<div class="col-md-9 text-right">
+			<div class="row">
+				<div class="col-md-12">
+					<b id="verify-payment-paging-label"
+						ng-bind="ctrl.pagingController.splitePageTxt"></b> &nbsp;&nbsp;
+					<scf-pagination dropdown-id="page-limit-dropdown"
+						name="verify-payment"
+						page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+						total-page="ctrl.pagingController.pagingModel.totalPage"
+						current-page="ctrl.pagingController.pagingModel.currentPage"
+						page-size-list="ctrl.pagingController.pageSizeList"
+						page-action="ctrl.searchDocument"></scf-pagination>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
