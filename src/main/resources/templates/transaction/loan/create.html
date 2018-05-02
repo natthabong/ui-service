@@ -1,254 +1,279 @@
 <div id="content" th:fragment="content"
 	sec:authorize="hasAuthority('CREATE_LOANS_OF_MY_ORGANIZATION')">
-	<input type="hidden" ng-init="ctrl.hasPrivilegeEnqAcctBalance=true" sec:authorize="hasAuthority('VIEW_ACCOUNTS_OF_MY_ORGANIZATION')" />
-	<input type="hidden" ng-init="ctrl.hasPrivilegeEnqCreditLimit=true" sec:authorize="hasAuthority('VIEW_SUPPLIER_CREDIT_INFORMATION_OF_MY_ORGANIZATION')" />
-	<div id="wrapper">
-		<div class="panel box-shadow-none content-header">
-			<div class="panel-body">
-				<div class="col-md-12">
-					<h3 id="header-message-label" class="animated fadeInLeft"
-						ng-bind="'Create transaction' | translate">Create Transaction</h3>
-				</div>
-			</div>
+	<input type="hidden" ng-init="ctrl.hasPrivilegeEnqAcctBalance=true"
+		sec:authorize="hasAuthority('VIEW_ACCOUNTS_OF_MY_ORGANIZATION')" /> <input
+		type="hidden" ng-init="ctrl.hasPrivilegeEnqCreditLimit=true"
+		sec:authorize="hasAuthority('VIEW_SUPPLIER_CREDIT_INFORMATION_OF_MY_ORGANIZATION')" />
+	<div class="app-title">
+		<div>
+			<h1>
+				<h1 id="header-message-label"
+				ng-bind=" 'Create transaction' | translate"></h1>
+			</h1>
 		</div>
+	</div>
 
-		<div class="form-element">
+	<div class="row" ng-if="ctrl.canViewOrgProfilesReferToMyOrg">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="col-md-12 text-right">
+						<button type="button" class="btn btn-primary"
+							data-toggle="collapse" data-target="#advance-search">
+							<i class="fa fa-fw fa-lg fa-search"></i> Search
+						</button>
+					</div>
+					<div id="advance-search">
+						<div class="col-md-12">
+							<form name="createForm" class="form-horizontal">
+								<div class="form-group"
+									ng-show="ctrl.canViewOrgProfilesReferToMyOrg">
+									<label for="buyer" id="sponsor-code-label"
+										class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer'
+										| translate}}: </label>
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-dropdown id="sponsor-dropdown"
+											ng-change="ctrl.sponsorChange()"
+											ng-model="ctrl.createTransactionModel.sponsorCode"
+											component-data="ctrl.sponsorCodes"></scf-dropdown>
+									</div>
+									<div class="col-md-5 col-sm-5"></div>
+								</div>
+								<div class="form-group"
+									ng-show="ctrl.canViewCusCodeReferToMyOrg">
+									<label for="dealer" id="supplier-code-label"
+										class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Supplier
+										code' | translate}} : </label>
 
-			<div class="panel panel-default col-md-12 padding-0">
-				<div class="panel-body">
-					<!-- Start Column Panel-->
-					<div class="col-md-12">
-						<form name="createForm" class="form-horizontal">
-							<div class="form-group" ng-show="ctrl.canViewOrgProfilesReferToMyOrg">
-								<label for="buyer" id="sponsor-code-label"
-									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer'
-									| translate}}: </label>
-								<div class="col-md-3 col-sm-3 col-xs-12">
-									<scf-dropdown id="sponsor-dropdown"
-										ng-change="ctrl.sponsorChange()"
-										ng-model="ctrl.createTransactionModel.sponsorCode"
-										component-data="ctrl.sponsorCodes"></scf-dropdown>
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-dropdown id="supplier-code-dropdown"
+											ng-change="ctrl.supplierCodeChange()"
+											ng-model="ctrl.createTransactionModel.supplierCode"
+											component-data="ctrl.supplierCodes"></scf-dropdown>
+									</div>
+									<div class="col-md-5 col-sm-5"></div>
 								</div>
-								<div class="col-md-5 col-sm-5"></div>
-							</div>
-							<div class="form-group" ng-show="ctrl.canViewCusCodeReferToMyOrg">
-								<label for="dealer" id="supplier-code-label"
-									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Supplier
-									code' | translate}} : </label>
 
-								<div class="col-md-3 col-sm-3 col-xs-12">
-									<scf-dropdown id="supplier-code-dropdown"
-										ng-change="ctrl.supplierCodeChange()"
-										ng-model="ctrl.createTransactionModel.supplierCode"
-										component-data="ctrl.supplierCodes"></scf-dropdown>
-								</div>
-								<div class="col-md-5 col-sm-5"></div>
-							</div>
-
-							<!-- Start Payment Field-->
-							<div class="form-group" ng-show="ctrl.canViewOrgProfilesReferToMyOrg">
-								<label for="paymentDate" id="sponsor-payment-date-label"
-									class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer
-									payment date' | translate}}: </label>
-								<div class="col-md-3 col-sm-3 col-xs-12">
-									<scf-dropdown id="sponsor-payment-date-dropdown"
-										ng-change="ctrl.paymentDateChange()"
-										ng-model="ctrl.createTransactionModel.sponsorPaymentDate"
-										component-data="ctrl.sponsorPaymentDates"></scf-dropdown>
-								</div>
-								<div class="col-md-5 col-sm-5" ng-show="ctrl.canViewCusCodeReferToMyOrg">
-									<scf-button id="search-button" class="btn-default"
-										ng-click="ctrl.searchDocument()">Search</scf-button>
-								</div>
-							</div>
-							<div class="form-group" ng-show="ctrl.requireSponsorPaymentDate">
-								<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
-								<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
-									id="sponsor-payment-date-warning-message-label">{{'Buyer payment date is required.' | translate}}</span>
-							</div>
-						</form>
-						<!-- End Payment Field-->
-						<div ng-show="ctrl.showInfomation">
-							<div class="row">
-								<div class="col-md-2 col-sm-2">
-									<scf-button id="unselect-all-page-button" class="btn-default"
-										ng-show="!ctrl.selectAllModel" style="height:30px;"
-										ng-click="ctrl.selectAllDocument()">
-									<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;Select
-									all</scf-button>
-									<scf-button id="select-all-page-button" class="btn-default"
-										ng-show="ctrl.selectAllModel" style="height:30px;"
-										ng-click="ctrl.selectAllDocument()">
-									<i class="fa fa-check-square-o" aria-hidden="true"></i>
-									&nbsp;Select all</scf-button>
-
-								</div>
-								<div class="col-md-3 col-sm-3 gec-select">
-									<b><span ng-bind="'Selected' | translate">Select</span>: <span
-										id="document-selected-label"
-										ng-bind="ctrl.documentSelects.length"></span> <span
-										ng-bind="'Records' | translate"></span></b>
-								</div>
-								<div class="col-md-7 col-sm-7 text-right">
-									<div class="row">
-										<div class="col-md-12 col-sm-12">
-											<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
-												id="create-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
-													dropdown-id="page-limit-dropdown" name="create-transaction"
-													page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-													total-page="ctrl.pagingController.pagingModel.totalPage"
-													current-page="ctrl.pagingController.pagingModel.currentPage"
-													page-size-list="ctrl.pagingController.pageSizeList"
-													page-action="ctrl.loadDocument"></scf-pagination>
-											</span>
-
-										</div>
+								<!-- Start Payment Field-->
+								<div class="form-group"
+									ng-show="ctrl.canViewOrgProfilesReferToMyOrg">
+									<label for="paymentDate" id="sponsor-payment-date-label"
+										class="col-md-3 col-sm-3 col-xs-12 control-label">{{'Buyer
+										payment date' | translate}}: </label>
+									<div class="col-md-3 col-sm-3 col-xs-12">
+										<scf-dropdown id="sponsor-payment-date-dropdown"
+											ng-change="ctrl.paymentDateChange()"
+											ng-model="ctrl.createTransactionModel.sponsorPaymentDate"
+											component-data="ctrl.sponsorPaymentDates"></scf-dropdown>
+									</div>
+									<div class="col-md-5 col-sm-5"
+										ng-show="ctrl.canViewCusCodeReferToMyOrg">
+										<scf-button id="search-button" class="btn-default"
+											ng-click="ctrl.searchDocument()">Search</scf-button>
 									</div>
 								</div>
-							</div>
-							<!-- Start Table-->
-							<div class="row">
-								<div class="col-md-12">
-									<scf-layout-table id="create-transaction-table"
-										component-config="ctrl.dataTable"
-										component-datas="ctrl.pagingController.tableRowCollection"
-										current-page="ctrl.pagingController.pagingModel.currentPage"
-										record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
-										clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-layout-table>
-										
-									<div class="form-group" ng-show="ctrl.errorDisplay">
-											<span class="col-md-3 col-sm-3 col-xs-12 error-msg" id="warning-message-label" ng-bind="errors.message | translate"></span>
-										</div>
+								<div class="form-group" ng-show="ctrl.requireSponsorPaymentDate">
+									<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
+									<span class="col-md-6 col-sm-4 col-xs-12 error-msg"
+										id="sponsor-payment-date-warning-message-label">{{'Buyer
+										payment date is required.' | translate}}</span>
 								</div>
-								<div id="fixed-bottom" class="col-md-12"></div>
+							</form>
+							<!-- End Payment Field-->
+						</div>
+					</div>
+					<div ng-show="ctrl.showInfomation">
+						<div class="row">
+							<div class="col-md-2 col-sm-2">
+								<scf-button id="unselect-all-page-button" class="btn-default"
+									ng-show="!ctrl.selectAllModel" style="height:30px;"
+									ng-click="ctrl.selectAllDocument()"> <i
+									class="fa fa-square-o" aria-hidden="true"></i> &nbsp;Select all</scf-button>
+								<scf-button id="select-all-page-button" class="btn-default"
+									ng-show="ctrl.selectAllModel" style="height:30px;"
+									ng-click="ctrl.selectAllDocument()"> <i
+									class="fa fa-check-square-o" aria-hidden="true"></i>
+								&nbsp;Select all</scf-button>
+
+							</div>
+							<div class="col-md-3 col-sm-3 gec-select">
+								<b><span ng-bind="'Selected' | translate">Select</span>: <span
+									id="document-selected-label"
+									ng-bind="ctrl.documentSelects.length"></span> <span
+									ng-bind="'Records' | translate"></span></b>
 							</div>
 						</div>
+						<!-- Start Table-->
+						<div class="row">
+							<div class="col-md-12">
+								<scf-layout-table id="create-transaction-table"
+									component-config="ctrl.dataTable"
+									component-datas="ctrl.pagingController.tableRowCollection"
+									current-page="ctrl.pagingController.pagingModel.currentPage"
+									record-per-page="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+									clear-sort-order="ctrl.pagingController.pagingModel.clearSortOrder"></scf-layout-table>
 
-
-					</div>
-					<!-- End Column Panel-->
-
-				</div>
-				 <div class="panel-body" ng-show="ctrl.showInfomation">
-	                 <div class="row">
-	                     <div id="bottom-sticker">
-	                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	                             <div class="row">
-	                             	 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-	                             	 	<label id="transaction-amount-label">
-	                             	 		<b ng-bind="'Transaction amount' | translate"></b>
-	                             	 	</label>:
-	                             	 </div>	 
-	                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-	                                     <span id="transaction-amount-value-label"	ng-bind="ctrl.submitTransactionAmount | number: 2"></span>
-	                                     &nbsp;<span ng-bind="'THB' | translate"></span>
-	                                 </div>
-	                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
-	                                 </div>
-	                                 
-	                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-	                                 	<label id="pre-drawdown-percentage-label">
-	                                 		<b ng-bind="'Pre-drawdown percentage' | translate"></b>
-	                                 	</label>:
-									</div>
-									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-										<span id="pre-drawdown-percentage-value-label"
-											ng-bind="ctrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>%
-									</div>
-									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
-	                                 
-	                             </div>
-	                             <div class="row">
-		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-		                          	 	<label id="loan-account-label">
-		                          	 		<b ng-bind="'Loan account' | translate"></b>
-		                          	 	</label>:
-		                          	 </div>	 
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-		                                  <scf-dropdown-account id="loan-account-dropdown" ng-change="ctrl.accountChange()" ng-model="ctrl.createTransactionModel.payerAccountId" convert-to-number="true" component-data="ctrl.accountDropDown"></scf-dropdown-account>
-		                             </div>
-		                              
-		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-		                             	<label id="available-label">
-		                              		<b ng-bind="'Available' | translate"></b>
-		                              	</label>:
-		                             </div>
-		                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-										<span id="available-value-label" ng-bind="ctrl.tradingpartnerInfoModel.supplierAvailableAmount | number: 2"></span>&nbsp;
-										&nbsp;<span ng-bind="'THB' | translate"></span>&nbsp;
-										
-		                                  <label id="interest-rate-value-label" ng-hide="ctrl.tradingpartnerInfoModel.accountType == 'OVERDRAFT'">
-													<span>(Int.</span>
-													<span ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
-													<span>)</span>
-										  </label>
-										  <scf-button id="enquiry-account-button" ng-show="ctrl.showEnquiryButton"
-										  	class="btn-default gec-btn-action" title="Enquiry" ng-click="ctrl.enquiryAvailableBalance()">
-										  	<span class="fa fa-repeat" aria-hidden="true"></span>
-										  </scf-button>
-									  </div>
-									  
-	                             </div>
-	                             <div class="row">
-		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>	 
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
-		                              
-		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-		                             (Updated: <span id="account-updated-time-value-label" ng-bind="ctrl.tradingpartnerInfoModel.accountUpdatedTime | date: 'dd/MM/yyyy HH:mm' : 'UTC+0700'"></span>)
-									  </div>
-									  
-									  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
-									  
-								 </div>
-	                             <div class="row">
-		                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-		                             	<label id="transaction-date-label">
-	                                 	<b	ng-bind="'Transaction date' | translate"></b>:</label>
-		                             </div>	 
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-		                             	<scf-dropdown id="transaction-date-dropdown"
-								  		ng-model="ctrl.createTransactionModel.transactionDate"
-								  		component-data="ctrl.transactionDates"></scf-dropdown>
-		                             </div>
-		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
-		                              
-		                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
-		                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-									 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>	
-								 </div>
-	                             <div class="row">
-	                                 <label class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
-	                                 <div>
-	                                     <span class="col-md-3 col-sm-3 col-xs-12 error-msg" ng-show="ctrl.accountNotSupportSpecialDirectDebit" id="account-no-not-support-special-direct-debit-error-message-label" ng-bind="'Account is not support special debit' | translate"></span>
-	                                 </div>
-	                             </div>
-	                             
-	                         </div>
-
-	                         <div class="col-md-12 col-sm-12 text-right">
-								<scf-button ng-show="ctrl.showBackButton" id="back-step-button" type="submit" ng-click="ctrl.backStep()">{{'Back'| translate}}</scf-button>
-								<scf-button id="next-button" type="submit" ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>
+								<div class="form-group" ng-show="ctrl.errorDisplay">
+									<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+										id="warning-message-label"
+										ng-bind="errors.message | translate"></span>
+								</div>
 							</div>
-	                     </div>
-	                 </div>
-	             </div>
+							<div id="fixed-bottom" class="col-md-12"></div>
+						</div>
+						<div class="col-md-12 col-sm-12 text-right">
+							<div class="row">
+								<div class="col-md-12 col-sm-12">
+									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
+										id="create-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
+											dropdown-id="page-limit-dropdown" name="create-transaction"
+											page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"
+											total-page="ctrl.pagingController.pagingModel.totalPage"
+											current-page="ctrl.pagingController.pagingModel.currentPage"
+											page-size-list="ctrl.pagingController.pageSizeList"
+											page-action="ctrl.loadDocument"></scf-pagination>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body" ng-show="ctrl.showInfomation">
+						<div class="row">
+							<div id="bottom-sticker" class="col-md-12 col-sm-12">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="row">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											<label id="transaction-amount-label"> <b
+												ng-bind="'Transaction amount' | translate"></b>
+											</label>:
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											<span id="transaction-amount-value-label"
+												ng-bind="ctrl.submitTransactionAmount | number: 2"></span>
+											&nbsp;<span ng-bind="'THB' | translate"></span>
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<label id="pre-drawdown-percentage-label"> <b
+												ng-bind="'Pre-drawdown percentage' | translate"></b>
+											</label>:
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											<span id="pre-drawdown-percentage-value-label"
+												ng-bind="ctrl.tradingpartnerInfoModel.prePercentageDrawdown | number:2"></span>%
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
+
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											<label id="loan-account-label"> <b
+												ng-bind="'Loan account' | translate"></b>
+											</label>:
+										</div>
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<scf-dropdown-account id="loan-account-dropdown"
+												ng-change="ctrl.accountChange()"
+												ng-model="ctrl.createTransactionModel.payerAccountId"
+												convert-to-number="true"
+												component-data="ctrl.accountDropDown"></scf-dropdown-account>
+										</div>
+
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											<label id="available-label"> <b
+												ng-bind="'Available' | translate"></b>
+											</label>:
+										</div>
+										<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+											<span id="available-value-label"
+												ng-bind="ctrl.tradingpartnerInfoModel.supplierAvailableAmount | number: 2"></span>&nbsp;
+											&nbsp;<span ng-bind="'THB' | translate"></span>&nbsp; <label
+												id="interest-rate-value-label"
+												ng-hide="ctrl.tradingpartnerInfoModel.accountType == 'OVERDRAFT'">
+												<span>(Int.</span> <span
+												ng-bind="ctrl.tradingpartnerInfoModel.interestRate"></span>
+												<span>)</span>
+											</label>
+											<scf-button id="enquiry-account-button"
+												ng-show="ctrl.showEnquiryButton"
+												class="btn-default gec-btn-action" title="Enquiry"
+												ng-click="ctrl.enquiryAvailableBalance()"> <span
+												class="fa fa-repeat" aria-hidden="true"></span> </scf-button>
+										</div>
+
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											(Updated: <span id="account-updated-time-value-label"
+												ng-bind="ctrl.tradingpartnerInfoModel.accountUpdatedTime | date: 'dd/MM/yyyy HH:mm' : 'UTC+0700'"></span>)
+										</div>
+
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
+
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											<label id="transaction-date-label"> <b
+												ng-bind="'Transaction date' | translate"></b>:
+											</label>
+										</div>
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<scf-dropdown id="transaction-date-dropdown"
+												ng-model="ctrl.createTransactionModel.transactionDate"
+												component-data="ctrl.transactionDates"></scf-dropdown>
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12"></div>
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"></div>
+									</div>
+									<div class="row">
+										<label
+											class="col-md-3 col-sm-3 col-lg-2 col-xs-12 control-label"></label>
+										<div>
+											<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+												ng-show="ctrl.accountNotSupportSpecialDirectDebit"
+												id="account-no-not-support-special-direct-debit-error-message-label"
+												ng-bind="'Account is not support special debit' | translate"></span>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="col-md-12 col-sm-12 text-right">
+									<scf-button ng-show="ctrl.showBackButton" id="back-step-button"
+										type="submit" ng-click="ctrl.backStep()">{{'Back'|
+									translate}}</scf-button>
+									<scf-button id="next-button" type="submit"
+										ng-click="ctrl.nextStep()">{{'Next' | translate}}</scf-button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<ng-form> <input type="hidden"
+						ng-init="ctrl.canViewOrgProfilesReferToMyOrg=true"
+						sec:authorize="hasAuthority('VIEW_ORGANIZATION_PROFILES_REFER_TO_MY_ORGANIZATION')" /></ng-form>
+					<ng-form> <input type="hidden"
+						ng-init="ctrl.canViewCusCodeReferToMyOrg=true"
+						sec:authorize="hasAuthority('VIEW_SUPPLIER_CODES_REFER_TO_MY_ORGANIZATION')" /></ng-form>
+					<ng-form> <input type="hidden"
+						ng-init="ctrl.canViewDisplayLayoutReferToMyOrg=true"
+						sec:authorize="hasAuthority('VIEW_ORGANIZE_DOCUMENT_DISPLAY_LAYOUTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
+					<ng-form> <input type="hidden"
+						ng-init="ctrl.canViewDocsReferToMyOrg=true"
+						sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
+				</div>
 			</div>
 		</div>
-		<ng-form> <input type="hidden"
-			ng-init="ctrl.canViewOrgProfilesReferToMyOrg=true"
-			sec:authorize="hasAuthority('VIEW_ORGANIZATION_PROFILES_REFER_TO_MY_ORGANIZATION')" /></ng-form>
-		<ng-form> <input type="hidden"
-			ng-init="ctrl.canViewCusCodeReferToMyOrg=true"
-			sec:authorize="hasAuthority('VIEW_SUPPLIER_CODES_REFER_TO_MY_ORGANIZATION')" /></ng-form>
-		<ng-form> <input type="hidden"
-			ng-init="ctrl.canViewDisplayLayoutReferToMyOrg=true"
-			sec:authorize="hasAuthority('VIEW_ORGANIZE_DOCUMENT_DISPLAY_LAYOUTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
-		<ng-form> <input type="hidden"
-			ng-init="ctrl.canViewDocsReferToMyOrg=true"
-			sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
 	</div>
+
 	<scf-modal visible="validateDataFailPopup">
 	<div class="modal-content">
 		<div class="modal-header">
