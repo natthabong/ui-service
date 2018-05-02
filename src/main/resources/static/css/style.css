@@ -309,6 +309,9 @@ html.ngdialog-open, body.ngdialog-open {
     margin: 20px 0 19px;
 }
 
+.responsive-table {
+	overflow-x: auto;
+}
 
 
 /* .table-striped>tbody>tr:nth-child(odd)>td,  */
