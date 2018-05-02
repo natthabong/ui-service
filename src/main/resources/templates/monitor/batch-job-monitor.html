@@ -28,24 +28,24 @@
 								id="{{record.jobName}}-run-time-label"
 								ng-bind="ctrl.getRunTime(record)"></span></td>
 							<td class="text-center"><scf-button
-									class="btn-default gec-btn-action"
+									class="btn-default gec-btn-action btn-sm"
+									id="{{record.jobName}}-job-view-button"
+									ng-click="ctrl.viewInfo(record)" title="View batch job">
+								<span class="fa fa-search" aria-hidden="true"></span></scf-button> <scf-button
+									class="btn-default gec-btn-action btn-sm"
 									id="{{record.jobName}}-job-history-button"
 									ng-click="ctrl.historyJob(record)" title="Tracking log">
 								<span class="fa fa-history" aria-hidden="true"></span></scf-button> <scf-button
-									class="btn-default gec-btn-action"
-									id="{{record.jobName}}-job-view-button"
-									ng-click="ctrl.viewInfo(record)" title="View batch job">
-								<span class="glyphicon glyphicon-search" aria-hidden="true"></span></scf-button>
-								<scf-button class="btn-default gec-btn-action"
+									class="btn-default gec-btn-action btn-sm"
 									sec:authorize="hasAnyAuthority('RUN_ALL_BATCH_JOBS','RUN_ALL_CUSTOMER_ORGANIZATION_BATCH_JOBS_OF_ALL_FUNDING')"
 									id="{{record.jobName}}-job-run-button"
 									ng-click="ctrl.runJob(record)" title="Run now"> <span
-									class="glyphicon glyphicon-play" aria-hidden="true"></span></scf-button> <scf-button
-									class="btn-default gec-btn-action"
+									class="fa fa-caret-square-o-right" aria-hidden="true"></span></scf-button> <scf-button
+									class="btn-default gec-btn-action btn-sm"
 									sec:authorize="!hasAnyAuthority('RUN_ALL_BATCH_JOBS','RUN_ALL_CUSTOMER_ORGANIZATION_BATCH_JOBS_OF_ALL_FUNDING')"
 									id="{{record.jobName}}-job-run-button" ng-disabled="true"
 									ng-click="ctrl.runJob(record)" title="Run now"> <span
-									class="glyphicon glyphicon-play" aria-hidden="true"></span></scf-button></td>
+									class="fa fa-caret-square-o-right" aria-hidden="true"></span></scf-button></td>
 						</tr>
 					</tbody>
 				</table>
