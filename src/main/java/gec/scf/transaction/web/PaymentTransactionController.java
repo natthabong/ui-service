@@ -84,6 +84,14 @@ public class PaymentTransactionController {
 		return VIEW_PAYMENT_TRANSACTION;
 	}
 	
+	@RequestMapping(path = "/adjust-status", method = RequestMethod.GET)
+	public String adjustPaymentTransaction(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_PAYMENT_TRANSACTION.concat(" :: content");
+		}
+		return VIEW_PAYMENT_TRANSACTION;
+	}
+	
 	@RequestMapping(path = "/with-invoice/view", method = RequestMethod.GET)
 	public String viewPaymentTransactionWithInvoice(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {

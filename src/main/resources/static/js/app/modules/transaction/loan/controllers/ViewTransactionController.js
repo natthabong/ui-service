@@ -169,7 +169,7 @@ angular.module('gecscf.transaction').controller(
 	                                preCloseCallback: function(confirm) {
 	                                
 	                                },
-	                                modeAdjust : vm.modeAdjust,
+	                                modeAdjust : modeAdjust,
 	                                transactionModel : vm.transactionModel,
 	                                transactionId : vm.transactionModel.transactionId,
 	                                transactionNo :  vm.transactionModel.transactionNo,

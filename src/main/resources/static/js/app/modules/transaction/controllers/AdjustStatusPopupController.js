@@ -11,6 +11,7 @@ angular.module('gecscf.transaction').controller(
                       var transactionId = $scope.ngDialogData.transactionId;
                       vm.transactionNo = $scope.ngDialogData.transactionNo;
                       vm.result  = undefined;
+                      vm.transactionType  = undefined;
                       vm.reason  = $scope.ngDialogData.reason;
                       vm.isTokenExpired = $scope.ngDialogData.isTokenExpired;
                       vm.errorMessage  = $scope.ngDialogData.errorMessage;
@@ -36,6 +37,9 @@ angular.module('gecscf.transaction').controller(
                         }
                         if (isEmpty(vm.model.bankTransactionNo)) {
                         	if(vm.modeAdjust == 'drawdownSuccess'){
+                        		$scope.errors.bankTransactionNo = 'Bank transaction no is required.';
+                            	valid = false;
+                        	} else if(vm.modeAdjust == 'paymentSuccess'){
                         		$scope.errors.bankTransactionNo = 'Bank transaction no is required.';
                             	valid = false;
                         	}
@@ -130,20 +134,47 @@ angular.module('gecscf.transaction').controller(
                     }
                       
                     vm.backPage = function() {
+                    	var url = null;
+                    	if(vm.transactionType == 'LOAN'){
+                    		url = '/customer-organize/transaction-list';
+                    	} 
+                    	else {
+                    		url = '/customer-organize/payment-transaction';
+                    	} 
                         $timeout(function() {
-                            PageNavigation.gotoPage('/customer-organize/transaction-list');
+                            PageNavigation.gotoPage(url);
                         }, 10);
                     };
 
                     vm.viewRecent = function() {
-                        $timeout(function() {
-                            PageNavigation.gotoPage('/view-transaction', { transactionModel: vm.transactionModel, isShowViewHistoryButton: true, viewMode: 'CUSTOMER' });
-                        }, 10);
+                    	if(vm.transactionType == 'LOAN'){
+                    		$timeout(function() {
+                                PageNavigation.gotoPage('/view-transaction', {
+                                	transactionModel: vm.transactionModel,
+                                	isShowViewHistoryButton: true,
+                                	viewMode: 'CUSTOMER' });
+                            }, 10);
+                    	} 
+                    	else {
+                    		$timeout(function(){		
+                				PageNavigation.nextStep('/payment-transaction/view', {
+                					viewMode: 'CUSTOMER', 
+                					transactionModel: vm.transactionModel,
+                					isShowViewHistoryButton: true });
+                	    	}, 10);
+                    	} 
                     };
 
                     vm.viewHistory = function() {
+                    	var url = null;
+                    	if(vm.transactionType == 'LOAN'){
+                    		url = '/customer-organize/transaction-list';
+                    	} 
+                    	else {
+                    		url = '/customer-organize/payment-transaction';
+                    	} 
                         $timeout(function() {
-                            PageNavigation.gotoPage('/customer-organize/transaction-list');
+                            PageNavigation.gotoPage(url);
                         }, 10);
                     };
                     
@@ -151,11 +182,23 @@ angular.module('gecscf.transaction').controller(
                     	if(vm.modeAdjust == 'failToDrawdown'){
                     		vm.result = 'Fail to drawdown';
                     		vm.model.status = 'FAIL_TO_DRAWDOWN';
-                    	} else {
+                    		vm.transactionType = 'LOAN';
+                    	} 
+                    	else if (vm.modeAdjust == 'drawdownSuccess'){
                     		vm.result = 'Drawdown success';
-                    	  vm.model.status = 'DRAWDOWN_SUCCESS';
-                    	}
-
+                    		vm.model.status = 'DRAWDOWN_SUCCESS';
+                    		vm.transactionType = 'LOAN';
+                    	} 
+                    	else if (vm.modeAdjust == 'failToPay'){
+                    		vm.result = 'Fail to pay';
+                      	  	vm.model.status = 'FAIL_TO_PAYMENT';
+                      	  	vm.transactionType = 'PAYMENT';
+                      	} 
+                    	else if (vm.modeAdjust == 'paymentSuccess'){
+                    		vm.result = 'Payment success';
+                      	  	vm.model.status = 'PAYMENT_SUCCESS';
+                      	    vm.transactionType = 'PAYMENT';
+                      	}
   					}
                     init();
 

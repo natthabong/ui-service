@@ -470,7 +470,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						viewMode: null,
 						transactionModel: null,
 						isShowViewHistoryButton: false,
-						isShowBackButton: false
+						isShowBackButton: false,
+						isAdjustStatus: false
 					},
 					resolve: WebHelper.loadScript(['js/app/modules/transaction/payment/services/ViewPaymentService.js', 'js/app/modules/transaction/payment/controllers/ViewPaymentController.js'])
 				}).state('/payment-transaction/verify', {

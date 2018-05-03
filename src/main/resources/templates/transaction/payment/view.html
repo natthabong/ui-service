@@ -1,9 +1,16 @@
 <div id="content" th:fragment="content">
 	<div class="app-title">
-		<div>
+		<div ng-if="!ctrl.isAdjustStatus">
 			<h1>
 				<i class="fa fa-file-text-o"></i> <span id="header-message-label"
 					class="animated fadeInLeft">{{ 'View payment transaction' | translate}}</span>
+			</h1>
+			<p></p>
+		</div>
+		<div ng-if="ctrl.isAdjustStatus">
+			<h1>
+				<i class="fa fa-file-text-o"></i> <span id="header-message-label"
+					class="animated fadeInLeft">{{ 'Adjust payment transaction' | translate}}</span>
 			</h1>
 			<p></p>
 		</div>
@@ -240,6 +247,14 @@
 							ng-click="ctrl.viewHistory()" type="submit"
 							ng-show="ctrl.isShowViewHistoryButton">{{'View
 						History' | translate}}</scf-button>
+						<scf-button id="fail-to-pay-button" class="btn btn-default"
+							type="submit" ng-click="ctrl.failToPay()"
+							ng-if="ctrl.isAdjustStatus">{{ 'Fail to
+						pay' | translate}}</scf-button>
+						<scf-button id="payment-success-button" class="btn btn-default"
+							type="submit" ng-click="ctrl.paymentSuccess()"
+							ng-if="ctrl.isAdjustStatus">{{ 'Payment
+						success' | translate}}</scf-button>
 					</div>
 				</div>
 			</div>

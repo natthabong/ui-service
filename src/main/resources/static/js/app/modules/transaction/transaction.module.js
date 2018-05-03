@@ -92,7 +92,7 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 				url: '/payment-transaction/adjust-status',
 				controller: 'ViewPaymentController',
 				controllerAs: 'ctrl',
-				templateUrl: '/payment-transaction/view',
+				templateUrl: '/payment-transaction/adjust-status',
 				params: {
 					viewMode: null,
 					transactionModel: null,
@@ -100,7 +100,7 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 					isShowBackButton: false,
 					isAdjustStatus: true
 				},
-				resolve: WebHelper.loadScript(['js/app/modules/transaction/payment/services/ViewPaymentService.js', 'js/app/modules/transaction/payment/controllers/ViewPaymentController.js'])
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/payment/services/ViewPaymentService.js', 'js/app/modules/transaction/payment/controllers/ViewPaymentController.js','js/app/modules/transaction/services/TransactionService.js','js/app/modules/transaction/controllers/AdjustStatusPopupController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			
 		} ]).filter('accountNoDisplay', function() {

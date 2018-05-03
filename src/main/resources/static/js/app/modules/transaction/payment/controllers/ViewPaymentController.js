@@ -7,15 +7,15 @@ paymentModule.controller('ViewPaymentController', [
     'PagingController',
     '$timeout',
     'SCFCommonService',
-    'ViewPaymentService', '$log', '$filter',
+    'ViewPaymentService', '$log', '$filter','TransactionService',
     function ($scope, $stateParams, UIFactory, PageNavigation,
-        PagingController, $timeout, SCFCommonService, ViewPaymentService, $log, $filter) {
+        PagingController, $timeout, SCFCommonService, ViewPaymentService, $log, $filter, TransactionService) {
 
         var vm = this;
         var log = $log;
         var viewMode = $stateParams.viewMode;
         var url = '';
-
+        vm.isAdjustStatus = $stateParams.isAdjustStatus;
         vm.isBuyer = false;
         vm.isSupplier = false;
         vm.isBank = false;
@@ -180,6 +180,60 @@ paymentModule.controller('ViewPaymentController', [
             }, 10);
         }
 
+        var confirmPopup = function(modeAdjust, confirmToken) {
+            UIFactory.showDialog({
+                   templateUrl: '/js/app/modules/transaction/templates/dialog-confirm-adjust-status.html',
+                   controller: 'AdjustStatusPopupController',
+                   data: {
+                      preCloseCallback: function(confirm) {
+                      	init();
+                      },
+                      modeAdjust : modeAdjust,
+                      transactionModel : vm.transactionModel,
+                      transactionId : vm.transactionModel.transactionId,
+                      transactionNo : vm.transactionModel.transactionNo,
+                      reason : null,
+                      confirmToken : confirmToken
+                   }
+            });
+        }
+        
+        var adjust = function(modeAdjust){
+			var deffered = TransactionService.getConfirmToken(vm.transactionModel);
+				deffered.promise.then(function (response) {
+					if(response.status==200){
+						confirmToken = response.data.confirmToken;
+						confirmPopup(modeAdjust, confirmToken);
+					}
+				})
+				.catch(function (response) {
+					UIFactory.showDialog({
+                    templateUrl: '/js/app/modules/transaction/templates/fail-dialog.html',
+                    controller: 'AdjustStatusPopupController',
+                    data: {
+                        preCloseCallback: function(confirm) {
+                        
+                        },
+                        modeAdjust : vm.modeAdjust,
+                        transactionModel : vm.transactionModel,
+                        transactionId : vm.transactionModel.transactionId,
+                        transactionNo :  vm.transactionModel.transactionNo,
+                        reason : response.reason,
+                        errorMessage : 'Transaction has been modified',
+                        isTokenExpired : false
+                    }
+				});
+			});
+		}
+        
+        vm.failToPay = function() {
+			 adjust('failToPay');
+        }
+		
+		vm.paymentSuccess = function() {
+			 adjust('paymentSuccess');
+		}
+        
         var init = function () {
             if (viewMode == viewModeData.myOrganize) {
                 vm.isBuyer = true;
