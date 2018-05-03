@@ -156,7 +156,7 @@ paymentModule.controller('ViewPaymentController', [
                 id: 'reasonCode-{value}-label',
                 fieldName: 'reasonCode',
                 dataRenderer: function (record) {
-                    return '<span id="reason-code-{{$parent.$index+1}}-value"><b>Reason code</b>&nbsp;&nbsp;' + record.reasonCode + ' : ' + record.reasonCodeDisplay + '</span>';
+                    return '<span id="reason-code-{{$parent.$index+1}}-value"><b>Reason code</b>&nbsp;&nbsp;' +  ( record.reasonCode == null ? '' : ( record.reasonCode + ' : ' + record.reasonCodeDisplay )) + '</span>';
                 },
                 component: true
             }

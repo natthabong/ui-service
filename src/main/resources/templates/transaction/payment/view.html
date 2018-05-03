@@ -179,6 +179,23 @@
 							</div>
 							<div class="col-md-1 col-sm-1"></div>
 						</div>
+						<div class="row" ng-show="ctrl.transactionModel.adjustRemark != null">
+							<div class="col-md-3 col-sm-3">
+								<label id="adjust-by-label">{{'Adjust by' | translate}}:</label>
+							</div>
+							<div class="col-md-2 col-sm-2 text-right">
+								<span id="adjust-by-value-label" ng-bind="ctrl.transactionModel.lastmodifyBy"></span>
+							</div>
+							<div class="col-md-1 col-sm-1"></div>
+							<div class="col-md-3 col-sm-3">
+								<label id="adjust-date-label">{{'Adjust date' |
+									translate}}:</label>
+							</div>
+							<div class="col-md-2 col-sm-2">
+								<span id="adjust-date-value-label" ng-bind="ctrl.transactionModel.lastmodifyDate | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+							</div>
+							<div class="col-md-1 col-sm-1"></div>
+						</div>
 	
 						<div class="row" style="padding-bottom: 15px;"></div>
 	
@@ -200,6 +217,15 @@
 							</div>
 	
 						</div>
+						<div class="row"  ng-show="ctrl.transactionModel.adjustRemark != null">
+							<label id="reason-label" class="col-md-2 col-sm-2">{{'Adjust Remark'
+								| translate}}: </label>
+							<div class="col-md-10 col-sm-10 text-left">
+								<span id="adjust-remark-value-label" 
+									ng-bind="ctrl.transactionModel.adjustRemark"></span>
+							</div>
+						</div>
+						
 						<div>
 							<ng-include ng-show="ctrl.isCreateTransWithInvoice" src="'/payment-transaction/with-invoice/view'" ng-if="true"></ng-include>
 							<ng-include ng-show="!ctrl.isCreateTransWithInvoice" src="'/payment-transaction/without-invoice/view'" ng-if="true"></ng-include>
