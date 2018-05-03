@@ -288,6 +288,23 @@
 														</div>
 														<div class="col-md-1 col-sm-1"></div>
 													</div>
+													<div class="row" ng-show="viewTxnCtrl.transactionModel.adjustRemark != null">
+														<div class="col-md-3 col-sm-3">
+															<label id="adjust-by-label">{{'Adjust by' | translate}}:</label>
+														</div>
+														<div class="col-md-2 col-sm-2 text-right">
+															<span id="adjust-by-value-label" ng-bind="viewTxnCtrl.transactionModel.lastmodifyBy"></span>
+														</div>
+														<div class="col-md-1 col-sm-1"></div>
+														<div class="col-md-3 col-sm-3">
+															<label id="adjust-date-label">{{'Adjust date' |
+																translate}}:</label>
+														</div>
+														<div class="col-md-2 col-sm-2">
+															<span id="adjust-date-value-label" ng-bind="viewTxnCtrl.transactionModel.lastmodifyDate | date: 'dd/MM/yyyy HH:mm': 'UTC+0700'"></span>
+														</div>
+														<div class="col-md-1 col-sm-1"></div>
+													</div>
 													<div class="row">
 														<label class="col-md-2 col-sm-2" style="padding-top: 15px"></label>
 														<label class="col-md-3 col-sm-3"></label> <label
@@ -321,6 +338,14 @@
 														</div>
 														<div class="col-md-11 col-sm-11 text-left">
 															<label id="reject-reason-value-label" style="color: red">{{viewTxnCtrl.transactionModel.rejectReason}}</label>
+														</div>
+													</div>
+													<div class="row"  ng-show="viewTxnCtrl.transactionModel.adjustRemark != null">
+														<label id="reason-label" class="col-md-2 col-sm-2">{{'Adjust Remark'
+															| translate}}: </label>
+														<div class="col-md-10 col-sm-10 text-left">
+															<span id="adjust-remark-value-label" 
+																ng-bind="viewTxnCtrl.transactionModel.adjustRemark"></span>
 														</div>
 													</div>
 												</div>
