@@ -25,7 +25,7 @@
 						<div class="form-group row" ng-show="ctrl.showBuyer">
 							<label for="sponsor-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label" id="buyer-label">{{'Buyer'| translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<gec-auto-suggest model="ctrl.buyerAutoSuggestModel" ng-model="ctrl.buyer" id="buyer-auto-suggest" name="buyerCode" maxlength="100"></gec-auto-suggest>
+								<gec-auto-suggest model="ctrl.buyerAutoSuggestModel" ng-model="ctrl.buyer" id="buyer-auto-suggest-tag" name="buyerCode" maxlength="100"></gec-auto-suggest>
 							</div>
 							<div class="col-md-3 col-sm-2" ng-if="ctrl.showButtonSearchBuyer">
 								<scf-button type="submit" id="search-button" class="btn-default" ng-bind="'Search' | translate" ng-click="ctrl.search()"></scf-button>
@@ -34,7 +34,7 @@
 						<div class="form-group row" ng-show="ctrl.showSupplier">
 							<label for="sponsor-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label" id="supplier-label">{{'Supplier'| translate}}: </label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<gec-auto-suggest model="ctrl.supplierAutoSuggestModel" ng-model="ctrl.supplier" id="supplier-auto-suggest" name="supplierCode"
+								<gec-auto-suggest model="ctrl.supplierAutoSuggestModel" ng-model="ctrl.supplier" id="supplier-auto-suggest-tag" name="supplierCode"
 								    maxlength="100"></gec-auto-suggest>
 							</div>
 							<div class="col-md-3 col-sm-2">

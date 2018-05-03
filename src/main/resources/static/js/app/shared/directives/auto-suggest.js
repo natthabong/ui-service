@@ -32,6 +32,7 @@ app.directive('gecAutoSuggest', [function () {
 			}
 		},
 		templateUrl: function (elem, attr) {
+			attr.id = attr.id.replace("-tag", "");
 			return attr.itemTemplateUrl ||
 				'ui/template/autoSuggest.html';
 		}
