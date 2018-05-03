@@ -166,7 +166,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	            summaryStatusGroup.forEach(function(summary) {
 	                if(vm.summaryStatusGroup[summary.statusGroup]){
 	                    vm.summaryStatusGroup[summary.statusGroup].totalRecord = summary.totalRecord;
-	                    vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;	
+	                    vm.summaryStatusGroup[summary.statusGroup].totalAmount = summary.totalAmount;
 	                }					
 	            });
 	        }).catch(function(response) {
@@ -194,7 +194,6 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					var summaryInternalStep = response.data;
 					summaryInternalStep.forEach(function(summary) {
 						if(vm.summaryInternalStep[summary.statusMessageKey]){
-							
 							vm.summaryInternalStep[summary.statusMessageKey].totalRecord = summary.totalRecord;
 							vm.summaryInternalStep[summary.statusMessageKey].totalAmount = summary.totalAmount;
 						}
@@ -278,7 +277,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		    	if($stateParams.backAction){
 		    		$stateParams.backAction = false;
 		    	}
-	
+
 	            if(viewMode != enumViewMode.CUSTOMER){
 	                _loadSummaryOfTransaction(_criteria);
 	            }else{
