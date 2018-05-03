@@ -13,6 +13,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
     vm.canView = false;
     vm.resend = false;
     vm.rejectInsufficientFunds = false;
+    vm.canAdjustStatus = false;
     
     var defered = scfFactory.getUserInfo();
     defered.promise.then(function(response) {
@@ -777,8 +778,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	            '<li role="separator" class="divider"></li>'+
 	            '<li><a id="credit-advice-form-button" ng-click="ctrl.generateCreditAdviceForm(data)">{{"Credit advice form" | translate}}</a></li></ul></span></scf-button>'+
 	            '<scf-button class="btn-sm btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-print-button-disable" ng-hide ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="true" title="Print"><i class="fa fa-print" aria-hidden="true"></i></scf-button>'+
-				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-sm btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'
+				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-sm btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'+
 	            //+ '<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-sm btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendPayment(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>'
+				'<scf-button class="btn btn-sm" id="transaction-{{data.transactionNo}}-adjust-status-button" ng-if="ctrl.showAdjustStatus(data)" ng-click="ctrl.adjustStatus(data)" title="Adjust status"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+				
 			}]
 	    };
 	
@@ -824,6 +827,30 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 				return true;
 			}
 	    }
+	    
+	    vm.showAdjustStatus = function (data) {
+			var condition1 = vm.canAdjustStatus != undefined && vm.canAdjustStatus == true;
+			var condition2 = data.statusCode == vm.statusDocuments.incomplete
+			if (condition1 && condition2) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	    
+	    vm.adjustStatus = function (transactionModel) {
+			$timeout(function(){		
+				PageNavigation.nextStep('/payment-transaction/adjust-status', 
+	                {
+						viewMode: viewMode,
+						transactionModel: transactionModel,
+						isShowViewHistoryButton: false,
+						isShowBackButton: true,
+						isAdjustStatus: true
+	                },
+	                {criteria : _criteria,buyer : _sponsor,supplier : _supplier});
+	    	}, 10);
+		}
 	    
 	    vm.viewTransaction = function(transactionModel){
 			$timeout(function(){		
