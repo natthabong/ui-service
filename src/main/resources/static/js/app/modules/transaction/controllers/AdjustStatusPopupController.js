@@ -1,8 +1,8 @@
 'use strict';
 angular.module('gecscf.transaction').controller(
                 'AdjustStatusPopupController',
-                [   '$scope','UIFactory','PageNavigation','ViewTransactionService','$stateParams','$timeout','$state','$window',
-            function($scope , UIFactory , PageNavigation , ViewTransactionService , $stateParams , $timeout , $state , $window) {
+                [   '$scope','UIFactory','PageNavigation','TransactionService','$stateParams','$timeout','$state','$window',
+            function($scope , UIFactory , PageNavigation , TransactionService , $stateParams , $timeout , $state , $window) {
                       var vm = this;
                       $scope.errors = undefined;
                       vm.transactionModel = $stateParams.transactionModel;
@@ -17,7 +17,9 @@ angular.module('gecscf.transaction').controller(
                       var confirmToken = $scope.ngDialogData.confirmToken;
                       vm.model = {
                           credential: null,
-                          reason: null
+                          bankTransactionNo: null,
+                          reason: null,
+                          adjustRemark: null
                       }
 
                       vm.hasError = false;
@@ -32,10 +34,20 @@ angular.module('gecscf.transaction').controller(
                           $scope.errors.credential = 'Password is required.';
                           valid = false;
                         }
+                        if (isEmpty(vm.model.bankTransactionNo)) {
+                        	if(vm.modeAdjust == 'drawdownSuccess'){
+                        		$scope.errors.bankTransactionNo = 'Bank transaction no is required.';
+                            	valid = false;
+                        	}
+                        }
                         if (isEmpty(vm.model.reason)) {
                           $scope.errors.reason = 'Reason is required.';
                           valid = false;
                         }
+                        if (isEmpty(vm.model.adjustRemark)) {
+                            $scope.errors.adjustRemark = 'Adjust remark is required.';
+                            valid = false;
+                          }
                         return valid;
                       }
                       
@@ -47,11 +59,11 @@ angular.module('gecscf.transaction').controller(
                             console.log($scope.ngDialogData)
                             $scope.ngDialogData.preCloseCallback(confirm);
                           }
-                          var deffered = ViewTransactionService.adjustStatus(vm.transactionModel,vm.model,confirmToken);
+                          var deffered = TransactionService.adjustStatus(vm.transactionModel,vm.model,confirmToken);
     						deffered.promise.then(function (response) {
     							callback();
     							UIFactory.showDialog({
-    		                            templateUrl: '/js/app/modules/transaction/loan/templates/success-dialog.html',
+    		                            templateUrl: '/js/app/modules/transaction/templates/success-dialog.html',
     		                            controller: 'AdjustStatusPopupController',
     		                            data: {
     		                                preCloseCallback: function(confirm) {
@@ -75,7 +87,7 @@ angular.module('gecscf.transaction').controller(
     							   if(response.data.reference == 'token'){
     							     callback();
     							     UIFactory.showDialog({
-	                                     templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
+	                                     templateUrl: '/js/app/modules/transaction/templates/fail-dialog.html',
 	                                     controller: 'AdjustStatusPopupController',
 	                                     data: {
 	                                         preCloseCallback: function(confirm) {
@@ -98,7 +110,7 @@ angular.module('gecscf.transaction').controller(
     							} else {
     								callback();
         							UIFactory.showDialog({
-    		                            templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
+    		                            templateUrl: '/js/app/modules/transaction/templates/fail-dialog.html',
     		                            controller: 'AdjustStatusPopupController',
     		                            data: {
     		                                preCloseCallback: function(confirm) {
@@ -143,15 +155,6 @@ angular.module('gecscf.transaction').controller(
                     		vm.result = 'Drawdown success';
                     	  vm.model.status = 'DRAWDOWN_SUCCESS';
                     	}
-                    	
-//                    	var deffered = ViewTransactionService.getConfirmToken(transactionId);
-//  						deffered.promise.then(function (response) {
-//  							confirmToken = response.data.confirmToken;
-//  							console.log(confirmToken);
-//  						})
-//  						.catch(function (response) {
-//  							console.log('View Transaction load error');
-//  						});
 
   					}
                     init();

@@ -1,0 +1,106 @@
+<div class="modal-content">
+	<form name="newOrganizeForm" class="form-horizontal"
+		ng-submit="ctrl.adjustStatus(closeThisDialog)">
+		<div class="modal-header">
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					<h3>
+						<span id="adjust-status-popup-header-message-label" class="popup-text"
+							ng-bind="'Confirm adjusted status?' | translate">Confirm adjusted status?</span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12 padding-10">
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+						<label for="group-name" id="password-label"
+							class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"><span
+							ng-bind="'Password' | translate"></span>:</label>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<scf-input-password id="password-textbox" name="password"
+								ng-model="ctrl.model.credential"	maxlength="100"></scf-input-password>
+						</div>
+					</div>
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12" ng-if="errors.credential">
+						<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 error-msg"
+							id="password-warning-message-label"
+							ng-bind="errors.credential | translate"></span>
+					</div>
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+						<label for="group-name" id="result-label"
+							class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label"><span
+							ng-bind="'Result' | translate"></span>:</label>
+						<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" ng-if="ctrl.modeAdjust=='failToDrawdown'">
+							<label><span ng-bind="'Fail to drawdown' | translate"></span></label>
+						</div>
+						<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" ng-if="ctrl.modeAdjust=='drawdownSuccess'">
+							<label><span ng-bind="'Drawdown success ' | translate"></span></label>
+						</div>
+						<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" ng-if="ctrl.modeAdjust=='failToPayment'">
+							<label><span ng-bind="'Fail to payment' | translate"></span></label>
+						</div>
+						<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" ng-if="ctrl.modeAdjust=='paymentSuccess'">
+							<label><span ng-bind="'Payment success ' | translate"></span></label>
+						</div>
+					</div>
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+						<label for="group-name" id="bank-transaction-no-label"
+							class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"><span
+							ng-bind="'Bank transaction no.' | translate"></span>:</label>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<scf-input-text id="bank-transaction-no-textbox"
+								ng-model="ctrl.model.bankTransactionNo" maxlength="20"></scf-input-text>
+						</div>
+					</div>
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12" ng-if="errors.bankTransactionNo">
+						<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 error-msg"
+							id="bank-transaction-no-warning-message-label"
+							ng-bind="errors.bankTransactionNo | translate"></span>
+					</div>
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+						<label for="group-name" id="reason-label"
+							class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"><span
+							ng-bind="'Reason' | translate"></span>:</label>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<textarea id="reason-textbox" maxlength="128" ng-trim="true"
+								style="overflow-y: scroll; overflow-x: scroll; height: 100px; resize: none; width: 100%"
+								ng-model="ctrl.model.reason"></textarea>
+						</div>
+					</div>
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12" ng-show="errors.reason">
+						<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 error-msg"
+							id="reason-warning-message-label"
+							ng-bind="errors.reason | translate"></span>
+					</div>
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12">
+						<label for="group-name" id="adjust-remark-label"
+							class="col-lg-12 col-md-12 col-sm-12 col-xs-12 control-label"><span
+							ng-bind="'Adjust remark' | translate"></span>:</label>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<textarea id="adjust-remark-textbox" maxlength="128" ng-trim="true"
+								style="overflow-y: scroll; overflow-x: scroll; height: 100px; resize: none; width: 100%"
+								ng-model="ctrl.model.adjustRemark"></textarea>
+						</div>
+					</div>
+					<div class="form-group row col-md-12 col-sm-12 col-xs-12" ng-show="errors.adjustRemark">
+						<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 error-msg"
+							id="reason-warning-message-label"
+							ng-bind="errors.adjustRemark | translate"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row">
+				<div class="col-xs-12 text-right">
+					<scf-button id="popup-no-button" class="popup-button"
+						ng-click="closeThisDialog()" ng-bind="'No' | translate"></scf-button>
+					<scf-button id="popup-yes-button" class="popup-button"
+						type="submit" ng-bind="'Yes' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

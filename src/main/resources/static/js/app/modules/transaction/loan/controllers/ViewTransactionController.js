@@ -1,7 +1,7 @@
 angular.module('gecscf.transaction').controller(
 		'ViewTransactionController',
-		[ 'ViewTransactionService','$stateParams','SCFCommonService','$scope','$timeout','$state','$log','PageNavigation','$filter','UIFactory',
-  function(ViewTransactionService , $stateParams , SCFCommonService , $scope , $timeout , $state , $log , PageNavigation , $filter , UIFactory) {
+		[ 'ViewTransactionService','TransactionService','$stateParams','SCFCommonService','$scope','$timeout','$state','$log','PageNavigation','$filter','UIFactory',
+  function(ViewTransactionService , TransactionService , $stateParams , SCFCommonService , $scope , $timeout , $state , $log , PageNavigation , $filter , UIFactory) {
 					var vm = this;
 					var log = $log;
 					$scope.showConfirmPopup = false; 
@@ -154,7 +154,7 @@ angular.module('gecscf.transaction').controller(
 					
 					
 					var adjust = function(modeAdjust){
-						var deffered = ViewTransactionService.getConfirmToken(vm.transactionModel);
+						var deffered = TransactionService.getConfirmToken(vm.transactionModel);
   						deffered.promise.then(function (response) {
   							if(response.status==200){
   	  							confirmToken = response.data.confirmToken;
@@ -163,7 +163,7 @@ angular.module('gecscf.transaction').controller(
   						})
   						.catch(function (response) {
   							UIFactory.showDialog({
-	                            templateUrl: '/js/app/modules/transaction/loan/templates/fail-dialog.html',
+	                            templateUrl: '/js/app/modules/transaction/templates/fail-dialog.html',
 	                            controller: 'AdjustStatusPopupController',
 	                            data: {
 	                                preCloseCallback: function(confirm) {
@@ -183,7 +183,7 @@ angular.module('gecscf.transaction').controller(
 					
 					var confirmPopup = function(modeAdjust, confirmToken) {
 	                      UIFactory.showDialog({
-	                             templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
+	                             templateUrl: '/js/app/modules/transaction/templates/dialog-confirm-adjust-status.html',
 	                             controller: 'AdjustStatusPopupController',
 	                             data: {
 	                                preCloseCallback: function(confirm) {
@@ -199,41 +199,12 @@ angular.module('gecscf.transaction').controller(
 	                      });
 	                }
 					
-					
 					vm.failToDrawdown = function() {
 						  adjust('failToDrawdown');
-//	                      UIFactory.showDialog({
-//	                             templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
-//	                             controller: 'AdjustStatusPopupController',
-//	                             data: {
-//	                                preCloseCallback: function(confirm) {
-//	                                	init();
-//	                                },
-//	                                modeAdjust : 'failToDrawdown',
-//	                                transactionModel : vm.transactionModel,
-//	                                transactionId : vm.transactionModel.transactionId,
-//	                                transactionNo : vm.transactionModel.transactionNo,
-//	                                reason : null
-//	                             }
-//	                      });
 	                }
 					
 					vm.drawdownSuccess = function() {
 						 adjust('drawdownSuccess');
-//	                     UIFactory.showDialog({
-//	                            templateUrl: '/js/app/modules/transaction/loan/templates/dialog-confirm-adjust-status.html',
-//	                            controller: 'AdjustStatusPopupController',
-//	                            data: {
-//	                                preCloseCallback: function(confirm) {
-//	                                	init();
-//	                                },
-//	                                modeAdjust : 'drawdownSuccess',
-//	                                transactionModel : vm.transactionModel,
-//	                                transactionId : vm.transactionModel.transactionId,
-//	                                transactionNo : vm.transactionModel.transactionNo,
-//	                                reason : null
-//	                            }
-//                        });
 					}
 					init();
 				} ]);

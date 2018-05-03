@@ -615,6 +615,39 @@ function transactionService($http, $q, blockUI, $window) {
         }
         return result;
     }
+    
+	function getConfirmToken(transaction){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/v1/transactions/'+transaction.transactionId+'/adjustments',
+			headers : {
+				'If-Match' : transaction.version
+			},
+			method: 'POST'
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});
+		return deffered;
+	}
+	
+	function adjustStatus(transaction,model,confirmToken){
+		var deffered = $q.defer();
+		$http({
+			url: 'api/v1/transactions/'+transaction.transactionId+'/adjustments/'+confirmToken,
+			headers : {
+				'If-Match' : transaction.version
+			},
+			method: 'POST',
+			data: model
+		}).then(function(response){
+			deffered.resolve(response);
+		}).catch(function(response){
+			deffered.reject(response);
+		});
+		return deffered;
+	}
 
     this.searchMatchingField = searchMatchingField;
     this.getSponsorPaymentDate = getSponsorPaymentDate;
@@ -646,5 +679,7 @@ function transactionService($http, $q, blockUI, $window) {
     this.summaryAllDocumentAmount = summaryAllDocumentAmount;
     this.isAfterToday = isAfterToday;
     this.validateCredential = validateCredential;
+    this.getConfirmToken = getConfirmToken;
+    this.adjustStatus = adjustStatus;
 
 }

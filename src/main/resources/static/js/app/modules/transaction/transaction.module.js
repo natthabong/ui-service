@@ -87,7 +87,7 @@ angular.module('gecscf.transaction', [ 'ui.router', 'gecscf.ui', 'gecscf.organiz
 					isDisplayReason: 'none',
 					isAdjustStatus: true
 				},
-				resolve: WebHelper.loadScript(['js/app/modules/transaction/loan/services/ViewTransactionService.js', 'js/app/modules/transaction/loan/controllers/ViewTransactionController.js', 'js/app/modules/transaction/loan/controllers/AdjustStatusPopupController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				resolve: WebHelper.loadScript(['js/app/modules/transaction/loan/services/ViewTransactionService.js','js/app/modules/transaction/services/TransactionService.js', 'js/app/modules/transaction/loan/controllers/ViewTransactionController.js', 'js/app/modules/transaction/controllers/AdjustStatusPopupController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 			})
 			
 		} ]).filter('accountNoDisplay', function() {
