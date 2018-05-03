@@ -318,3 +318,7 @@ html.ngdialog-open, body.ngdialog-open {
 .paginate_button select {
 	margin-top: -5px;
 }
+
+.rounded-circle, .app-sidebar__user-avatar {
+    border-radius: 20% !important;
+}

@@ -534,8 +534,8 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 	]);
 
 app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFactory', '$scope',
-	'Service', '$window', '$rootScope', '$http',
-	function ($translate, $translatePartialLoader, scfFactory, $scope, Service, $window, $rootScope, $http) {
+	'Service', '$window', '$rootScope', '$http','UIFactory',
+	function ($translate, $translatePartialLoader, scfFactory, $scope, Service, $window, $rootScope, $http, UIFactory) {
 		var vm = this;
 		vm.title = '';
 		vm.banner = 'Loading...';
@@ -577,8 +577,12 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 				vm.organizeHeader = $rootScope.userInfo;
 				vm.getListUserOrgranize();
 				if (vm.organizeHeader.memberLogo != null) {
-					vm.organizeHeader.memberLogo = vm.decodeBase64(vm.organizeHeader.memberLogo);
-				}
+          
+          vm.organizeHeader.memberLogo = vm.decodeBase64(vm.organizeHeader.memberLogo);
+        }
+        else{
+          vm.organizeHeader.memberLogo = UIFactory.constants.NOLOGO;
+        }
 			});
 		};
 
