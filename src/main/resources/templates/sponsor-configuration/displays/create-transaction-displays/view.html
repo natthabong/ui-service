@@ -42,16 +42,15 @@
 
 									<div class="form-group row"
 										ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-										<label class="col-md-3 col-sm-3 col-xs-12 control-label"></label>
-										<div class="col-md-3 col-sm-4 col-xs-12"
-											style="padding-left: 0px;">
-											&nbsp;&nbsp; <label><scf-checkbox
+										<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
+										<div class="col-md-5 col-sm-5 col-xs-12">
+											<label><scf-checkbox
 													ng-model="ctrl.dataModel.supportPartial"
 													id="support-partial-payment-checkbox" ng-disabled="true"></scf-checkbox>
 												{{'Support partial payment' | translate}} </label>
 
 										</div>
-										<div class="col-md-5 col-sm-4"></div>
+										<div class="col-md-3 col-sm-2"></div>
 									</div>
 
 									<div class="form-group row">
@@ -77,19 +76,18 @@
 										<div class="col-md-3 col-sm-3"></div>
 									</div>
 
-									<div class="form-group row">
-										<div ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-											<label for="dealer" id="display-cn-documents-label"
-												class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Display
-												CN documents' | translate}}:</label>
-											<div class="col-md-5 col-sm-5 col-xs-12">
-												<label><scf-checkbox
-														ng-model="ctrl.dataModel.displayNegativeDocument"
-														id="display-checkbox" ng-disabled="true"></scf-checkbox>
-													{{'Display' | translate}} </label>
-											</div>
-											<div class="col-md-3 col-sm-2"></div>
+									<div class="form-group row"
+										ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+										<label for="dealer" id="display-cn-documents-label"
+											class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Display
+											CN documents' | translate}}:</label>
+										<div class="col-md-5 col-sm-5 col-xs-12">
+											<label><scf-checkbox
+													ng-model="ctrl.dataModel.displayNegativeDocument"
+													id="display-checkbox" ng-disabled="true"></scf-checkbox>
+												{{'Display' | translate}} </label>
 										</div>
+										<div class="col-md-3 col-sm-2"></div>
 									</div>
 
 									<div class="form-group row">
