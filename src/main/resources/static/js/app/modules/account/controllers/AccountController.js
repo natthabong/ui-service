@@ -196,7 +196,9 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 							onFail: function (response) {
 								if (response.status != 400) {
 									var msg = {
-											409: 'Organization account is existed.'
+											404: 'Organization account is mismatched.' ,
+											409: 'Organization account is existed.' ,
+											500: 'Internal server error.'
 									};
 									UIFactory.showFailDialog({
 										data: {
