@@ -101,7 +101,7 @@ function ListTransactionServices($http, $q, blockUI){
             var fileURL = URL.createObjectURL(file);
             var a         = document.createElement('a');
             a.href        = fileURL; 
-            a.target      = '_blank';
+            a.target      = '_self';
             a.download    = 'Transaction.csv';
             document.body.appendChild(a);
             blockUI.stop();
