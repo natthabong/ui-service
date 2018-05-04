@@ -471,7 +471,7 @@ function transactionService($http, $q, blockUI, $window) {
             var fileURL = URL.createObjectURL(file);
             var a = document.createElement('a');
             a.href = fileURL;
-            a.target = '_blank';
+            a.target = '_self';
             if (transactionModel.transactionType == 'PAYMENT') {
                 if (transactionModel.transactionMethod == 'DEBIT') {
                     a.download = "EvidenceOfReceiptBFPDirectDebit_" + transactionModel.transactionNo + '.pdf';
@@ -481,7 +481,7 @@ function transactionService($http, $q, blockUI, $window) {
             } else {
                 a.download = transactionModel.transactionNo + '.pdf';
             }
-
+            console.log(a);
             document.body.appendChild(a);
             a.click();
         }).error(function (response) {
@@ -521,7 +521,7 @@ function transactionService($http, $q, blockUI, $window) {
             var fileURL = URL.createObjectURL(file);
             var a = document.createElement('a');
             a.href = fileURL;
-            a.target = '_blank';
+            a.target = '_self';
             if (transactionModel.transactionType == 'PAYMENT') {
                 if (transactionModel.transactionMethod == 'DEBIT') {
                     a.download = "EvidenceOfReceiptBFPDirectDebit_" + transactionModel.transactionNo + '.pdf';
