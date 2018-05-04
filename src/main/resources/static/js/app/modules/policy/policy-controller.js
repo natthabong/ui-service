@@ -73,6 +73,9 @@ angular.module('scfApp').controller(
 						else if(data.numericValue2 == null || data.numericValue2 < 1 || data.numericValue2 > 100){
 							isValid = false;
 						} 
+						else if (data.numericValue1 >= data.numericValue2){
+							isValid = false;
+						}
 					} 
 					if (data.policyTopic == 'PASS_EXPIRED') {
 						if(data.numericValue1 == null || data.numericValue1 < 1 || data.numericValue1 > 999){
