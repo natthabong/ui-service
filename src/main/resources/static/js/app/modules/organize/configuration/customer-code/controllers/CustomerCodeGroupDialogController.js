@@ -151,8 +151,10 @@ scfApp.controller("CustomerCodeDiaglogController", ['$scope', '$rootScope', 'UIF
 			}
 		}
 		
-		if($scope.newEditCustCode.customer.$error.required){
+		var supplierValue = document.getElementById("customer-code-customer-auto-suggest").value;
+		if(supplierValue == null || supplierValue == ''){
 			validatePass = false;
+			$scope.newEditCustCode.customer.$error.required = true;
 		}
 		
 		if($scope.newEditCustCode.supplier.$error.required){
