@@ -652,6 +652,10 @@
 	"Buyer code group selection": "Buyer code group selection",
 	"GECSCF field name": "GECSCF field name",
 	"Support partial payment": "Support partial payment",
+	"Payment service": "Payment service",
+	"Support auto loan for fail payment": "Support auto loan for fail payment",
+	"ANY_PAYMENT": "Any payment",
+	"ONLY_FUTURE_PAYMENT": "Only future payment",
 
 	"Specific value": "Value",
 	"Loan value": "'Loan' value",

@@ -22,6 +22,7 @@ displayModule.controller('DisplayController', [
     'ConfigurationUtils',
     'scfFactory',
     'OVERDUE_DROPDOWN_ITEM',
+    'AUTO_LOAN_WITH_SELECTION_ITEM',
     'PAYMENT_DATE_DROPDOWN_ITEM',
     'GRACE_PERIOD_DROPDOWN_ITEM',
     function($log, $scope, $state, SCFCommonService,
@@ -29,7 +30,7 @@ displayModule.controller('DisplayController', [
         PageNavigation, Service, $q, $rootScope, $injector, DocumentDisplayConfigurationExampleService,
         LOAN_REQUEST_MODE_ITEM, DOCUMENT_SELECTION_ITEM, SUPPLIER_CODE_GROUP_SELECTION_ITEM,
         UIFactory, blockUI, DisplayService, ConfigurationUtils, scfFactory,
-        OVERDUE_DROPDOWN_ITEM, PAYMENT_DATE_DROPDOWN_ITEM, GRACE_PERIOD_DROPDOWN_ITEM) {
+        OVERDUE_DROPDOWN_ITEM, AUTO_LOAN_WITH_SELECTION_ITEM, PAYMENT_DATE_DROPDOWN_ITEM, GRACE_PERIOD_DROPDOWN_ITEM) {
 
         var vm = this;
         var log = $log;
@@ -60,6 +61,7 @@ displayModule.controller('DisplayController', [
         vm.documentSelection = DOCUMENT_SELECTION_ITEM;
         vm.supplierCodeSelectionMode = SUPPLIER_CODE_GROUP_SELECTION_ITEM;
         vm.overdueDropDown = OVERDUE_DROPDOWN_ITEM;
+        vm.autoLoanWithDropdown = AUTO_LOAN_WITH_SELECTION_ITEM;
         vm.paymentDropDown = PAYMENT_DATE_DROPDOWN_ITEM;
         vm.gracePeriodDropDown = GRACE_PERIOD_DROPDOWN_ITEM;
 
@@ -376,7 +378,15 @@ displayModule.controller('DisplayController', [
             }
         }
 
-        vm.changeOverdueType = function() {
+        vm.changePaymentType = function() {
+            if (vm.dataModel.supportSpecialDebit) {
+            	vm.dataModel.autoLoanWith = "ANY_PAYMENT"
+            } else {
+            	vm.dataModel.autoLoanWith = null;
+            }
+        }
+        
+        vm.changeAutoLoanWith = function() {
             if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
                 vm.overDuePeriod = null;
                 vm.showMessagePeriodError = false;
@@ -728,7 +738,15 @@ displayModule.controller('DisplayController', [
     groupBy: 'GROUP_BY',
     allDocument: 'ALL_DOCUMENT',
     atLeastOneDocument: 'AT_LEAST_ONE_DOCUMENT'
-}).constant('SUPPLIER_CODE_GROUP_SELECTION_ITEM', {
+}).constant('AUTO_LOAN_WITH_SELECTION_ITEM', [
+	{
+	    label: 'ANY_PAYMENT',
+	    value: 'ANY_PAYMENT'
+	}, {
+	    label: 'ONLY_FUTURE_PAYMENT',
+	    value: 'ONLY_FUTURE_PAYMENT'
+	}
+]).constant('SUPPLIER_CODE_GROUP_SELECTION_ITEM', {
     singlePerTransaction: 'SINGLE_PER_TRANSACTION',
     multiplePerTransaction: 'MULTIPLE_PER_TRANSACTION'
 }).controller('TEXTDisplayConfigController', ['$scope', 'ALIGNMENT_DROPDOWN_ITEM', '$rootScope', 'SCFCommonService',

@@ -322,3 +322,8 @@ html.ngdialog-open, body.ngdialog-open {
 .rounded-circle, .app-sidebar__user-avatar {
     border-radius: 20% !important;
 }
+	
+.row-non-margin {
+	display: flex;
+    flex-wrap: wrap;
+}

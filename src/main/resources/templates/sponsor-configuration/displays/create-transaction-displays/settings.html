@@ -56,21 +56,6 @@
 											</div>
 										</div>
 
-										<div class="form-group row"
-											ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-											<label for="dealer"
-												class="col-lg-3 col-md-3 col-sm-12 col-xs-12 control-label"></label>
-											<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"
-												style="padding-left: 0px;">
-												<div class="col-lg-4 col-md-5 col-sm-4 col-xs-12">
-													<label><scf-checkbox
-															ng-model="ctrl.dataModel.supportPartial"
-															id="support-partial-payment-checkbox" ng-disabled="false"></scf-checkbox>
-														{{'Support partial payment' | translate}} </label>
-												</div>
-											</div>
-										</div>
-
 										<div class="form-group row">
 											<label id="supplier-code-group-selection-label" for="dealer"
 												class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.groupSelection
@@ -245,20 +230,20 @@
 												1-999 days' | translate}}</span>
 										</div>
 
-										<div class="form-group row"
-											ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
-											<label for="dealer" id="special-payment-method-label"
-												class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Special
-												payment method' | translate}}:</label>
-											<div class="col-md-5 col-sm-5 col-xs-12">
-												<label><scf-checkbox
-														ng-model="ctrl.dataModel.supportSpecialDebit"
-														id="support-special-direct-debit-checkbox"
-														ng-disabled="false"></scf-checkbox> {{'Support special
-													direct debit' | translate}} </label>
-											</div>
-											<div class="col-md-4 col-sm-3"></div>
-										</div>
+<!-- 										<div class="form-group row" -->
+<!-- 											ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'"> -->
+<!-- 											<label for="dealer" id="special-payment-method-label" -->
+<!-- 												class="col-md-3 col-sm-4 col-xs-12 control-label">{{'Special -->
+<!-- 												payment method' | translate}}:</label> -->
+<!-- 											<div class="col-md-5 col-sm-5 col-xs-12"> -->
+<!-- 												<label><scf-checkbox -->
+<!-- 														ng-model="ctrl.dataModel.supportSpecialDebit" -->
+<!-- 														id="support-special-direct-debit-checkbox" -->
+<!-- 														ng-disabled="false"></scf-checkbox> {{'Support special -->
+<!-- 													direct debit' | translate}} </label> -->
+<!-- 											</div> -->
+<!-- 											<div class="col-md-4 col-sm-3"></div> -->
+<!-- 										</div> -->
 
 										<div class="form-group row" ng-show="ctrl.isNotTradeFinance">
 											<label class="col-md-3 col-sm-4 col-xs-12 control-label"></label>
@@ -308,7 +293,7 @@
 													component-data="ctrl.paymentDropDown"></scf-dropdown>
 											</div>
 										</div>
-
+										
 										<div class="form-group row"
 											ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
 											<label for="dealer" id="pay-only-bank-working-day-label"
@@ -386,6 +371,44 @@
 													ng-disabled="(!ctrl.manageAll) || (!ctrl.dataModel.shiftPaymentDate) || ctrl.changeShiftPaymentDate()"
 													ng-model="ctrl.shiftIn"></scf-radio> {{'Pay after holiday'
 												| translate}} </label>
+										</div>
+										
+										<div class="form-group row"
+											ng-show="ctrl.accountingTransactionType == 'RECEIVABLE'">
+											<label id="payment-service-label"
+												class="col-lg-3 col-md-3 col-sm-12 col-xs-12 control-label">{{'Payment
+												service' | translate}}: </label>
+											<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"
+												style="padding-left: 0px;">
+												<div class="col-lg-4 col-md-5 col-sm-4 col-xs-12">
+													<label><scf-checkbox
+															ng-model="ctrl.dataModel.supportPartial"
+															id="support-partial-payment-checkbox" ng-disabled="false"></scf-checkbox>
+														{{'Support partial payment' | translate}} </label>
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-group row"
+											ng-show="ctrl.accountingTransactionType == 'RECEIVABLE' &amp;&amp; ctrl.dataModel.hasTradingPartner">
+											<label for="dealer"
+												class="col-lg-3 col-md-3 col-sm-12 col-xs-12 control-label"></label>
+											<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 row-non-margin"
+												style="padding-left: 0px;">
+												<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+													<label><scf-checkbox
+															ng-model="ctrl.dataModel.supportSpecialDebit"
+															ng-change="ctrl.changePaymentType()"
+															id="support-partial-payment-checkbox" ng-disabled="false"></scf-checkbox>
+														{{'Support auto loan for fail payment' | translate}} </label>
+												</div>
+												<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+													<scf-dropdown id="auto-loan-with-dropdown"
+													ng-model="ctrl.dataModel.autoLoanWith" translate-label="true"
+													ng-disabled="(!ctrl.dataModel.supportSpecialDebit)"
+													component-data="ctrl.autoLoanWithDropdown"></scf-dropdown>
+												</div>
+											</div>
 										</div>
 
 									</div>
