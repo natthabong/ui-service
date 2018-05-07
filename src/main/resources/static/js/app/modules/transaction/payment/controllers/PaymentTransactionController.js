@@ -327,6 +327,10 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 		};
 	    
 	    var initial = function() {
+	    	var backAction = $stateParams.backAction;
+			if(backAction){
+				vm.criteria = $stateParams.criteria;
+			}
 	        if(viewMode == enumViewMode.MY_ORGANIZE){
 	            hideSupplierCol = false;
 	            hideBuyerCol = true;
@@ -353,9 +357,9 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	            vm.disableBuyerAutoSuggest = false;
 	            vm.disableSupplierAutoSuggest = false;
 	        }
-	        
-	        vm.searchTransaction();
+
 	        _loadTransactionGroup();
+	        vm.searchTransaction();
 	    }();
 	
 		var dialogPopup;
