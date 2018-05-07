@@ -205,7 +205,10 @@ sciModule.controller('SupplierCreditInformationController', [
 			var criteria = {
 				buyerId: data.tradeFinances[0].buyer.memberId,
 				supplierId: data.tradeFinances[0].supplier.memberId,
-				accountId: data.accountId
+				accountId: data.accountId,
+                borrowerType: 'SUPPILER',
+                fundingId: data.fundingId,
+                organizeId: data.tradeFinances[0].supplier.memberId
 			}
 
 			if (data.accountType == 'LOAN') {

@@ -494,7 +494,10 @@ txnMod.controller('CreatePaymentWithoutInvoiceController', [
         	var criteria ={
  	    		buyerId: ownerId,
 				supplierId: vm.criteria.supplierId,
-				accountId: vm.transactionModel.payerAccountId
+				accountId: vm.transactionModel.payerAccountId,
+                borrowerType: 'BUYER',
+                fundingId: vm.tradingpartnerInfoModel.fundingId.fundingId,
+                organizeId: ownerId
 			}
 				
 			if(vm.transactionModel.transactionMethod  == 'TERM_LOAN'){
