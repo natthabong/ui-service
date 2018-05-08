@@ -639,7 +639,7 @@
 	"OVERDRAFT": "Overdraft",
 	"TERM_LOAN": "Loan",
 	"DEBIT": "Direct debit",
-	"DEBIT_SPECIAL": "Special direct debit",
+	"DEBIT_SPECIAL": "Auto loan for fail payment",
 	"wait_for_payment_result": "Wait for payment result",
 	"Payment amount": "Payment amount",
 	"payment_fail": "Payment fail",
