@@ -477,7 +477,10 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 var criteria = {
                     buyerId: vm.createTransactionModel.sponsorIdSelected,
                     supplierId: ownerId,
-                    accountId: vm.createTransactionModel.payerAccountId
+                    accountId: vm.createTransactionModel.payerAccountId,
+                    borrowerType: 'SUPPILER',
+                    fundingId: vm.tradingpartnerInfoModel.fundingId,
+                    organizeId: ownerId
                 }
 
                 if (vm.createTransactionModel.transactionMethod == 'TERM_LOAN') {
