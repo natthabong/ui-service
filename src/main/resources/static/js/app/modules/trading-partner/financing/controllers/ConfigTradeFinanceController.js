@@ -167,6 +167,15 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 				getFinanceInfo(data.buyerId, data.supplierId);
 			}).catch(function (response) {
 				log.error("Can not set default code !");
+				if(response.data.errorCode == '403'){
+					UIFactory.showIncompleteDialog({
+	                    data: {
+	                        mode: 'general_warning',
+	                        headerMessage: 'Set default incomplete.',
+	                        infoMessage: 'Please enable support auto loan on create transaction display page.'
+	                    }
+	                });
+				}
 			});
 		}
 
