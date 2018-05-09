@@ -219,7 +219,7 @@
 								| translate}}: </label>
 							<div class="col-md-11 col-sm-11 text-left">
 								<span id="reason-value-label" style="color: red" 
-									ng-bind="ctrl.transactionModel.rejectReason"></span>
+									ng-bind="ctrl.transactionModel | transactionErrorMessage"></span>
 							</div>
 	
 						</div>
