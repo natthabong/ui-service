@@ -386,7 +386,7 @@ displayModule.controller('DisplayController', [
             }
         }
         
-        vm.changeAutoLoanWith = function() {
+        vm.changeOverdueType = function() {
             if (vm.overdueType == vm.overdueRadioType.UNLIMITED) {
                 vm.overDuePeriod = null;
                 vm.showMessagePeriodError = false;
