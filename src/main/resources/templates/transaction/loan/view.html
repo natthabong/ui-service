@@ -337,7 +337,8 @@
 																|translate}}:</label>
 														</div>
 														<div class="col-md-11 col-sm-11 text-left">
-															<label id="reject-reason-value-label" style="color: red">{{viewTxnCtrl.transactionModel.rejectReason}}</label>
+															<label id="reject-reason-value-label" style="color: red">
+															{{viewTxnCtrl.transactionModel | transactionErrorMessage}}</label>
 														</div>
 													</div>
 													<div class="row"  ng-show="viewTxnCtrl.transactionModel.adjustRemark != null">
