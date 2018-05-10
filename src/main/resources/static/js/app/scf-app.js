@@ -542,6 +542,7 @@ app.controller('ScfHomeCtrl', ['$translate', '$translatePartialLoader', 'scfFact
 		vm.sysMessage = "";
 		vm.menus = [];
 		vm.changeLanguage = function (lang) {
+			console.log(lang);
 			$translatePartialLoader.addPart('translations');
 			$translate.use(lang);
 			$translate.refresh(lang);
