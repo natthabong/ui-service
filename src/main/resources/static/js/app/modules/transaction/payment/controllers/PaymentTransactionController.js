@@ -507,19 +507,50 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 					vm.handleDialogFail(response, 'Reject transaction');					
 				},
 				onSuccess : function(response) {
-					UIFactory.showSuccessDialog({
-						data : {
-							mode: 'transaction',
-							headerMessage : 'Reject transaction success.',						
-							bodyMessage : vm.transaction.transactionNo,
-							viewRecent : vm.viewRecent,
-							viewHistory: vm.searchTransactionService,
-							hideBackButton : true,
-							hideViewRecentButton : false,
-							hideViewHistoryButton : true,
-							showOkButton : true
-						},
-					});
+					if(vm.transaction.returnStatus == 'C'){
+						UIFactory.showSuccessDialog({
+							data : {
+								mode: 'transaction',
+								headerMessage : 'Reject transaction success.',						
+								bodyMessage : vm.transaction.transactionNo,
+								viewRecent : vm.viewRecent,
+								viewHistory: vm.searchTransactionService,
+								hideBackButton : true,
+								hideViewRecentButton : false,
+								hideViewHistoryButton : true,
+								showOkButton : true
+							},
+						});
+	    			}else{
+	    				vm.transaction.retriable = true;
+	    				vm.transaction.rejectReason = null;
+	    				UIFactory.showIncompleteDialog({
+	    					data : {
+	    						mode: 'transaction',
+	    						headerMessage : 'Reject transaction incomplete.',						
+	    						transaction : vm.transaction,
+	    						retry : vm.retryReject,
+	    						viewHistory: vm.searchTransactionService,
+	    						hideBackButton : true,
+	    						hideViewRecentButton : true,								
+	    						hideViewHistoryButton : true,
+	    						showOkButton : true
+	    					},
+	    				});	    				
+	    			}
+//					UIFactory.showSuccessDialog({
+//						data : {
+//							mode: 'transaction',
+//							headerMessage : 'Reject transaction success.',						
+//							bodyMessage : vm.transaction.transactionNo,
+//							viewRecent : vm.viewRecent,
+//							viewHistory: vm.searchTransactionService,
+//							hideBackButton : true,
+//							hideViewRecentButton : false,
+//							hideViewHistoryButton : true,
+//							showOkButton : true
+//						},
+//					});
 				}
 			});    	   
 	    };
