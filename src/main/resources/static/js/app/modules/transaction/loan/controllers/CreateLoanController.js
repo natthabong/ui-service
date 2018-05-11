@@ -371,7 +371,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                 displayConfig.promise.then(function (response) {
                     vm.dataTable.columns = response.items;
                     vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
-                    vm.pagingAllController = vm.pagingController;
+//                    vm.pagingAllController = vm.pagingController;
 
                     vm.loanRequestMode = response.loanRequestMode;
                     vm.documentSelection = response.documentSelection;
