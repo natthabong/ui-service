@@ -4,6 +4,18 @@
 		sec:authorize="hasAuthority('VIEW_ACCOUNTS_OF_MY_ORGANIZATION')" /> <input
 		type="hidden" ng-init="ctrl.hasPrivilegeEnqCreditLimit=true"
 		sec:authorize="hasAuthority('VIEW_SUPPLIER_CREDIT_INFORMATION_OF_MY_ORGANIZATION')" />
+	<ng-form> <input type="hidden"
+						ng-init="ctrl.canViewOrgProfilesReferToMyOrg=true"
+						sec:authorize="hasAuthority('VIEW_ORGANIZATION_PROFILES_REFER_TO_MY_ORGANIZATION')" /></ng-form>
+					<ng-form> <input type="hidden"
+						ng-init="ctrl.canViewCusCodeReferToMyOrg=true"
+						sec:authorize="hasAuthority('VIEW_SUPPLIER_CODES_REFER_TO_MY_ORGANIZATION')" /></ng-form>
+					<ng-form> <input type="hidden"
+						ng-init="ctrl.canViewDisplayLayoutReferToMyOrg=true"
+						sec:authorize="hasAuthority('VIEW_ORGANIZE_DOCUMENT_DISPLAY_LAYOUTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
+					<ng-form> <input type="hidden"
+						ng-init="ctrl.canViewDocsReferToMyOrg=true"
+						sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
 	<div class="app-title">
 		<div>
 			<h1>
@@ -257,18 +269,6 @@
 							</div>
 						</div>
 					</div>
-					<ng-form> <input type="hidden"
-						ng-init="ctrl.canViewOrgProfilesReferToMyOrg=true"
-						sec:authorize="hasAuthority('VIEW_ORGANIZATION_PROFILES_REFER_TO_MY_ORGANIZATION')" /></ng-form>
-					<ng-form> <input type="hidden"
-						ng-init="ctrl.canViewCusCodeReferToMyOrg=true"
-						sec:authorize="hasAuthority('VIEW_SUPPLIER_CODES_REFER_TO_MY_ORGANIZATION')" /></ng-form>
-					<ng-form> <input type="hidden"
-						ng-init="ctrl.canViewDisplayLayoutReferToMyOrg=true"
-						sec:authorize="hasAuthority('VIEW_ORGANIZE_DOCUMENT_DISPLAY_LAYOUTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
-					<ng-form> <input type="hidden"
-						ng-init="ctrl.canViewDocsReferToMyOrg=true"
-						sec:authorize="hasAuthority('VIEW_DOCUMENTS_REFER_TO_MY_ORGANIZATION')" /></ng-form>
 				</div>
 			</div>
 		</div>
