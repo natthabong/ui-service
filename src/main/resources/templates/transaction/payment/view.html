@@ -211,6 +211,9 @@
 							<div class="col-md-11 col-sm-11 text-left">
 								<span id="status-value-label"> <span
 									ng-bind="ctrl.transactionModel.statusCode | translate"></span>
+									<span style="color: red"
+									ng-show="ctrl.transactionModel.statusCode == 'INCOMPLETE' || (ctrl.transactionModel.statusCode == 'FAIL_TO_PAYMENT' &amp;&amp; ctrl.transactionModel.adjustRemark == null) || ctrl.transactionModel.statusCode == 'REJECT_INCOMPLETE'"
+									ng-bind="ctrl.transactionModel | transactionErrorMessage"></span>
 								</span>
 							</div>
 						</div>
