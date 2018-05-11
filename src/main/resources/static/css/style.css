@@ -327,3 +327,7 @@ html.ngdialog-open, body.ngdialog-open {
 	display: flex;
     flex-wrap: wrap;
 }
+
+.dropdown.app-sidebar__user-designation.show {
+   overflow: visible;
+}

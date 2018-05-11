@@ -235,9 +235,20 @@
 				alt="Organize Image" />
 			<div>
 				<p class="app-sidebar__user-name"><span id="display-name" title="{{userInfo.displayName}}" class="user-name" ng-bind="userInfo.displayName">Avanta</span></p>
-				<p class="app-sidebar__user-designation">
-					<span class="user-name ellipsis" title="{{ctrl.organizeHeader.organizeName}}" ng-bind="ctrl.organizeHeader.organizeName"></span>
-				</p>
+				<div class="dropdown app-sidebar__user-designation">
+				  <a id="organize-user-menu" aria-hidden="true" class="dropdown-toggle ellipsis"
+						style="cursor: pointer;" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true"> 
+						<span class="user-name ellipsis" title="{{ctrl.organizeHeader.organizeName}}" ng-bind="ctrl.organizeHeader.organizeName"></span>
+				  </a>
+				  <div class="dropdown-menu">
+				    	<a  ng-repeat="organize in ctrl.orgList track by $index" 
+				    	    id="{{organize.memberName}}-menu" class="dropdown-item" 
+							href="#" ng-click="ctrl.changeOrganize($index)">
+							{{organize.memberName}}
+						</a>
+				  </div>
+				</div>
 			</div>
 		</div>
 		<ul class="app-menu" ng-controller="MenuController as ctrl">
