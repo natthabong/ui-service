@@ -267,10 +267,10 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 							});
 						}
 					} else {
-						vm.handleDialogFail(response);
+						vm.handleDialogFail(response,'Reject transaction');
 					}
 				}).catch(function (response) {
-					vm.handleDialogFail(response);
+					vm.handleDialogFail(response,'Reject transaction');
 				});
 			};
 
