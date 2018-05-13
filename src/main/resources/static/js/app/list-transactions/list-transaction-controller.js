@@ -323,7 +323,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 						}
 					},
 					onFail: function (response) {
-						vm.handleDialogFail(response);
+						vm.handleDialogFail(response,'Reject transaction');
 					},
 					onSuccess: function (response) {
 						UIFactory.showSuccessDialog({
