@@ -167,11 +167,19 @@ angular.module('gecscf.organize.configuration.fileLayout').service('FileLayoutSe
 		} else if (layout.processType == 'AP_DOCUMENT') {
 			var errors = {
 				requireLayoutName: true,
+				requireDocDueDate: true,
+				requirePaymentDateField: true,
 				documentFieldIdListDupplicate: []
 			}
 
 			if (layout.displayName != '') {
 				errors.requireLayoutName = false;
+			}
+			
+			if (layout.paymentDateConfig.strategy == 'FIELD') {
+				if (layout.paymentDateConfig.documentDateField != null) {
+					errors.requirePaymentDateField = false;
+				}
 			}
 
 			layout.items.forEach(function (item) {
@@ -182,6 +190,9 @@ angular.module('gecscf.organize.configuration.fileLayout').service('FileLayoutSe
 							errors.documentFieldIdListDupplicate.push(item.documentFieldId);
 						}
 					} else if (item.documentFieldId != null && docFieldData.documentFieldName != null) {
+						if (item.documentFieldId == 9) {
+							errors.requireDocDueDate = false;
+						}
 						documentFieldIdList.push(item.documentFieldId);
 					}
 
@@ -192,6 +203,9 @@ angular.module('gecscf.organize.configuration.fileLayout').service('FileLayoutSe
 									errors.documentFieldIdListDupplicate.push(itemClone.documentFieldId);
 								}
 							} else if (itemClone.documentFieldId != null && docFieldData.documentFieldName != null) {
+								if (itemClone.documentFieldId == 9) {
+									errors.requireDocDueDate = false;
+								}
 								documentFieldIdList.push(itemClone.documentFieldId);
 							}
 						});
@@ -199,7 +213,7 @@ angular.module('gecscf.organize.configuration.fileLayout').service('FileLayoutSe
 				}
 			});
 
-			if (errors.requireLayoutName || errors.requirePaymentAmount || errors.documentFieldIdListDupplicate.length > 0) {
+			if (errors.requireLayoutName ||  errors.requireDocDueDate || errors.requirePaymentDateField || errors.documentFieldIdListDupplicate.length > 0) {
 				messageFunc(errors);
 				return false;
 			}

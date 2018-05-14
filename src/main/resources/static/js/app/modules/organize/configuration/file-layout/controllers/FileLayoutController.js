@@ -918,7 +918,7 @@ module.controller('FileLayoutController', [
 			var onFail = function (errors) {
 				$scope.errors = errors;
 			}
-
+			
 			if (FileLayoutService.validate(sponsorLayout, vm.dataTypeByIds, onFail)) {
 				UIFactory.showConfirmDialog({
 					data: {
@@ -981,14 +981,13 @@ module.controller('FileLayoutController', [
 				return FileLayoutService.createFileLayout(ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout);
 				
 			}else {
+				
 				if (sponsorLayout.processType == 'AP_DOCUMENT') {
 					sponsorLayout.paymentDateConfig.sponsorLayoutPaymentDateConfigId = vm.model.layoutConfigId;
 				}
 				
 				return FileLayoutService.updateFileLayout(ownerId, sponsorLayout.processType, sponsorLayout.integrateType, sponsorLayout.layoutConfigId, sponsorLayout);
-				
 			}
-
 		};
 
 		var addCreditTermFields = function (configItems) {
