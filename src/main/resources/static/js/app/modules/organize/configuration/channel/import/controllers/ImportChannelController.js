@@ -81,9 +81,13 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 		vm.runTimes = [];
 		vm.runTime = undefined;
 		vm.addRuntime = function (time) {
-			if (angular.isUndefined(time)) {
+			if (time == undefined || time == null || time == '') {
 				$scope.errors.runtime = {
 					message: 'Time is required.'
+				}
+			} else if ($scope.createForm.fixedTime.$error.pattern) {
+				$scope.errors.runtime = {
+					message: 'Wrong time format data.'
 				}
 			} else if (vm.runTimes.indexOf(time) !== -1) {
 				$scope.errors.runtime = {
@@ -235,7 +239,8 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 
 				if (vm.channelModel.runtimeType == 'INTERVAL') {
 					var triggerInformation = {};
-					vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek.replace("[", "").replace("]", "");
+					vm.channelModel.jobInformation.triggerInformations = [];
+					//vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek = daysOfWeek.replace("[", "").replace("]", "");
 					if (vm.channelModel.beginTime != null && vm.channelModel.beginTime != '') {
 						var beginTime = vm.channelModel.beginTime.split(":");
 						triggerInformation.startHour = beginTime[0];
@@ -249,7 +254,6 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 					}
 					triggerInformation.intervalInSeconds = vm.channelModel.delayedInterval;
 					triggerInformation.daysOfWeek = daysOfWeek;
-					vm.channelModel.jobInformation.triggerInformations = [];
 					vm.channelModel.jobInformation.triggerInformations.push(triggerInformation);
 				} else {
 					daysOfWeek = daysOfWeek.substring(0, daysOfWeek.length - 1);
@@ -274,6 +278,80 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 
 			if (!vm.isUseExpireDate) {
 				vm.channelModel.expiryDate = null;
+			}
+		}
+		
+		var validFrequency = function () {
+			var daysOfWeek = '';
+			if (vm.channelModel.sunday) {
+				daysOfWeek += dayOfWeekFrequency.SUNDAY + ',';
+			}
+			if (vm.channelModel.monday) {
+				daysOfWeek += dayOfWeekFrequency.MONDAY + ',';
+			}
+			if (vm.channelModel.tuesday) {
+				daysOfWeek += dayOfWeekFrequency.TUESDAY + ',';
+			}
+			if (vm.channelModel.wednesday) {
+				daysOfWeek += dayOfWeekFrequency.WEDNESDAY + ',';
+			}
+			if (vm.channelModel.thursday) {
+				daysOfWeek += dayOfWeekFrequency.THURSDAY + ',';
+			}
+			if (vm.channelModel.friday) {
+				daysOfWeek += dayOfWeekFrequency.FRIDAY + ',';
+			}
+			if (vm.channelModel.saturday) {
+				daysOfWeek += dayOfWeekFrequency.SATURDAY + ',';
+			}
+			if(daysOfWeek != null || daysOfWeek != ''){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		var validIntervalRuntime = function () {
+			if ($scope.createForm.beginTime.$error.pattern) {
+				isValid = false;
+				$scope.errors.beginTime = {
+					message: 'Wrong time format data.'
+				}
+
+			} else if (jobInformation.triggerInformations[0].startHour == null || jobInformation.triggerInformations[0].startMinute == null) {
+				isValid = false;
+				$scope.errors.beginTime = {
+					message: 'Begin time is required.'
+				}
+			}
+
+			if ($scope.createForm.endTime.$error.pattern) {
+				isValid = false;
+				$scope.errors.endTime = {
+					message: 'Wrong time format data.'
+				}
+
+			} else if (jobInformation.triggerInformations[0].endHour == null || jobInformation.triggerInformations[0].endMinute == null) {
+				isValid = false;
+				$scope.errors.endTime = {
+					message: 'End time is required.'
+				}
+			}
+
+			if (jobInformation.triggerInformations[0].intervalInSeconds == null || jobInformation.triggerInformations[0].intervalInSeconds == '') {
+				isValid = false;
+				$scope.errors.intervalInSeconds = {
+					message: 'Delayed interval (sec) is required.'
+				}
+			}
+		}
+		
+		var validFixedRuntime = function () {
+			if (angular.isUndefined(vm.runTimes) || vm.runTimes == null || vm.runTimes.length == 0) {
+				isValid = false;
+				$scope.errors.runtime = {
+					message: 'Time is required.'
+				}
 			}
 		}
 
@@ -366,45 +444,52 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 					}
 				}
 
-				if (jobInformation.triggerInformations[0].daysOfWeek == null || jobInformation.triggerInformations[0].daysOfWeek == '') {
+				if (!validFrequency()) {
 					isValid = false;
 					$scope.errors.daysOfWeek = {
 						message: 'Frequency is required.'
 					}
 				}
-
-				if ($scope.createForm.beginTime.$error.pattern) {
-					isValid = false;
-					$scope.errors.beginTime = {
-						message: 'Wrong time format data.'
+				
+				if (vm.channelModel.runtimeType == 'INTERVAL'){
+					if(!validIntervalRuntime()){
+						isValid = false;
 					}
-
-				} else if (jobInformation.triggerInformations[0].startHour == null || jobInformation.triggerInformations[0].startMinute == null) {
-					isValid = false;
-					$scope.errors.beginTime = {
-						message: 'Begin time is required.'
-					}
+					
 				}
 
-				if ($scope.createForm.endTime.$error.pattern) {
-					isValid = false;
-					$scope.errors.endTime = {
-						message: 'Wrong time format data.'
-					}
-
-				} else if (jobInformation.triggerInformations[0].endHour == null || jobInformation.triggerInformations[0].endMinute == null) {
-					isValid = false;
-					$scope.errors.endTime = {
-						message: 'End time is required.'
-					}
-				}
-
-				if (jobInformation.triggerInformations[0].intervalInSeconds == null || jobInformation.triggerInformations[0].intervalInSeconds == '') {
-					isValid = false;
-					$scope.errors.intervalInSeconds = {
-						message: 'Delayed interval (sec) is required.'
-					}
-				}
+//				if ($scope.createForm.beginTime.$error.pattern) {
+//					isValid = false;
+//					$scope.errors.beginTime = {
+//						message: 'Wrong time format data.'
+//					}
+//
+//				} else if (jobInformation.triggerInformations[0].startHour == null || jobInformation.triggerInformations[0].startMinute == null) {
+//					isValid = false;
+//					$scope.errors.beginTime = {
+//						message: 'Begin time is required.'
+//					}
+//				}
+//
+//				if ($scope.createForm.endTime.$error.pattern) {
+//					isValid = false;
+//					$scope.errors.endTime = {
+//						message: 'Wrong time format data.'
+//					}
+//
+//				} else if (jobInformation.triggerInformations[0].endHour == null || jobInformation.triggerInformations[0].endMinute == null) {
+//					isValid = false;
+//					$scope.errors.endTime = {
+//						message: 'End time is required.'
+//					}
+//				}
+//
+//				if (jobInformation.triggerInformations[0].intervalInSeconds == null || jobInformation.triggerInformations[0].intervalInSeconds == '') {
+//					isValid = false;
+//					$scope.errors.intervalInSeconds = {
+//						message: 'Delayed interval (sec) is required.'
+//					}
+//				}
 			}
 
 			if (!angular.isDefined(channel.activeDate)) {
