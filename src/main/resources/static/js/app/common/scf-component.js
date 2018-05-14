@@ -3,7 +3,7 @@
 
 	angular.module('ui/template/scftemplate', []).run(["$templateCache", function ($templateCache) {
 		$templateCache.put('ui/template/calendar.html',
-			'<p class="input-group">' + '<input type="text" name="{{textName}}" ng-required="textRequired" placeholder="DD/MM/YYYY" ng-model-options="{timezone: \'UTC+0700\'}" show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="fa fa-calendar"></i>' + '</button>' + "</span>" + '</p>');
+			'<p class="input-group">' + '<input type="text" name="{{textName}}" datepicker-options="{\'minDate\': minDate , \'maxDate\':maxDate}" ng-required="textRequired" placeholder="DD/MM/YYYY" ng-model-options="{timezone: \'UTC+0700\'}" show-weeks="false" class="form-control" ng-disabled="ngDisabled" ng-model="textModel" uib-datepicker-popup="{{dateFormat}}" is-open="isOpen" close-text="Close" min-date="minDate" max-date="maxDate"/>' + '<span class="input-group-btn">' + '<button type="button" ng-disabled="ngDisabled" class="btn btn-default" ng-click="openCalendarAction()">' + '<i class="fa fa-calendar"></i>' + '</button>' + "</span>" + '</p>');
 
 		$templateCache.put('ui/template/timepicker.html',
 			'<p class="input-group">' + '<div uib-timepicker="true" show-spinners="false" show-meridian="false"></div>' + '</p>');
@@ -221,6 +221,8 @@
 					textModel: '=',
 					dateFormat: '@',
 					isOpen: '=',
+					minDate: '=',
+					maxDate: '=',
 					openCalendarAction: '&',
 					defaultValue: '@',
 					ngDisabled: '='
@@ -229,7 +231,6 @@
 					if (attrs.textId !== undefined) {
 						element[0].children[0].id = attrs.textId;
 					}
-
 					if (attrs.buttonId !== undefined) {
 						element[0].children[2].children[0].id = attrs.buttonId;
 					}
@@ -238,7 +239,6 @@
 						var momentObj = moment(scope.defaultValue, 'DD/MM/YYYY').toDate();
 						scope.textModel = momentObj;
 					}
-
 				},
 				templateUrl: 'ui/template/calendar.html'
 			};
@@ -279,11 +279,10 @@
 					if (attrs.buttonId !== undefined) {
 						element[0].children[2].children[0].id = attrs.buttonId;
 					}
-
-
 					if (angular.isDefined(scope.textRequired)) {
 						scope.textRequired = true;
 					}
+					scope.datepickerOptions = {'maxDate': new Date(scope.maxDate)};
 				},
 				templateUrl: 'ui/template/calendar.html'
 			};
@@ -299,7 +298,6 @@
 					openCalendarAction: '&',
 					minDate: '=',
 					ngDisabled: '='
-
 				},
 				link: function (scope, element, attrs) {
 					if (angular.isUndefined(scope.ngDisable)) {
@@ -313,7 +311,6 @@
 					if (attrs.buttonId !== undefined) {
 						element[0].children[2].children[0].id = attrs.buttonId;
 					}
-
 				},
 				templateUrl: 'ui/template/calendar.html'
 			};

@@ -82,6 +82,16 @@ exportChannelModule.controller('ExportChannelController', [
 		vm.fileExtension = '';
 		vm.runTimes = [];
 		vm.runTime = undefined;
+		
+		vm.tomorrow = new Date();
+		vm.tomorrow.setDate(vm.tomorrow.getDate() + 1);
+		
+		vm.getNextDay = function(beforeDay){
+			vm.result = new Date(beforeDay);
+			vm.result.setDate(vm.result.getDate() + 1);
+			return vm.result;
+		}
+		
 		var dayOfWeekFrequency = {
 			SUNDAY: 1,
 			MONDAY: 2,

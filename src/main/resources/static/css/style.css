@@ -344,3 +344,11 @@ html.ngdialog-open, body.ngdialog-open {
 .scf-paging > li > select {
     height: 29px;
 }
+
+.uib-datepicker .uib-title {
+    width: 100% !important;
+}
+
+.uib-datepicker-popup .btn-group {
+	padding-bottom: 5px !important;
+}

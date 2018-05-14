@@ -111,8 +111,8 @@
 												ng-disabled="!ctrl.manageAll" button-id="active-date-button">
 											</scf-date-picker>
 										</div>
-										<div>
-											<div class="col-md-2 col-sm-3 col-xs-2"
+										<div class="col-md-6 col-sm-4 row">
+											<div class="col-md-4 col-sm-4 col-xs-6"
 												style="padding-left: 25px;">
 												<scf-checkbox id="expire-date-checkbox"
 													ng-model="ctrl.isUseExpireDate"
@@ -121,13 +121,13 @@
 													style="padding-bottom: 10px;">{{'Expire date' |
 													translate}}:</label>
 											</div>
-											<div class="col-md-3 col-sm-3 gec-calendar-group"
+											<div class="col-md-7 col-sm-7 gec-calendar-group"
 												style="padding-left: 35px;">
 												<scf-date-picker text-id="expire-date-textbox"
 													text-model="ctrl.channelModel.expiryDate"
 													date-format="dd/MM/yyyy" is-open="ctrl.openExpireDate"
 													open-calendar-action="ctrl.openCalendarExpireDate()"
-													min-date="ctrl.channelModel.activeDate"
+													min-date="ctrl.tomorrow >  ctrl.channelModel.activeDate ? ctrl.tomorrow : ctrl.getNextDay(ctrl.channelModel.activeDate)"
 													ng-disabled="!ctrl.isUseExpireDate || !ctrl.manageAll"
 													button-id="expire-date-button"> </scf-date-picker>
 											</div>
