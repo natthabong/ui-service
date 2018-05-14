@@ -81,20 +81,21 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 		vm.runTimes = [];
 		vm.runTime = undefined;
 		vm.addRuntime = function (time) {
-			if (time == undefined || time == null || time == '') {
-				$scope.errors.runtime = {
-					message: 'Time is required.'
-				}
-			} else if ($scope.createForm.fixedTime.$error.pattern) {
+			if ($scope.createForm.runTime.$error.pattern) {
 				$scope.errors.runtime = {
 					message: 'Wrong time format data.'
 				}
-			} else if (vm.runTimes.indexOf(time) !== -1) {
+			} else if (time == undefined || time == null || time == '') {
+				$scope.errors.runtime = {
+						message: 'Time is required.'
+				}
+			}else if (vm.runTimes.indexOf(time) !== -1) {
 				$scope.errors.runtime = {
 					message: 'Time already exists.'
 				}
 			} else {
 				vm.runTimes.push(time);
+				$scope.errors.runtime = undefined;
 			}
 		};
 
@@ -312,13 +313,14 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 		}
 		
 		var validIntervalRuntime = function () {
+			var isValid = true;
 			if ($scope.createForm.beginTime.$error.pattern) {
 				isValid = false;
 				$scope.errors.beginTime = {
 					message: 'Wrong time format data.'
 				}
 
-			} else if (jobInformation.triggerInformations[0].startHour == null || jobInformation.triggerInformations[0].startMinute == null) {
+			} else if (vm.channelModel.beginTime == undefined || vm.channelModel.beginTime == null || vm.channelModel.beginTime == '') {
 				isValid = false;
 				$scope.errors.beginTime = {
 					message: 'Begin time is required.'
@@ -331,19 +333,20 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 					message: 'Wrong time format data.'
 				}
 
-			} else if (jobInformation.triggerInformations[0].endHour == null || jobInformation.triggerInformations[0].endMinute == null) {
+			} else if (vm.channelModel.endTime == undefined || vm.channelModel.endTime == null || vm.channelModel.endTime == '') {
 				isValid = false;
 				$scope.errors.endTime = {
 					message: 'End time is required.'
 				}
 			}
 
-			if (jobInformation.triggerInformations[0].intervalInSeconds == null || jobInformation.triggerInformations[0].intervalInSeconds == '') {
+			if (vm.channelModel.delayedInterval == undefined || vm.channelModel.delayedInterval == null || vm.channelModel.delayedInterval == '') {
 				isValid = false;
 				$scope.errors.intervalInSeconds = {
 					message: 'Delayed interval (sec) is required.'
 				}
 			}
+			return isValid;
 		}
 		
 		var validFixedRuntime = function () {
@@ -381,56 +384,56 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 				var jobInformation = vm.channelModel.jobInformation;
 				var ftpDetail = vm.channelModel.jobInformation.ftpDetail;
 
-				if (ftpDetail.remoteHost == null || ftpDetail.remoteHost == "") {
+				if (ftpDetail.remoteHost == undefined || ftpDetail.remoteHost == null || ftpDetail.remoteHost == "") {
 					isValid = false;
 					$scope.errors.hostName = {
 						message: 'Host name is required.'
 					}
 				}
 
-				if (ftpDetail.remotePort == null || ftpDetail.remotePort == "") {
+				if (ftpDetail.remotePort == undefined || ftpDetail.remotePort == null || ftpDetail.remotePort == "") {
 					isValid = false;
 					$scope.errors.portNumber = {
 						message: 'Port number is required.'
 					}
 				}
 
-				if (ftpDetail.remoteUsername == null || ftpDetail.remoteUsername == "") {
+				if (ftpDetail.remoteUsername == undefined || ftpDetail.remoteUsername == null || ftpDetail.remoteUsername == "") {
 					isValid = false;
 					$scope.errors.remoteUsername = {
 						message: 'FTP user is required.'
 					}
 				}
 
-				if (ftpDetail.remotePath == null || ftpDetail.remotePath == "") {
+				if (ftpDetail.remotePath == undefined || ftpDetail.remotePath == null || ftpDetail.remotePath == "") {
 					isValid = false;
 					$scope.errors.remoteDirectory = {
 						message: 'Remote directory is required.'
 					}
 				}
 
-				if (ftpDetail.remoteFilenamePattern == null || ftpDetail.remoteFilenamePattern == "") {
+				if (ftpDetail.remoteFilenamePattern == undefined || ftpDetail.remoteFilenamePattern == null || ftpDetail.remoteFilenamePattern == "") {
 					isValid = false;
 					$scope.errors.remoteFilenamePattern = {
 						message: 'File name pattern is required.'
 					}
 				}
 
-				if (ftpDetail.limitedFileSize == null || ftpDetail.limitedFileSize == "") {
+				if (ftpDetail.limitedFileSize == undefined || ftpDetail.limitedFileSize == null || ftpDetail.limitedFileSize == "") {
 					isValid = false;
 					$scope.errors.limitedFileSize = {
 						message: 'Limited file size (MB) is required.'
 					}
 				}
 
-				if (ftpDetail.connectionRetry == null || ftpDetail.connectionRetry == "") {
+				if (ftpDetail.connectionRetry == undefined || ftpDetail.connectionRetry == null || ftpDetail.connectionRetry == "") {
 					isValid = false;
 					$scope.errors.connectionRetry = {
 						message: 'Retry is required.'
 					}
 				}
 
-				if (ftpDetail.connectionRetryInterval == null || ftpDetail.connectionRetryInterval == "") {
+				if (ftpDetail.connectionRetryInterval == undefined || ftpDetail.connectionRetryInterval == null || ftpDetail.connectionRetryInterval == "") {
 					isValid = false;
 					$scope.errors.connectionRetryInterval = {
 						message: 'Delayed interval (sec) is required.'
@@ -455,41 +458,12 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 					if(!validIntervalRuntime()){
 						isValid = false;
 					}
-					
+				} else if (vm.runTimes == undefined || vm.runTimes.length == 0){
+					isValid = false;
+					$scope.errors.runtime = {
+							message: 'Time is required.'
+					}
 				}
-
-//				if ($scope.createForm.beginTime.$error.pattern) {
-//					isValid = false;
-//					$scope.errors.beginTime = {
-//						message: 'Wrong time format data.'
-//					}
-//
-//				} else if (jobInformation.triggerInformations[0].startHour == null || jobInformation.triggerInformations[0].startMinute == null) {
-//					isValid = false;
-//					$scope.errors.beginTime = {
-//						message: 'Begin time is required.'
-//					}
-//				}
-//
-//				if ($scope.createForm.endTime.$error.pattern) {
-//					isValid = false;
-//					$scope.errors.endTime = {
-//						message: 'Wrong time format data.'
-//					}
-//
-//				} else if (jobInformation.triggerInformations[0].endHour == null || jobInformation.triggerInformations[0].endMinute == null) {
-//					isValid = false;
-//					$scope.errors.endTime = {
-//						message: 'End time is required.'
-//					}
-//				}
-//
-//				if (jobInformation.triggerInformations[0].intervalInSeconds == null || jobInformation.triggerInformations[0].intervalInSeconds == '') {
-//					isValid = false;
-//					$scope.errors.intervalInSeconds = {
-//						message: 'Delayed interval (sec) is required.'
-//					}
-//				}
 			}
 
 			if (!angular.isDefined(channel.activeDate)) {
@@ -528,8 +502,8 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 		}
 
 		vm.saveChannel = function () {
-			setupPrepareData();
 			if (validSave()) {
+				setupPrepareData();
 				var preCloseCallback = function (confirm) {
 					vm.backToSponsorConfigPage();
 				}
@@ -595,20 +569,20 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 			sendRequest('/channels/' + parameters.channelId, function (response) {
 				vm.channelModel = response.data;
 
-				if (response.data.activeDate != null) {
-					vm.channelModel.activeDate = new Date(response.data.activeDate);
+				if (vm.channelModel.activeDate != null) {
+					vm.channelModel.activeDate = new Date(vm.channelModel.activeDate);
 				} else {
 					vm.channelModel.activeDate = null;
 				}
 
-				if (response.data.expiryDate != null) {
-					vm.channelModel.expiryDate = new Date(response.data.expiryDate);
+				if (vm.channelModel.expiryDate != null) {
+					vm.channelModel.expiryDate = new Date(vm.channelModel.expiryDate);
 					vm.isUseExpireDate = true;
 				} else {
 					vm.channelModel.expiryDate = null;
 				}
 
-				if (response.data.runtimeType == null) {
+				if (vm.channelModel.runtimeType == null) {
 					vm.channelModel.runtimeType = 'INTERVAL';
 				}
 
@@ -617,7 +591,7 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 					vm.isSetupFTP = true;
 					vm.channelModel.fileProtocol = 'SFTP';
 
-					var isNotHasJob = angular.isUndefined(response.data.jobInformation) || response.data.jobInformation == null || response.data.jobInformation.jobId == null;
+					var isNotHasJob = angular.isUndefined(vm.channelModel.jobInformation) || vm.channelModel.jobInformation == null || vm.channelModel.jobInformation.jobId == null;
 
 					if (isNotHasJob) {
 						vm.channelModel.jobInformation = {
@@ -646,21 +620,21 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 
 					vm.channelModel.jobInformation.jobType = 'DOWNLOAD_FTP_JOB';
 
-					if (response.data.jobInformation.ftpDetail.postProcessType == 'BACKUP') {
+					if (vm.channelModel.jobInformation.ftpDetail.postProcessType == 'BACKUP') {
 						vm.postProcessBackup = true;
 					}
 
-					if (response.data.jobInformation.frequencyType == null) {
+					if (vm.channelModel.jobInformation.frequencyType == null) {
 						vm.channelModel.jobInformation.frequencyType = 'DAILY';
 					}
 
-					if (response.data.jobInformation.triggerInformations[0].intervalInSeconds == null) {
+					if (vm.channelModel.jobInformation.triggerInformations[0].intervalInSeconds == null) {
 						vm.channelModel.jobInformation.triggerInformations[0].intervalInSeconds = '300';
 					} else {
-						vm.channelModel.intervalInSeconds = response.data.jobInformation.triggerInformations[0].intervalInSeconds;
+						vm.channelModel.intervalInSeconds = vm.channelModel.jobInformation.triggerInformations[0].intervalInSeconds;
 					}
 
-					if (response.data.jobInformation.triggerInformations[0].daysOfWeek == null || response.data.jobInformation.triggerInformations[0].daysOfWeek == '') {
+					if (vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek == null || vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek == '') {
 						vm.channelModel.monday = true;
 						vm.channelModel.tuesday = true
 						vm.channelModel.wednesday = true
@@ -671,7 +645,7 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 
 					} else {
 
-						var daysOfWeek = response.data.jobInformation.triggerInformations[0].daysOfWeek.replace("[", "").replace("]", "").split(",");
+						var daysOfWeek = vm.channelModel.jobInformation.triggerInformations[0].daysOfWeek.replace("[", "").replace("]", "").split(",");
 						daysOfWeek.forEach(function (data) {
 							if (data == dayOfWeekFrequency.SUNDAY) {
 								vm.channelModel.sunday = true
@@ -699,22 +673,22 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 
 
 					if (vm.channelModel.runtimeType == 'INTERVAL') {
-						if (response.data.jobInformation.triggerInformations[0].startHour == null || response.data.jobInformation.triggerInformations[0].startMinute == null) {
+						if (vm.channelModel.jobInformation.triggerInformations[0].startHour == null || vm.channelModel.jobInformation.triggerInformations[0].startMinute == null) {
 							vm.channelModel.beginTime = "00:00";
 						} else {
-							vm.channelModel.beginTime = formattedNumber(response.data.jobInformation.triggerInformations[0].startHour) + ":" + formattedNumber(response.data.jobInformation.triggerInformations[0].startMinute);
+							vm.channelModel.beginTime = formattedNumber(vm.channelModel.jobInformation.triggerInformations[0].startHour) + ":" + formattedNumber(vm.channelModel.jobInformation.triggerInformations[0].startMinute);
 						}
 
-						if (response.data.jobInformation.triggerInformations[0].endHour == null || response.data.jobInformation.triggerInformations[0].endMinute == null) {
+						if (vm.channelModel.jobInformation.triggerInformations[0].endHour == null || vm.channelModel.jobInformation.triggerInformations[0].endMinute == null) {
 							vm.channelModel.endTime = "23:59";
 
 						} else {
-							vm.channelModel.endTime = formattedNumber(response.data.jobInformation.triggerInformations[0].endHour) + ":" + formattedNumber(response.data.jobInformation.triggerInformations[0].endMinute);
+							vm.channelModel.endTime = formattedNumber(vm.channelModel.jobInformation.triggerInformations[0].endHour) + ":" + formattedNumber(vm.channelModel.jobInformation.triggerInformations[0].endMinute);
 						}
-						vm.channelModel.delayedInterval = response.data.jobInformation.triggerInformations[0].intervalInSeconds;
+						vm.channelModel.delayedInterval = vm.channelModel.jobInformation.triggerInformations[0].intervalInSeconds;
 					} else {
-						if (response.data.jobInformation.triggerInformations.length > 0) {
-							response.data.jobInformation.triggerInformations.forEach(function (data) {
+						if (vm.channelModel.jobInformation.triggerInformations.length > 0) {
+							vm.channelModel.jobInformation.triggerInformations.forEach(function (data) {
 								if (data.startHour != null && data.startMinute != null) {
 									var hour = data.startHour.length == 1 ? "0" + data.startHour : data.startHour;
 									var minute = data.startMinute.length == 1 ? "0" + data.startMinute : data.startMinute;
