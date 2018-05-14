@@ -83,5 +83,8 @@
 	}, {
 		"dateTimeName" : "YYYYMMDDhhmmss",
 		"dateTimeId" : "yyyyMMddHHmmss"
+	}, {
+		"dateTimeName" : "YYMMDDhhmm",
+		"dateTimeId" : "yyMMddHHmm"
 	}
 ]
