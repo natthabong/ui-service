@@ -56,7 +56,7 @@ tradeFinanceModule.controller('ConfigTradeFinanceController', ['$scope', '$state
 				}, {
 					fieldName: 'defaultLoanNo',
 					field: 'defaultLoanNo',
-					label: 'Default account',
+					label: 'Support auto loan',
 					idValueField: 'template',
 					id: 'default-loan-no-{value}-label',
 					sortable: false,
