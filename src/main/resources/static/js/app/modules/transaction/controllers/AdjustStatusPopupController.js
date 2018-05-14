@@ -49,7 +49,7 @@ angular.module('gecscf.transaction').controller(
                           valid = false;
                         }
                         if (isEmpty(vm.model.adjustRemark)) {
-                            $scope.errors.adjustRemark = 'Adjust remark is required.';
+                            $scope.errors.adjustRemark = 'Adjustment remark is required.';
                             valid = false;
                           }
                         return valid;

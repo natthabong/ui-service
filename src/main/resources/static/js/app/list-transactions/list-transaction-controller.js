@@ -606,7 +606,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 						'<scf-button id="transaction-{{data.transactionNo}}-print-button"class="btn btn-sm" ng-disabled="ctrl.disabledPrint(data.returnStatus)" ng-click="ctrl.printEvidenceFormAction(data)" title="Print"><span class="fa fa-print" aria-hidden="true"></scf-button>' +
 						'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn btn-sm" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>' +
 						//'<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn btn-sm" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendLoan(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>' + 
-						'<scf-button class="btn btn-sm" id="transaction-{{data.transactionNo}}-adjust-status-button" ng-if="ctrl.showAdjustStatus(data)" ng-click="ctrl.adjustStatus(data)" title="Adjust status"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+						'<scf-button class="btn btn-sm" id="transaction-{{data.transactionNo}}-adjust-status-button" ng-if="ctrl.showAdjustStatus(data)" ng-click="ctrl.adjustStatus(data)" title="Adjustment status"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 				}]
 			};
 			vm.openCalendarDateFrom = function () {

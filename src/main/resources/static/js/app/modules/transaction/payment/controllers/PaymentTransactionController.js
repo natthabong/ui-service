@@ -814,7 +814,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	            '<scf-button class="btn-sm btn-default gec-btn-action" id="transaction-{{data.transactionNo}}-print-button-disable" ng-hide ="data.statusCode == ctrl.statusPaymentSuccess" ng-disabled="true" title="Print"><i class="fa fa-print" aria-hidden="true"></i></scf-button>'+
 				'<scf-button id="transaction-{{data.transactionNo}}-reject-button"class="btn-sm btn-default gec-btn-action" ng-disabled="ctrl.disabledReject(data)" ng-click="ctrl.confirmRejectPopup(data,\'clear\')" title="Reject"><i class="fa fa-times-circle" aria-hidden="true"></i></scf-button>'+
 	            //+ '<scf-button id="transaction-{{data.transactionNo}}-resend-button"class="btn-sm btn-default gec-btn-action" ng-disabled="ctrl.disabledResend(data)" ng-click="ctrl.resendPayment(data)" title="Resend"><i class="fa fa-share" aria-hidden="true"></i></scf-button>'
-				'<scf-button class="btn btn-sm" id="transaction-{{data.transactionNo}}-adjust-status-button" ng-if="ctrl.showAdjustStatus(data)" ng-click="ctrl.adjustStatus(data)" title="Adjust status"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
+				'<scf-button class="btn btn-sm" id="transaction-{{data.transactionNo}}-adjust-status-button" ng-if="ctrl.showAdjustStatus(data)" ng-click="ctrl.adjustStatus(data)" title="Adjustment status"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></scf-button>'
 				
 			}]
 	    };
