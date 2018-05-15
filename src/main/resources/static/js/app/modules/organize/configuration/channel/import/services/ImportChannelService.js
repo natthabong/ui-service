@@ -82,7 +82,7 @@ importChannelModule.factory('ImportChannelService', ['$http', '$q', 'Service', f
   }
     
     var remove = function(model) {
-        var uri = 'api/v1/organize-customers/' + model.organizeId + '/process-types/' + model.processType + '/channels/' + model.channelId;
+        var uri = 'api/v1/organize-customers/' + model.organizeId + '/process-types/' + model.processType + '/channel-types/'+ model.channelType + '/channels/' + model.channelId;
         var deferred = $q.defer();
 
         $http({

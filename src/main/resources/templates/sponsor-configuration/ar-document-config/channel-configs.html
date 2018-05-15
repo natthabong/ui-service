@@ -48,7 +48,7 @@
 							<tr ng-repeat="record in ctrl.data track by $index">
 								<td class="text-center"><span
 									id="channel-{{record.channelId}}-{{record.organizeId}}-label"
-									ng-bind="record.channelType"></span></td>
+									ng-bind="record.channelType | translate"></span></td>
 								<td class="text-left"><span
 									id="import-file-layout-{{record.channelId}}-{{record.organizeId}}-label"
 									ng-bind="record.displayName"></span></td>
