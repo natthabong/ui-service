@@ -1,0 +1,49 @@
+<div id="content" th:fragment="content">
+	<div class="app-title">
+		<div>
+			<h1>
+				<span id="header-message-label" class="animated fadeInLeft">{{'If
+					a date falls on a weekend or holiday?' | translate}}</span>
+			</h1>
+		</div>
+	</div>
+
+	<!-- <div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<div class="tile-body">
+					<div class="form-element">
+						<div class="panel panel-default col-md-12 padding-0">
+							<div class="panel-body">
+								<form name="createForm" class="form-horizontal">
+
+									<div class="form-group row">
+										<label id="application-will-label"
+											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Application
+											will' | translate}} : </label>
+									</div>
+
+									<ng-include ng-if="ctrl.isAR"
+										src="'/sponsor-configuration/date-falls-holiday/ar-settings-content'"
+										ng-if="true"></ng-include>
+									<ng-include ng-if="!ctrl.isAR"
+										src="'/sponsor-configuration/date-falls-holiday/ap-settings-content'"
+										ng-if="true"></ng-include>
+
+								</form>
+								<div class="col-md-12 col-sm-12 text-right">
+									<scf-button id="cancel-button" class="popup-button"
+										data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
+										ng-bind="'Cancel' | translate"></scf-button>
+									<scf-button id="save-button" type="submit"
+										ng-click="ctrl.saveShifting()" ng-bind="'Save' | translate"></scf-button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+</div>

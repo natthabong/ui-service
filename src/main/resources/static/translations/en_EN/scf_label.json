@@ -779,5 +779,17 @@
 	"Funding system integration monitor":"Lender system integration monitor",
 	
 	"SEND_TRANSACTION": "Send future transaction. ({{transactionNo}})",
-	"If a date falls on a weekend or holiday?": "If a date falls on a weekend or holiday?"
+	"If a date falls on a weekend or holiday?": "If a date falls on a weekend or holiday?",
+	"Which date will be shift" : "Which date will be shift",
+	"NOT_SHIFT" : "Not shift",
+	"SHIFT_TO_BEFORE_HOLIDAY" : "Shift to before holiday",
+	"SHIFT_TO_AFTER_HOLIDAY" : "Shift to after holiday",
+	"BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT" : "Buyer payment date for AP document import",
+	"BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB" : "Buyer payment date for existing AP document (job)",
+	"TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN" : "Transaction date for create loan with drawdown",
+	"TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT" : "Transaction date for create loan with overdraft",
+	"TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" : "Transaction date for loan with drawdown (job)",
+	"TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" : "Transaction date for loan with overdraft (job)",
+	"MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" : "Maturity date for loan with drawdown (job)",
+	"MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" : "Maturity date for loan with overdraft (job)"
 }

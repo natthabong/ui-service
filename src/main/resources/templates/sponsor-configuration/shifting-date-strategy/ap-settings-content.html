@@ -1,0 +1,387 @@
+<div th:fragment="content">
+
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+			<label id="file-protocol-label"> {{'File protocol' |
+				translate}}: </label>
+		</div>
+	</div>
+	
+	
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+			<label id="host-name-label"> {{'Host name' | translate}}: </label>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<scf-input-text id="host-name-textbox" maxlength="255"
+				ng-model="ctrl.channelModel.jobInformation.ftpDetail.remoteHost">
+			</scf-input-text>
+		</div>
+		<div class="col-md-1 col-sm-2 col-xs-8 control-label">
+			<label id="port-number-label"> {{'Port number' | translate}}:
+			</label>
+		</div>
+		<div class="col-md-1 col-sm-2 col-xs-8">
+			<scf-input-number id="port-number-textbox" maxlength="5"
+				ng-model="ctrl.channelModel.jobInformation.ftpDetail.remotePort">
+			</scf-input-number>
+		</div>
+	</div>
+	<div class="form-group row"
+		ng-show="errors.hostName || errors.portNumber">
+		<div ng-show="errors.hostName">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+				class="col-md-3 col-sm-3 col-xs-12 error-msg"
+				id="host-name-warning-message-label"
+				ng-bind="errors.hostName.message"> </span>
+		</div>
+		<div ng-show="errors.portNumber">
+			<label class="col-md-5 col-sm-3 col-xs-12 control-label"
+				ng-show="!errors.hostName"></label> <label
+				class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+				class="col-md-3 col-sm-3 col-xs-12 error-msg"
+				id="port-number-warning-message-label"
+				ng-bind="errors.portNumber.message"> </span>
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+			<label id="ftp-user-label"> {{'FTP user' | translate}}: </label>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<scf-input-text id="ftp-user-textbox" ng-disabled="true"
+				maxlength="100"
+				ng-model="ctrl.channelModel.jobInformation.ftpDetail.remoteUsername">
+			</scf-input-text>
+		</div>
+		<div class="col-md-2 col-sm-3 col-xs-12">
+			<scf-button id="setup-ftp-user-button" class="popup-button"
+				data-dismiss="modal" ng-click="ctrl.setupUserInfo()"
+				ng-bind="'Setup FTP user' | translate"> </scf-button>
+		</div>
+		<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+	</div>
+
+	<div class="form-group row" ng-show="errors.remoteUsername">
+		<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+			class="col-md-3 col-sm-3 col-xs-12 error-msg"
+			id="ftp-user-warning-message-label"
+			ng-bind="errors.remoteUsername.message"> </span>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+			<label id="remote-directory-label"> {{'Remote directory' |
+				translate}}: </label>
+		</div>
+
+		<div class="col-md-7 col-sm-8 col-xs-11">
+			<scf-input-text id="remote-directory-textbox" maxlength="255"
+				ng-model="ctrl.channelModel.jobInformation.ftpDetail.remotePath">
+			</scf-input-text>
+		</div>
+	</div>
+	<div class="form-group row" ng-show="errors.remoteDirectory">
+		<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+			class="col-md-8 col-sm-9 col-xs-12 error-msg"
+			id="remote-directory-warning-message-label"
+			ng-bind="errors.remoteDirectory.message"> </span>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+			<label id="filename-pattern-label"> {{'File name pattern' |
+				translate}}: </label>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-11">
+			<label class="control-label"
+				style="vertical-align: bottom; float: left; display: inline-block; margin-right: 0px;">Funding
+				Code_</label>
+			<scf-input-text id="filename-prefix-textbox" maxlength="200"
+				placeholder="filename prefix" style="width: 130px;display: inline;"
+				ng-model="ctrl.channelModel.prefixFileName"> </scf-input-text>
+		</div>
+		<div class="col-md-2 col-sm-3 col-xs-11">
+			<scf-dropdown id="filename-postfix-textbox" ng-disabled="true"
+				ng-model="ctrl.channelModel.filenamePattern"
+				component-data="ctrl.filenamePostfixDropdown"> </scf-dropdown>
+		</div>
+		<div class="col-md-2 col-sm-3 col-xs-11">
+			<div style="width: 85px;">
+				<label class="control-label"
+					style="width: 20px; float: left; display: inline-block; margin-right: 0px;">.</label>
+				<scf-input-text id="filename-extension-textbox" maxlength="5"
+					style="display: inline;width: 65px;" placeholder="extension"
+					ng-model="ctrl.channelModel.fileExtension"> </scf-input-text>
+			</div>
+		</div>
+	</div>
+	<div class="form-group row"
+		ng-show="errors.remoteFilenamePattern || errors.limitedFileSize">
+		<div ng-show="errors.remoteFilenamePattern">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+				class="col-md-3 col-sm-3 col-xs-12 error-msg"
+				id="file-name-pattern-warning-message-label"
+				ng-bind="errors.remoteFilenamePattern.message"> </span>
+		</div>
+		<div ng-show="errors.limitedFileSize">
+			<label class="col-md-5 col-sm-3 col-xs-12 control-label"
+				ng-show="!errors.filenamePattern"></label> <label
+				class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+				class="col-md-3 col-sm-3 col-xs-12 error-msg"
+				id="limited-file-size-warning-message-label"
+				ng-bind="errors.limitedFileSize.message"> </span>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+			<label id="file-encryption-label"> {{'File encryption' |
+				translate}}: </label>
+		</div>
+
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<input type="hidden"
+				ng-model="ctrl.channelModel.jobInformation.ftpDetail.encryptType" />
+			<scf-input-text id="file-encryption-textbox" ng-disabled="true"
+				maxlength="255"
+				ng-value="ctrl.channelModel.jobInformation.ftpDetail.encryptType | translate">
+			</scf-input-text>
+		</div>
+
+		<div class="col-md-2 col-sm-3 col-xs-12">
+			<scf-button id="setup-file-encryption-button" class="popup-button"
+				data-dismiss="modal" ng-click="ctrl.setupEncryptInfo()"
+				ng-bind="'Setup file encryption' | translate"> </scf-button>
+		</div>
+
+		<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+			<label id="frequency-label"> {{'Frequency' | translate}}: </label>
+		</div>
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<scf-dropdown id="frequency-dropdown"
+				ng-model="ctrl.channelModel.jobInformation.frequencyType"
+				component-data="ctrl.frequencyDropdown"> </scf-dropdown>
+		</div>
+		<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+	</div>
+
+	<div class="form-group">
+
+		<div class="row">
+			<label class="col-md-2 col-sm-3 col-hidden-xs  control-label"></label>
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				&nbsp;&nbsp;
+				<scf-checkbox id="monday-checkbox"
+					ng-model="ctrl.channelModel.monday"></scf-checkbox>
+				<label class="checkbox-inline" id="monday-label"
+					style="padding-bottom: 10px;">{{'Monday' | translate}}</label>
+			</div>
+
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<scf-checkbox id="tuesday-checkbox"
+					ng-model="ctrl.channelModel.tuesday"></scf-checkbox>
+				<label class="checkbox-inline" id="tuesday-label"
+					style="padding-bottom: 10px;">{{'Tuesday' | translate}}</label>
+			</div>
+
+			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+		</div>
+
+		<div class="row">
+			<label class="col-md-2 col-sm-3 col-hidden-xs control-label"></label>
+
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				&nbsp;&nbsp;
+				<scf-checkbox id="wednesday-checkbox"
+					ng-model="ctrl.channelModel.wednesday"></scf-checkbox>
+				<label class="checkbox-inline" id="wednesday-label"
+					style="padding-bottom: 10px;">{{'Wednesday' | translate}}</label>
+			</div>
+
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<scf-checkbox id="thursday-checkbox"
+					ng-model="ctrl.channelModel.thursday"></scf-checkbox>
+				<label class="checkbox-inline" id="thursday-label"
+					style="padding-bottom: 10px;">{{'Thursday' | translate}}</label>
+			</div>
+
+			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+		</div>
+
+		<div class="row">
+			<label class="col-md-2 col-sm-3 col-hidden-xs control-label"></label>
+
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				&nbsp;&nbsp;
+				<scf-checkbox id="friday-checkbox"
+					ng-model="ctrl.channelModel.friday"></scf-checkbox>
+				<label class="checkbox-inline" id="friday-label"
+					style="padding-bottom: 10px;">{{'Friday' | translate}}</label>
+			</div>
+
+			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+				<scf-checkbox id="saturday-checkbox"
+					ng-model="ctrl.channelModel.saturday"></scf-checkbox>
+				<label class="checkbox-inline" id="saturday-label"
+					style="padding-bottom: 10px;">{{'Saturday' | translate}}</label>
+			</div>
+
+			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+		</div>
+
+		<div class="row">
+
+			<label class="col-md-2 col-sm-3 col-hidden-xs control-label"></label>
+
+			<div class="col-md-3 col-sm-3 col-xs-12">
+				&nbsp;&nbsp;
+				<scf-checkbox id="sunday-checkbox"
+					ng-model="ctrl.channelModel.sunday"></scf-checkbox>
+				<label class="checkbox-inline" id="sunday-label"
+					style="padding-bottom: 4px;">{{'Sunday' | translate}}</label>
+			</div>
+
+			<div class="col-md-2 col-sm-3 col-hidden-xs"></div>
+			<div class="col-md-3 col-sm-3 col-hidden-xs"></div>
+
+		</div>
+	</div>
+
+	<div class="form-group row" ng-show="errors.daysOfWeek">
+		<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+			class="col-md-3 col-sm-3 col-xs-12 error-msg"
+			id="frequency-warning-message-label"
+			ng-bind="errors.daysOfWeek.message"> </span>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+			<label id="run-time-label"> {{'Run time' | translate}}: </label>
+		</div>
+		<div class="form-group row">
+			<div class="col-md-8 col-sm-9 col-xs-12">
+				<label class="radio-inline"><scf-radio
+						id="runtime-type-interval-radio"
+						name="runtime-type-interval-radio" value="INTERVAL"
+						ng-model="ctrl.channelModel.runtimeType"></scf-radio> {{
+					'Interval' | translate}} </label> <br />
+				<div class="form-group row">
+					<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+						<label id="begin-time-label"> {{'Begin time' |
+							translate}}: </label>
+					</div>
+					<div class="col-md-3 col-sm-3 col-xs-12">
+						<scf-input-text id="begin-time-textbox"
+							ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
+							ng-model="ctrl.channelModel.intervalBeginTime" name="beginTime"
+							ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+						</scf-input-text>
+					</div>
+					<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+						<label id="end-time-label"> {{'End time' | translate}}: </label>
+					</div>
+					<div class="col-md-3 col-sm-3 col-xs-12">
+						<scf-input-text id="end-time-textbox"
+							ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
+							ng-model="ctrl.channelModel.intervalEndTime" name="endTime"
+							ng-pattern="timeFormat" maxlength="5" placeholder="hh:mm">
+						</scf-input-text>
+					</div>
+				</div>
+
+				<div class="form-group row"
+					ng-show="errors.beginTime || errors.endTime">
+					<div ng-show="errors.beginTime">
+						<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
+						<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+							id="begin-time-warning-message-label"
+							ng-bind="errors.beginTime.message"> </span>
+					</div>
+					<div ng-show="errors.endTime">
+						<label class="col-md-5 col-sm-3 col-xs-12 control-label"
+							ng-show="!errors.beginTime"></label> <label
+							class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+							class="col-md-3 col-sm-3 col-xs-12 error-msg"
+							id="end-time-warning-message-label"
+							ng-bind="errors.endTime.message"> </span>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-md-2 col-sm-3 col-xs-12 control-label">
+						<label id="delayed-interval-label"> {{'Delayed interval
+							(sec)' | translate}}: </label>
+					</div>
+					<div class="col-md-3 col-sm-3 col-xs-12">
+						<scf-input-number id="delayed-interval-textbox" maxlength="5"
+							ng-disabled="ctrl.channelModel.runtimeType=='FIXED'"
+							ng-model="ctrl.channelModel.delayedInterval">
+						</scf-input-number>
+					</div>
+					<div class="col-md-6 col-sm-4 col-hidden-xs"></div>
+				</div>
+
+				<div class="form-group row" ng-show="errors.intervalInSeconds">
+					<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+						class="col-md-3 col-sm-3 col-xs-12 error-msg"
+						id="delayed-interval-warning-message-label"
+						ng-bind="errors.intervalInSeconds.message"> </span>
+				</div>
+				<label class="radio-inline"> <scf-radio
+						id="runtime-type-fixed-radio" name="runtime-type-fixed-radio"
+						value="FIXED" ng-model="ctrl.channelModel.runtimeType"></scf-radio>
+					{{ 'Fixed' | translate}}
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+		<div class="col-md-8 col-sm-9 col-xs-12 row">
+			<div class="col-md-2 col-sm-1 col-xs-8">
+				<scf-input-text id="run-time-textbox" ng-model="ctrl.runTime"
+					ng-disabled="ctrl.channelModel.runtimeType!='FIXED'" name="runTime"
+					ng-pattern="timeFormat" maxlength="5" class="hh-ss-input"
+					placeholder="hh:mm"> </scf-input-text>
+			</div>
+			<div class="col-md-1 col-sm-1 col-xs-8">
+				<scf-button id="add-runtime-button"
+					class="btn-default gec-btn-action"
+					ng-click="ctrl.addRuntime(ctrl.runTime)"> <i
+					class="fa fa-plus" aria-hidden="true"></i></scf-button>
+			</div>
+		</div>
+	</div>
+	<div class="form-group row" ng-repeat="runtime in ctrl.runTimes">
+		<div class="col-md-2 col-sm-3 col-xs-12 control-label"></div>
+		<div class="col-md-8 col-sm-9 col-xs-12 row">
+			<div class="col-md-2 col-sm-2 col-xs-8">
+				<input type="text" id="{{runtime}}-label"
+					class="form-control ng-valid ng-valid-pattern ng-valid-maxlength ng-not-empty ng-dirty ng-valid-parse ng-touched hh-ss-input"
+					ng-model="ctrl.channelModel.runTimes" ng-value="runtime"
+					ng-disabled="true" />
+			</div>
+			<div class="col-md-1 col-sm-1 col-xs-8">
+				<scf-button id="{{runtime}}-delete-button"
+					class="btn-default gec-btn-action"
+					ng-click="ctrl.deleteRuntime(runtime)" title="Delete runtime">
+				<i class="fa fa-trash-o" aria-hidden="true"></i></scf-button>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row" ng-show="errors.runtime">
+		<div ng-show="errors.runtime">
+			<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+				class="col-md-3 col-sm-3 col-xs-12 error-msg"
+				id="begin-time-warning-message-label"
+				ng-bind="errors.runtime.message"> </span>
+		</div>
+	</div>
+
+</div>
