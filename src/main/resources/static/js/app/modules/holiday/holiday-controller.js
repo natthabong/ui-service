@@ -74,7 +74,7 @@ scfApp.controller('BankHolidayController', [
 	    
 	    vm.loadAllYears = function() {
 	    	vm.yearDropDownItems = [];
-			var diferred = Service.doGet('api/holidays/all-years', vm.criteria);
+			var diferred = Service.doGet('api/v1/holidays/all-years', vm.criteria);
 			diferred.promise.then(function(response) {
 				var currentYear = new Date().getFullYear();
 				var i = 0;
