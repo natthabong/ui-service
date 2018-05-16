@@ -28,8 +28,8 @@
                                         <span id="shifting-date-strategy-label">{{'If a date falls on a weekend or holiday?' | translate}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn btn-sm" id="shifting-date-strategy-view-button" ng-click="ctrl.view(ctrl.supplierdata, 'PAYABLE')" title="View a shifting date strategy"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
-                                        <scf-button ng-disabled="ctrl.unauthenConfig()" id="shifting-date-strategy-setup-button" class="btn btn-sm" ng-click="ctrl.config(ctrl.supplierdata, 'PAYABLE')" title="Config a shifting date strategy"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn btn-sm" id="shifting-date-strategy-view-button" ng-click="ctrl.view('PAYABLE')" title="View a shifting date strategy"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenConfig()" id="shifting-date-strategy-setup-button" class="btn btn-sm" ng-click="ctrl.config('PAYABLE')" title="Config a shifting date strategy"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
                                     </td>
                                 </tr>
                             </tbody>
