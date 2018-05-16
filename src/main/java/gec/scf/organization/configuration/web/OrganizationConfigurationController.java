@@ -27,6 +27,9 @@ public class OrganizationConfigurationController {
 	private static final String PRODUCT_TYPE_SETTING = "sponsor-configuration/product-types/settings";
 
 	private static final String SUPPLIER_CODE = "sponsor-configuration/ap-document-config/supplier-code";
+	private static final String SHIFTING_DATE_STRATEGY = "sponsor-configuration/ap-document-config/shifting-date-strategy";
+	private static final String SETTING_SHIFTING_DATE_STRATEGY = "sponsor-configuration/shifting-date-strategy/setting";
+	private static final String VIEW_SHIFTING_DATE_STRATEGY = "sponsor-configuration/shifting-date-strategy/view";
 
 	private static final String AP_IMPORT_CHANNEL = "sponsor-configuration/ap-document-config/channel-configs";
 	private static final String AR_IMPORT_CHANNEL = "sponsor-configuration/ar-document-config/channel-configs";
@@ -510,6 +513,30 @@ public class OrganizationConfigurationController {
 			return SUPPLIER_CODE.concat(" :: content");
 		}
 		return SUPPLIER_CODE;
+	}
+	
+	@RequestMapping(path = "/shifting-date-strategy", method = RequestMethod.GET)
+	public String shiftingDateStrategy(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SHIFTING_DATE_STRATEGY.concat(" :: content");
+		}
+		return SHIFTING_DATE_STRATEGY;
+	}
+	
+	@RequestMapping(path = "/shifting-date-strategy/setting", method = RequestMethod.GET)
+	public String shiftingDateStrategySetting(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return SETTING_SHIFTING_DATE_STRATEGY.concat(" :: content");
+		}
+		return SETTING_SHIFTING_DATE_STRATEGY;
+	}
+	
+	@RequestMapping(path = "/shifting-date-strategy/view", method = RequestMethod.GET)
+	public String shiftingDateStrategyView(@RequestHeader("X-Requested-With") String requestedWith) {
+		if (AjaxUtils.isAjaxRequest(requestedWith)) {
+			return VIEW_SHIFTING_DATE_STRATEGY.concat(" :: content");
+		}
+		return VIEW_SHIFTING_DATE_STRATEGY;
 	}
 
 	@RequestMapping(path = "/transaction-document-configs", method = RequestMethod.GET)

@@ -25,6 +25,7 @@ angular.module('gecscf.organize.configuration', [
     'js/app/modules/organize/configuration/account/controllers/OrganizationAccountController.js',
     'js/app/modules/organize/configuration/account/services/OrganizationAccountService.js',
     'js/app/modules/organize/configuration/customer-code/controllers/CustomerCodeGroupController.js',
+    'js/app/modules/organize/configuration/shifting-date-strategy/controllers/ShiftingDateStrategyController.js',
     'js/app/common/scf-component.js',
     'js/app/common/scf-component.css',
     'js/app/sponsor-configuration/DisplayConfigController.js',

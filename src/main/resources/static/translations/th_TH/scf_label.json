@@ -722,5 +722,6 @@
 	"Adjustment transaction status fail.":"Adjustment transaction status fail.",
 	"Funding system integration monitor":"Lender system integration monitor",
 	
-	"SEND_TRANSACTION": "Send future transaction. ({{transactionNo}})"
+	"SEND_TRANSACTION": "Send future transaction. ({{transactionNo}})",
+	"If a date falls on a weekend or holiday?": "If a date falls on a weekend or holiday?"
 }
