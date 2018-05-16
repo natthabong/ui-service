@@ -1,5 +1,5 @@
 'use strict';
-angular.module('gecscf.organize.configuration', ['ui.router', 'gecscf.ui']).config(
+angular.module('gecscf.organize.configuration.shiftingDateStrategy', ['ui.router', 'gecscf.ui']).config(
 	['$stateProvider', function ($stateProvider) {
 
 		var resources = [

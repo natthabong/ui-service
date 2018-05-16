@@ -1,5 +1,5 @@
 'use strict';
-angular.module('gecscf.organize.configuration').controller(
+angular.module('gecscf.organize.configuration.shiftingDateStrategy').controller(
     'ShiftingDateStrategyController', [
         'SCFCommonService',
         '$log',

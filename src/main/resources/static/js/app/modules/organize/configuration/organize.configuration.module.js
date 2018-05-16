@@ -10,7 +10,8 @@ angular.module('gecscf.organize.configuration', [
   'gecscf.organize.configuration.channel',
   'gecscf.organize.configuration.mappingData',
   'gecscf.organize.configuration.customerCode',
-  'gecscf.organize.configuration.paymentDateFormula'
+  'gecscf.organize.configuration.paymentDateFormula',
+  'gecscf.organize.configuration.shiftingDateStrategy'
 ]).config(['$stateProvider', function ($stateProvider) {
   var requiredModules = [
     'js/app/sponsor-configuration/sponsor-config-controller.js',

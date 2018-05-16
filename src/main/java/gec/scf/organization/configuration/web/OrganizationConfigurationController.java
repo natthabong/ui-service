@@ -28,7 +28,7 @@ public class OrganizationConfigurationController {
 
 	private static final String SUPPLIER_CODE = "sponsor-configuration/ap-document-config/supplier-code";
 	private static final String SHIFTING_DATE_STRATEGY = "sponsor-configuration/ap-document-config/shifting-date-strategy";
-	private static final String SETTING_SHIFTING_DATE_STRATEGY = "sponsor-configuration/shifting-date-strategy/setting";
+	private static final String SETTING_SHIFTING_DATE_STRATEGY = "sponsor-configuration/shifting-date-strategy/settings";
 	private static final String VIEW_SHIFTING_DATE_STRATEGY = "sponsor-configuration/shifting-date-strategy/view";
 
 	private static final String AP_IMPORT_CHANNEL = "sponsor-configuration/ap-document-config/channel-configs";
@@ -523,7 +523,7 @@ public class OrganizationConfigurationController {
 		return SHIFTING_DATE_STRATEGY;
 	}
 	
-	@RequestMapping(path = "/shifting-date-strategy/setting", method = RequestMethod.GET)
+	@RequestMapping(path = "/shifting-date-strategy/settings", method = RequestMethod.GET)
 	public String shiftingDateStrategySetting(@RequestHeader("X-Requested-With") String requestedWith) {
 		if (AjaxUtils.isAjaxRequest(requestedWith)) {
 			return SETTING_SHIFTING_DATE_STRATEGY.concat(" :: content");
