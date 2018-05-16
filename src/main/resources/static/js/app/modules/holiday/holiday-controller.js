@@ -16,9 +16,12 @@ scfApp.controller('BankHolidayController', [
 
 	    var vm = this;
 	    var log = $log;
-
+	    var viewMode = $stateParams.viewMode;
+	    vm.showLender = false;
+	    vm.lenderDropDownItems = [];
 	    vm.yearDropDownItems = [];
 	    vm.criteria = {
+	    	fundingId: null,
 			year : null
 	    }
 
@@ -53,9 +56,25 @@ scfApp.controller('BankHolidayController', [
 	    vm.searchHoliday = function(pagingModel) {
 	    	vm.pagingController.search(pagingModel);
 	    }
-
-	    var loadAllYears = function(callback) {
-			var diferred = Service.doGet('api/holidays/all-years');
+	    
+	    var loadAllLender = function() {
+			var diferred = Service.doGet('api/v1/fundings');
+			diferred.promise.then(function(response) {
+			    response.data.forEach(function(lender) {
+					vm.lenderDropDownItems.push({
+					    label : lender.fundingName,
+					    value : lender.fundingId,
+					    valueObject : lender.fundingId
+					});
+			    });
+			    vm.criteria.fundingId = vm.lenderDropDownItems[0].value;
+			    vm.loadAllYears();
+			});
+	    }
+	    
+	    vm.loadAllYears = function() {
+	    	vm.yearDropDownItems = [];
+			var diferred = Service.doGet('api/holidays/all-years', vm.criteria);
 			diferred.promise.then(function(response) {
 				var currentYear = new Date().getFullYear();
 				var i = 0;
@@ -78,14 +97,17 @@ scfApp.controller('BankHolidayController', [
 			    	}
 			    	vm.criteria.year = vm.yearDropDownItems[currentYearIndex].value;
 			    }
-			    callback();
+			    
+    			vm.searchHoliday();
 			});
 	    }
 
 	    var initial = function() {
-			loadAllYears(function() {
-			    vm.searchHoliday();
-			})
+	    	if(viewMode == 'FUNDING'){
+	    		vm.loadAllYears();
+	    	}else{
+		    	loadAllLender();
+	    	}
 	    }
 
 	    initial();

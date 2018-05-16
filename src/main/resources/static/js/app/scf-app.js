@@ -249,6 +249,22 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					url: '/bank-information/holidays',
 					controller: 'BankHolidayController',
 					controllerAs: 'ctrl',
+					params : {
+						viewMode : 'FUNDING',
+						criteria : null,
+						backAction : false
+					},
+					templateUrl: '/holidays/',
+					resolve: WebHelper.loadScript(['js/app/modules/holiday/holiday-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+				}).state('/bank-information/holidays/all-funding', {
+					url: '/bank-information/holidays/all-funding',
+					controller: 'BankHolidayController',
+					controllerAs: 'ctrl',
+					params : {
+						viewMode : 'ALLFUNDING',
+						criteria : null,
+						backAction : false
+					},
 					templateUrl: '/holidays/',
 					resolve: WebHelper.loadScript(['js/app/modules/holiday/holiday-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/monitoring/activity-log', {
