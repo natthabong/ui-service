@@ -16,7 +16,8 @@ angular.module('gecscf.organize.configuration.shiftingDateStrategy', ['ui.router
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/shifting-date-strategy/settings',
 			params: {
-				accountingTransactionType: null
+				accountingTransactionType: null,
+				organizeId: null
 			},
 			resolve: WebHelper.loadScript(resources)
 			
@@ -26,7 +27,8 @@ angular.module('gecscf.organize.configuration.shiftingDateStrategy', ['ui.router
 			controllerAs: 'ctrl',
 			templateUrl: '/sponsor-configuration/shifting-date-strategy/view',
 			params: {
-				accountingTransactionType: null
+				accountingTransactionType: null,
+				organizeId: null
 			},
 			resolve: WebHelper.loadScript(resources)
 		});

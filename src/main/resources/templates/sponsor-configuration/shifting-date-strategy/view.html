@@ -2,13 +2,14 @@
 	<div class="app-title">
 		<div>
 			<h1>
-				<span id="header-message-label" class="animated fadeInLeft">{{'If
-					a date falls on a weekend or holiday?' | translate}}</span>
+				<span id="shifting-date-strategy-header-label"
+					class="animated fadeInLeft">{{'If a date falls on a weekend
+					or holiday?' | translate}}</span>
 			</h1>
 		</div>
 	</div>
 
-	<!-- <div class="row">
+	<div class="row">
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
@@ -17,26 +18,137 @@
 							<div class="panel-body">
 								<form name="createForm" class="form-horizontal">
 
-									<div class="form-group row">
-										<label id="application-will-label"
-											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Application
-											will' | translate}} : </label>
+									<div class="col-md-12 col-sm-12 col-xs-12">
+										<label id="application-will-label">{{'Application
+											will' | translate}}: </label> <br /> <label
+											style="margin-right: 15px;"> <input type="radio"
+											id="not-shift-radio" name="application-will-radio" ng-disabled="true"
+											ng-change="ctrl.shiftStrategyChange(ctrl.shiftingMethodDisplay)"
+											ng-model="ctrl.shiftingMethodDisplay" value="NOT_SHIFT" /> <span
+											id="not-shift-label">{{'NOT_SHIFT' | translate}}</span>
+										</label> <label style="margin-right: 15px;"> <input
+											type="radio" id="shift-to-before-holiday-radio"
+											name="application-will-radio" ng-disabled="true"
+											ng-change="ctrl.shiftStrategyChange(ctrl.shiftingMethodDisplay)"
+											ng-model="ctrl.shiftingMethodDisplay"
+											value="SHIFT_TO_BEFORE_HOLIDAY" /> <span
+											id="shift-to-before-holiday-label">{{'SHIFT_TO_BEFORE_HOLIDAY'
+												| translate}}</span>
+										</label> <label> <input type="radio"
+											id="shift-to-after-holiday-radio"
+											name="application-will-radio" ng-disabled="true"
+											ng-change="ctrl.shiftStrategyChange(ctrl.shiftingMethodDisplay)"
+											ng-model="ctrl.shiftingMethodDisplay"
+											value="SHIFT_TO_AFTER_HOLIDAY" /> <span
+											id="shift-to-after-holiday-label">{{'SHIFT_TO_AFTER_HOLIDAY'
+												| translate}}</span>
+										</label>
 									</div>
+									<br /> <br />
 
-									<ng-include ng-if="ctrl.isAR"
-										src="'/sponsor-configuration/date-falls-holiday/ar-settings-content'"
-										ng-if="true"></ng-include>
-									<ng-include ng-if="!ctrl.isAR"
-										src="'/sponsor-configuration/date-falls-holiday/ap-settings-content'"
-										ng-if="true"></ng-include>
+									<div class="col-md-12 col-sm-12 col-xs-12">
+										<label class="checkbox-inline"> <span
+											id="which-date-will-be-shift-label">{{'Which date will
+												be shift' | translate}}:</span>
+										</label>
+									</div>
+									<br />
+
+									<div ng-if="ctrl.showShiftingContent('PAYABLE')">
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="buyer-payment-date-for-AP-document-import-checkbox"
+												ng-disabled="true"
+												ng-model="ctrl.shifStrategyDisplayItemAP.BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT" />
+												<span id="buyer-payment-date-for-AP-document-import-label">{{'BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT'
+													| translate}}</span>
+											</label>
+										</div>
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="buyer-payment-date-for-existing-AP-document-job-checkbox"
+												ng-disabled="true"
+												ng-model="ctrl.shifStrategyDisplayItemAP.BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB" />
+												<span
+												id="buyer-payment-date-for-existing-AP-document-job-label">{{'BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB'
+													| translate}}</span>
+											</label>
+										</div>
+										<br />
+
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="txn-date-for-create-loan-with-drawdown-checkbox"
+												ng-disabled="true"
+												ng-model="ctrl.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN" />
+												<span id="txn-date-for-create-loan-with-drawdown-label">{{'TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN'
+													| translate}}</span>
+											</label>
+										</div>
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="txn-date-for-create-loan-with-od-checkbox"
+												ng-disabled="true"
+												ng-model="ctrl.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT" />
+												<span id="txn-date-for-create-loan-with-od-label">{{'TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT'
+													| translate}}</span>
+											</label>
+										</div>
+										<br />
+
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="txn-date-for-loan-with-drawdown-job-checkbox"
+												ng-disabled="true"
+												ng-model="ctrl.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" />
+												<span id="txn-date-for-loan-with-drawdown-job-label">{{'TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB'
+													| translate}}</span>
+											</label>
+										</div>
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox" id="txn-date-for-loan-with-od-job-checkbox"
+												ng-disabled="true"
+												ng-model="ctrl.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" />
+												<span id="txn-date-for-loan-with-od-job-label">{{'TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB'
+													| translate}}</span>
+											</label>
+										</div>
+										<br />
+
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="maturity-date-for-loan-with-drawdown-job-checkbox"
+												ng-disabled="true"
+												ng-model="ctrl.shifStrategyDisplayItemAP.MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" />
+												<span id="maturity-date-for-loan-with-drawdown-job-label">{{'MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB'
+													| translate}}</span>
+											</label>
+										</div>
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="maturity-date-for-loan-with-od-job-checkbox"
+												ng-disabled="true"
+												ng-model="ctrl.shifStrategyDisplayItemAP.MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" />
+												<span id="maturity-date-for-loan-with-od-job-label">{{'MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB'
+													| translate}}</span>
+											</label>
+										</div>
+									</div>
+									<div ng-if="ctrl.showShiftingContent('RECEIVABLE')">xxxx</div>
 
 								</form>
 								<div class="col-md-12 col-sm-12 text-right">
-									<scf-button id="cancel-button" class="popup-button"
+									<scf-button id="back-button" class="popup-button"
 										data-dismiss="modal" ng-click="ctrl.backToSponsorConfigPage()"
-										ng-bind="'Cancel' | translate"></scf-button>
-									<scf-button id="save-button" type="submit"
-										ng-click="ctrl.saveShifting()" ng-bind="'Save' | translate"></scf-button>
+										ng-bind="'Back' | translate"></scf-button>
 								</div>
 							</div>
 						</div>
@@ -44,6 +156,6 @@
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 
 </div>

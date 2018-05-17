@@ -8,14 +8,11 @@ shiftingDateStrategyModule.controller('ShiftingDateStrategySettingController', [
 
 		var vm = this;
 		var log = $log;
+		
 		var NOT_SHIFT = "NOT_SHIFT";
-		
-		var accountingTransactionType = $stateParams.accountingTransactionType;
-		var organizeId = $stateParams.organizeId;
-		var fundingId = $stateParams.fundingId;
-		
-		var BASE_URI = 'api/v1/XXX/' + organizeId;
-		
+		vm.accountingTransactionType = $stateParams.accountingTransactionType;
+		vm.organizeId = $stateParams.organizeId;
+
 		var initShifStrategyItemAP = {
 				BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT : false,
 				BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB : false,
@@ -36,41 +33,45 @@ shiftingDateStrategyModule.controller('ShiftingDateStrategySettingController', [
 		// PAYMENT_DATE_FOR_PAYMENT_WITH_SPECIAL_DEBIT_JOB : false
 		// };
 		
-		var initShiftingModel = {
-				shiftingDateStrategyId : 0,
-				ownerId : organizeId,
-				accountingTransactionType : "PAYABLE",
-				fundingId : fundingId,
+		vm.initShiftingModelAP = {
+				ownerId : vm.organizeId,
+				accountingTransactionType : vm.accountingTransactionType,
 				shiftingMethod : NOT_SHIFT,
 				items : [
-					{shiftingDateStrategyItemId : 0, shiftingDateStrategyId : 0, dateType : "BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT", suspend:true},
-					{shiftingDateStrategyItemId : 0, shiftingDateStrategyId : 0, dateType : "BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB", suspend:true},
-					{shiftingDateStrategyItemId : 0, shiftingDateStrategyId : 0, dateType : "TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN", suspend:true},
-					{shiftingDateStrategyItemId : 0, shiftingDateStrategyId : 0, dateType : "TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT", suspend:true},
-					{shiftingDateStrategyItemId : 0, shiftingDateStrategyId : 0, dateType : "TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB", suspend:true},
-					{shiftingDateStrategyItemId : 0, shiftingDateStrategyId : 0, dateType : "TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB", suspend:true},
-					{shiftingDateStrategyItemId : 0, shiftingDateStrategyId : 0, dateType : "MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB", suspend:true},
-					{shiftingDateStrategyItemId : 0, shiftingDateStrategyId : 0, dateType : "MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB", suspend:true}
+					{dateType : "BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT", suspend:true},
+					{dateType : "BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB", suspend:true},
+					{dateType : "TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN", suspend:true},
+					{dateType : "TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT", suspend:true},
+					{dateType : "TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB", suspend:true},
+					{dateType : "TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB", suspend:true},
+					{dateType : "MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB", suspend:true},
+					{dateType : "MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB", suspend:true}
 				]
 		};
 		
-		vm.shiftingMethod = {
-			name : NOT_SHIFT
-		};
-		vm.isNotShift = true;
+		vm.showShiftingContent = function (value) {
+			if (vm.accountingTransactionType == undefined || vm.accountingTransactionType == null || vm.accountingTransactionType == '') {
+				return false;
+			}
+			if (value == undefined || value == null || value == '') {
+				return false;
+			}
+			if (vm.accountingTransactionType == value) {
+				return true;
+			}
+		}
 		
-		vm.shifStrategyItemAP = angular.copy(initShifStrategyItemAP);
 		vm.shiftStrategyChange = function (value) {
 			if (NOT_SHIFT == value) {
 				vm.isNotShift = true;
-				vm.shifStrategyItemAP = angular.copy(initShifStrategyItemAP);
+				vm.shifStrategyDisplayItemAP = angular.copy(initShifStrategyItemAP);
 			} else {
 				vm.isNotShift = false;
 			}
 		}
 
-		var sendRequest = function (uri, succcesFunc, failedFunc) {
-			var serviceDiferred = Service.doGet(BASE_URI + uri);
+		var sendRequestToGet = function (uri, succcesFunc, failedFunc) {
+			var serviceDiferred = Service.doGet(uri);
 
 			var failedFunc = failedFunc | function (response) {
 				log.error('Load data error');
@@ -79,64 +80,107 @@ shiftingDateStrategyModule.controller('ShiftingDateStrategySettingController', [
 		}
 
 		vm.getShiftStrategyItemAP = function () {
-			sendRequest('/export-channels/' + channelId, function (response) {
-				vm.shiftingModel = response.data;
-				if (vm.shiftingModel.items != null && vm.shiftingModel.items.length > 0) {
-					vm.shiftingModel.items.forEach(function (data) {
-						if ("BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT" == data.suspend) {
-							vm.strategyItemAP.BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT = data.suspend;
-						} else if ("BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB" == data.suspend) {
-							vm.strategyItemAP.BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB = data.suspend;
-						} else if ("TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN" == data.suspend) {
-							vm.strategyItemAP.TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN = data.suspend;
-						} else if ("TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT" == data.suspend) {
-							vm.strategyItemAP.TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT = data.suspend;
-						} else if ("TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" == data.suspend) {
-							vm.strategyItemAP.TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB = data.suspend;			
-						} else if ("TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" == data.suspend) {
-							vm.strategyItemAP.TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB = data.suspend;
-						} else if ("MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" == data.suspend) {
-							vm.strategyItemAP.MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB = data.suspend;				
-						} else if ("MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" == data.suspend) {
-							vm.strategyItemAP.MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB = data.suspend;			
-						}
-					});
+			vm.shiftingMethodDisplay = NOT_SHIFT;
+			vm.isNotShift = true;
+			vm.shifStrategyDisplayItemAP = angular.copy(initShifStrategyItemAP);
+			vm.shiftingModel = angular.copy(vm.initShiftingModelAP);
+			sendRequestToGet('api/v1/organize-customers/'+ vm.organizeId + '/accounting-transaction-type/PAYABLE/shifting-date-strategies', function (response) {
+				if(response.data != undefined || response.data != null) {
+					vm.shiftingModel = response.data;
+					vm.shiftingMethodDisplay = vm.shiftingModel.shiftingMethod;
+					vm.shiftStrategyChange(vm.shiftingMethodDisplay);
+					if (vm.shiftingModel.items != null && vm.shiftingModel.items.length > 0) {
+						vm.shiftingModel.items.forEach(function (data) {
+							if ("BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT" == data.dateType) {
+								vm.shifStrategyDisplayItemAP.BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT = !data.suspend;
+							} else if ("BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB" == data.dateType) {
+								vm.shifStrategyDisplayItemAP.BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB = !data.suspend;
+							} else if ("TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN" == data.dateType) {
+								vm.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN = !data.suspend;
+							} else if ("TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT" == data.dateType) {
+								vm.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT = !data.suspend;
+							} else if ("TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" == data.dateType) {
+								vm.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB = !data.suspend;			
+							} else if ("TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" == data.dateType) {
+								vm.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB = !data.suspend;
+							} else if ("MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" == data.dateType) {
+								vm.shifStrategyDisplayItemAP.MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB = !data.suspend;				
+							} else if ("MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" == data.dateType) {
+								vm.shifStrategyDisplayItemAP.MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB = !data.suspend;			
+							}
+						});
+					}
 				}
 			});
 		};
 
 		$scope.confirmSave = function () {
 			blockUI.start();
-			var serviceUrl = BASE_URI + '/export-channels/' + vm.shiftingModel.ownerId;
 			var deffered = $q.defer();
-			var serviceDiferred = $http({
-				method: 'POST',
-				url: serviceUrl,
-				headers: {
-					'If-Match': vm.shiftingModel.version,
-					'X-HTTP-Method-Override': 'PUT'
-				},
-				data: vm.shiftingModel
-			}).then(function (response) {
-				deffered.resolve(response.data)
-			}).catch(function (response) {
-				deffered.reject(response);
-			});
+			if (vm.shiftingModel.shiftingDateStrategyId == undefined || vm.shiftingModel.shiftingDateStrategyId == null || vm.shiftingModel.shiftingDateStrategyId == '') {
+				// new
+				var serviceUrl = 'api/v1/organize-customers/' + vm.shiftingModel.ownerId + '/shifting-date-strategies';
+				var serviceDiferred = $http({
+					method: 'POST',
+					url: serviceUrl,
+					data: vm.shiftingModel
+				}).then(function (response) {
+					deffered.resolve(response.data)
+				}).catch(function (response) {
+					deffered.reject(response);
+				});
+			} else {
+				// update
+				var serviceUrl = 'api/v1/organize-customers/' + vm.shiftingModel.ownerId + '/accounting-transaction-type/PAYABLE/shifting-date-strategies/' + vm.shiftingModel.shiftingDateStrategyId;
+				var serviceDiferred = $http({
+					method: 'POST',
+					url: serviceUrl,
+					headers: {
+						'If-Match': vm.shiftingModel.version,
+						'X-HTTP-Method-Override': 'PUT'
+					},
+					data: vm.shiftingModel
+				}).then(function (response) {
+					deffered.resolve(response.data)
+				}).catch(function (response) {
+					deffered.reject(response);
+				});
+			}
 			return deffered;
 		}
 		
 		vm.backToSponsorConfigPage = function () {
 			PageNavigation.gotoPage('/sponsor-configuration', {
-				organizeId: organizeId
+				organizeId: vm.organizeId
 			});
 		}
 		
-		vm.prepareDataToSave = function () {
+		vm.prepareShiftingAPToSave = function () {
 			
+			vm.shiftingModel.shiftingMethod = vm.shiftingMethodDisplay;
+			vm.shiftingModel.items.forEach(function (data) {
+				if ("BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT" == data.dateType) {
+					data.suspend = !vm.shifStrategyDisplayItemAP.BUYER_PAYMENT_DATE_FOR_AP_DOCUMENT_IMPORT;
+				} else if ("BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB" == data.dateType) {
+					data.suspend = !vm.shifStrategyDisplayItemAP.BUYER_PAYMENT_DATE_FOR_EXISTING_AP_DOCUMENT_JOB;
+				} else if ("TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN" == data.dateType) {
+					data.suspend = !vm.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_DRAWDOWN;
+				} else if ("TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT" == data.dateType) {
+					data.suspend = !vm.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_CREATE_LOAN_WITH_OVERDRAFT;
+				} else if ("TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" == data.dateType) {
+					data.suspend = !vm.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB;			
+				} else if ("TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" == data.dateType) {
+					data.suspend = !vm.shifStrategyDisplayItemAP.TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB;
+				} else if ("MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" == data.dateType) {
+					data.suspend = !vm.shifStrategyDisplayItemAP.MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB;				
+				} else if ("MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" == data.dateType) {
+					data.suspend = !vm.shifStrategyDisplayItemAP.MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB;			
+				}
+			});
 		}
 		
 		vm.save = function () {
-			vm.prepareDataToSave();
+			vm.prepareShiftingAPToSave();
 			var preCloseCallback = function (confirm) {
 				vm.backToSponsorConfigPage();
 			}
@@ -151,7 +195,7 @@ shiftingDateStrategyModule.controller('ShiftingDateStrategySettingController', [
 					blockUI.stop();
 					UIFactory.showSuccessDialog({
 						data: {
-							headerMessage: 'Edit channel complete.',
+							headerMessage: 'Edit shifting date strategy complete.',
 							bodyMessage: ''
 						},
 						preCloseCallback: preCloseCallback
@@ -160,12 +204,12 @@ shiftingDateStrategyModule.controller('ShiftingDateStrategySettingController', [
 				
 				onFail: function (response) {
 					var msg = {
-						405: 'Channel has been modified.'
+						405: 'Shifting date strategy has been modified.'
 					};
 					blockUI.stop();
 					UIFactory.showFailDialog({
 						data: {
-							headerMessage: 'Edit channel fail.',
+							headerMessage: 'Edit shifting date strategy fail.',
 							bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
 						},
 						preCloseCallback: null
@@ -175,8 +219,7 @@ shiftingDateStrategyModule.controller('ShiftingDateStrategySettingController', [
 		}
 
 		vm.initLoad = function () {
-// vm.getShiftStrategyItemAP();
-			log.error(initShiftingModel);
+			vm.getShiftStrategyItemAP();
 		}();
 
 	}

@@ -19,7 +19,8 @@ angular.module('gecscf.organize.configuration.shiftingDateStrategy').controller(
 
             vm.config = function(accountingTransactionType) {
                 var params = {
-                    accountingTransactionType: accountingTransactionType
+                    accountingTransactionType: accountingTransactionType,
+                    organizeId: $stateParams.organizeId
                 };
                 
                 PageNavigation.gotoPage('/sponsor-configuration/shifting-date-strategy/settings', params)
@@ -27,7 +28,8 @@ angular.module('gecscf.organize.configuration.shiftingDateStrategy').controller(
             
             vm.view = function(accountingTransactionType) {
                 var params = {
-                    accountingTransactionType: accountingTransactionType
+                    accountingTransactionType: accountingTransactionType,
+                    organizeId: $stateParams.organizeId
                 };
                   
                 PageNavigation.gotoPage('/sponsor-configuration/shifting-date-strategy/view', params)
