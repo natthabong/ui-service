@@ -95,6 +95,15 @@
 												ng-bind="errors.layout.message"> </span>
 										</div>
 									</div>
+									<div class="form-group row">
+										<label id="maximum-file-size-label" for="dealer"
+											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Maximum file size (MB)' | translate}}: </label>
+										<div class="col-md-3 col-sm-4 col-xs-12">
+											<input name="maxFileSize" restrict-to="[0-9]"
+													id="maximum-file-size-number" type="number" min="1" max="10"
+													required="false" ng-model="ctrl.channelModel.maximumFileSize" maxlength="2"  class="form-control-input"></input>
+										</div>
+									</div>
 									<ng-include ng-show="ctrl.isSetupFTP"
 										src="'/sponsor-configuration/import-channels/ftp-settings'"
 										ng-if="true"></ng-include>
@@ -104,7 +113,7 @@
 											date' | translate}}:</label>
 										<div class="col-md-3 col-sm-4 gec-calendar-group">
 											<scf-date-picker text-id="active-date-textbox"
-												text-model="ctrl.channelModel.activeDate"
+												text-model="ctrl.channelModel.activeDate" 
 												date-format="dd/MM/yyyy" is-open="ctrl.openActiveDate"
 												open-calendar-action="ctrl.openCalendarActiveDate()"
 												max-date="ctrl.channelModel.expiryDate"

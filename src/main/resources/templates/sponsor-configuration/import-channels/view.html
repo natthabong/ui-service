@@ -71,6 +71,12 @@
 											class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.channelModel.sponsorLayoutConfig.displayName}}</label>
 										<div class="col-md-6 col-sm-4"></div>
 									</div>
+									<div class="form-group row">
+										<label id="maximum-file-size-label" for="dealer"
+											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Maximum file size (MB)' | translate}}: </label> <label id="maximum-file-size-value-label"
+											class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.channelModel.maximumFileSize}}</label>
+										<div class="col-md-6 col-sm-4"></div>
+									</div>
 									<ng-include ng-show="ctrl.isSetupFTP"
 										src="'/sponsor-configuration/import-channels/ftp-view'"
 										ng-if="true"></ng-include>
@@ -81,8 +87,8 @@
 											class="col-md-3 col-sm-4 col-xs-12 control-label">{{ctrl.channelModel.activeDate
 											| date:'dd/MM/yyyy'}}</label>
 
-										<div>
-											<div class="col-md-2 col-sm-3 col-xs-2"
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<div class="col-md-4 col-sm-4 col-xs-2"
 												style="padding-left: 25px;">
 												<scf-checkbox id="expire-date-checkbox"
 													ng-model="ctrl.isUseExpireDate" ng-disabled="true"></scf-checkbox>
@@ -90,7 +96,7 @@
 													style="padding-bottom: 10px;">{{'Expire date' |
 													translate}}:</label>
 											</div>
-											<div class="col-md-3 col-sm-3 gec-calendar-group"
+											<div class="col-md-4 col-sm-4 gec-calendar-group"
 												style="padding-left: 35px;">
 												<label id="expire-date-value-label"
 													ng-if="ctrl.channelModel.expiryDate!=null"

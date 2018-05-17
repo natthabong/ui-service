@@ -318,6 +318,7 @@
 	"All": "All",
 	"Sponsor is required": "Sponsor is required",
 	"File layout": "File layout",
+	"Maximum file size (MB)" : "Maximum file size (MB)",
 	"File layout name": "File layout name",
 	"Fixed length": "Fixed length",
 	"Delimited": "Delimited",
