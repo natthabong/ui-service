@@ -429,13 +429,6 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 					}
 				}
 
-				if (ftpDetail.limitedFileSize == undefined || ftpDetail.limitedFileSize == null || ftpDetail.limitedFileSize == "") {
-					isValid = false;
-					$scope.errors.limitedFileSize = {
-						message: 'Limited file size (MB) is required.'
-					}
-				}
-
 				if (ftpDetail.connectionRetry == undefined || ftpDetail.connectionRetry == null || ftpDetail.connectionRetry == "") {
 					isValid = false;
 					$scope.errors.connectionRetry = {
@@ -474,8 +467,22 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 							message: 'Time is required.'
 					}
 				}
+				if ((vm.channelModel.maximumFileSize != undefined && ( parseInt(vm.channelModel.maximumFileSize, 50) > 10|| parseInt(vm.channelModel.maximumFileSize, 10) < 1 )) || vm.channelModel.maximumFileSize == null  || vm.channelModel.maximumFileSize == "") {
+					isValid = false;
+					$scope.errors.limitedFileSize = {
+						message: 'Maximum file size must in 1-50 MB.'
+					}
+				}
+			}else{
+				if ((vm.channelModel.maximumFileSize != undefined  && ( parseInt(vm.channelModel.maximumFileSize, 10) > 10  ||  parseInt(vm.channelModel.maximumFileSize, 10) < 1 )) || vm.channelModel.maximumFileSize == null  || vm.channelModel.maximumFileSize == "") {
+					isValid = false;
+					console.log("limited size")
+					$scope.errors.limitedFileSize = {
+						message: 'Maximum file size must in 1-10 MB.'
+					}
+				}
 			}
-
+			
 			if (!angular.isDefined(channel.activeDate)) {
 				isValid = false;
 				$scope.errors.activeDate = {
@@ -556,6 +563,8 @@ importChannelModule.controller('ImportChannelController', ['$log', '$scope', '$s
 			if (vm.channelModel.channelType == 'FTP') {
 				vm.channelModel.jobInformation.ownerId = parameters.organizeId;
 			}
+			
+			console.log(vm.channelModel);
 
 			var serviceUrl = BASE_URI + '/channels/' + vm.channelModel.channelId;
 			var deffered = $q.defer();

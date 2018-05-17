@@ -104,6 +104,11 @@
 													required="false" ng-model="ctrl.channelModel.maximumFileSize" maxlength="2"  class="form-control-input"></input>
 										</div>
 									</div>
+									<div ng-show="errors.limitedFileSize">
+										 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
+											id="limited-file-size-warning-message-label"
+											ng-bind="errors.limitedFileSize.message"> </span>
+									</div>
 									<ng-include ng-show="ctrl.isSetupFTP"
 										src="'/sponsor-configuration/import-channels/ftp-settings'"
 										ng-if="true"></ng-include>
@@ -135,7 +140,7 @@
 												<scf-date-picker text-id="expire-date-textbox"
 													text-model="ctrl.channelModel.expiryDate"
 													date-format="dd/MM/yyyy" is-open="ctrl.openExpireDate"
-													open-calendar-action="ctrl.openCalendarExpireDate()"
+													open-calendar-action="ctrl.openCalendarExpireDate()" 
 													min-date="ctrl.tomorrow >  ctrl.channelModel.activeDate ? ctrl.tomorrow : ctrl.getNextDay(ctrl.channelModel.activeDate)"
 													ng-disabled="!ctrl.isUseExpireDate || !ctrl.manageAll"
 													button-id="expire-date-button"> </scf-date-picker>

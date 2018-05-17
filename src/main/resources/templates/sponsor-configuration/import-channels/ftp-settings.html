@@ -104,13 +104,8 @@
 				</scf-input-text>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
-				<label id="limited-file-size-label"> {{'Limited file size
-					(MB)' | translate}}: </label>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-12">
-				<scf-input-number id="limited-file-size-textbox" maxlength="5"
-					ng-model="ctrl.channelModel.jobInformation.ftpDetail.limitedFileSize">
-				</scf-input-number>
 			</div>
 		</div>
 		<div class="form-group row"
@@ -120,14 +115,6 @@
 					class="col-md-3 col-sm-3 col-xs-12 error-msg"
 					id="file-name-pattern-warning-message-label"
 					ng-bind="errors.remoteFilenamePattern.message"> </span>
-			</div>
-			<div ng-show="errors.limitedFileSize">
-				<label class="col-md-5 col-sm-3 col-xs-12 control-label"
-					ng-show="!errors.filenamePattern"></label> <label
-					class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
-					class="col-md-3 col-sm-3 col-xs-12 error-msg"
-					id="limited-file-size-warning-message-label"
-					ng-bind="errors.limitedFileSize.message"> </span>
 			</div>
 		</div>
 
