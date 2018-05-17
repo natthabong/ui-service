@@ -5,13 +5,13 @@ angular.module('scfApp').factory('BankHolidayService', ['$http', '$q', function(
     	deleteHoliday: deleteHoliday
     };	
     
-    function save(account){
-        var serviceUrl = '/api/v1/organize-customers/'+account.organizeId+'/accounts';
+    function save(holiday){
+        var serviceUrl = '/api/v1/holidays';
         var deferred = $q.defer();
         $http({
             method : 'POST',
             url : serviceUrl,
-            data: account
+            data: holiday
         }).then(function(response) {
             return deferred.resolve(response);
         }).catch(function(response) {
@@ -21,17 +21,17 @@ angular.module('scfApp').factory('BankHolidayService', ['$http', '$q', function(
     
     }
     
-     function update(account){
-        var serviceUrl = '/api/v1/organize-customers/accounts/'+account.accountId;
+     function update(holiday){
+        var serviceUrl = '/api/v1/holidays/'+holiday.holidayDate;
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
 			url : serviceUrl,
 			headers : {
-				'If-Match' : account.version,
+				'If-Match' : null,
 				'X-HTTP-Method-Override': 'PUT'
 			},
-			data: account
+			data: holiday
         }).then(function(response) {
             return deferred.resolve(response);
         }).catch(function(response) {
@@ -41,17 +41,17 @@ angular.module('scfApp').factory('BankHolidayService', ['$http', '$q', function(
     
     }
 
-    function deleteHoliday(account){		
-		var serviceUrl = '/api/v1/organize-customers/accounts/'+account.accountId;
+    function deleteHoliday(holiday){		
+		var serviceUrl = '/api/v1/holidays/'+holiday.holidayDate;
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
 			url : serviceUrl,
 			headers : {
-				'If-Match' : account.version,
+				'If-Match' : null,
 				'X-HTTP-Method-Override': 'DELETE'
 			},
-			data: account
+			data: holiday
 		}).then(function(response) {
 			return deferred.resolve(response);
 		}).catch(function(response) {
