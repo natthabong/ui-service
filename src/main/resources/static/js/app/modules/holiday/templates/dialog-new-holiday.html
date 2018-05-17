@@ -21,15 +21,15 @@
 								ng-bind="'Holiday' | translate"></span>:</label>
 						</div>
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-							<scf-date-picker text-id="holiday-textbox"
+							<scf-date-picker-to text-id="holiday-textbox"
 									button-id="holiday-calendar-button"
 									text-model="ctrl.holiday"
 									date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDate"
 									open-calendar-action="ctrl.openCalendarDate()"
 									disabled-weekend="true"
-									min-date="ctrl.today"
+									min-date="ctrl.tomorrow"
 									ng-disabled="ctrl.isEditMode">
-								</scf-date-picker>
+								</scf-date-picker-to>
 							<span class="error-msg" id="holiday-warning-message-label" ng-show="errors.holiday"
 								ng-bind="errors.holiday.message | translate"></span>
 						</div>

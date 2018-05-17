@@ -13,8 +13,8 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 			vm.isEditMode = false;
 		}
 		
-		vm.today = new Date();
-		vm.today.setDate(vm.today.getDate() + 1);
+		vm.tomorrow = new Date();
+		vm.tomorrow.setDate(vm.tomorrow.getDate() + 1);
 		vm.dateFormat = "dd/MM/yyyy";
 		vm.openDate = false;
 		vm.openCalendarDate = function() {
@@ -81,12 +81,11 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 						onFail: function (response) {
 							if (response.status != 400) {
 								var msg = {
-										400: 'Holiday is existed.' ,
-										405: 'Internal server error.'
+										400: 'Holiday is existed.'
 								};
 								UIFactory.showFailDialog({
 									data: {
-										headerMessage: 'Add organization account fail.',
+										headerMessage: 'Add holiday fail.',
 										bodyMessage: msg[response.status] ? msg[response.status]
 											: response.data.message
 									}
@@ -100,7 +99,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 								UIFactory
 								.showSuccessDialog({
 									data: {
-										headerMessage: 'Add organization account complete.',
+										headerMessage: 'Add holiday success.',
 										bodyMessage: ''
 									},
 									preCloseCallback: function () {
@@ -132,11 +131,11 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 				onFail: function (response) {
 					if (response.status != 400) {
 						var msg = {
-								409: 'Account has been modified.'
+								409: 'Holiday has been modified.'
 						}
 						UIFactory.showFailDialog({
 							data: {
-								headerMessage: 'Edit account fail.',
+								headerMessage: 'Edit holiday fail.',
 								bodyMessage: msg[response.status] ? msg[response.status]
 									: response.data.message
 							}
@@ -147,7 +146,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 					UIFactory
 						.showSuccessDialog({
 							data: {
-								headerMessage: 'Edit account complete.',
+								headerMessage: 'Edit holiday complete.',
 								bodyMessage: ''
 							},
 							preCloseCallback: function () {
@@ -156,13 +155,5 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 						});
 				}
 			});
-		}
-
-		vm.changeFormat = function () {
-			if (vm.format === vm.formatType.ACCOUNT_NO) {
-				vm.accountName = null;
-			} else {
-				vm.accountNo = null;
-			}
 		}
 	}]);

@@ -216,7 +216,7 @@ ac.controller('AccountController', ['$scope', '$stateParams', '$http', '$q', 'UI
 									UIFactory
 									.showSuccessDialog({
 										data: {
-											headerMessage: 'Add organization account complete.',
+											headerMessage: 'Add organization account success.',
 											bodyMessage: ''
 										},
 										preCloseCallback: function () {
