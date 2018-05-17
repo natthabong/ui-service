@@ -17,6 +17,15 @@ scfApp.controller('BankHolidayController', [
 	    var vm = this;
 	    var log = $log;
 	    var viewMode = $stateParams.viewMode;
+	    vm.canManage = false;
+	    vm.unauthenManage = function() {
+            if (vm.canManage) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+	    
 	    vm.showLender = false;
 	    vm.lenderDropDownItems = [];
 	    vm.yearDropDownItems = [];
@@ -24,31 +33,6 @@ scfApp.controller('BankHolidayController', [
 	    	fundingId: null,
 			year : null
 	    }
-
-	    vm.dataTable = {
-			identityField : 'holidayDate',
-			columns : [ {
-			    fieldName : '$rowNo',
-			    labelEN : 'No.',
-			    labelTH : 'ลำดับที่',
-			    sortable : false,
-			    cssTemplate : 'text-right'
-			}, {
-			    fieldName : 'holidayDate',
-			    labelEN : 'Date',
-			    labelTH : 'วันที่',
-			    sortable : false,
-			    filterType : 'date',
-			    format: 'EEEE d LLLL',
-			    cssTemplate : 'text-left'
-			}, {
-			    fieldName : 'holidayName',
-			    labelEN : 'Description',
-			    labelTH : 'คำอธิบาย',
-			    sortable : false,
-			    cssTemplate : 'text-left'
-			} ]
-	    };
 
 	    vm.pagingController = PagingController.create('api/v1/holidays',
 		    vm.criteria, 'GET');
