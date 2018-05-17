@@ -1,4 +1,4 @@
-<div id="content" th:fragment="content">
+<div id="content" th:fragment="content" sec:authorize="hasAuthority('MANAGE_CUSTOMER_ORGANIZATION_SHIFT_DATE_WHEN_FALLS_ON_HOLIDAY')">
 	<div class="app-title">
 		<div>
 			<h1>
