@@ -228,10 +228,10 @@ var app = angular.module('scfApp', ['ui.router'])
           resolve: WebHelper.loadScript(['js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js', 'js/app/sponsor-configuration/workflow/services/workflow-service.js'])
         }).state('/bank-information/holidays', {
           url: '/bank-information/holidays',
-          controller: 'BankHolidayController',
+          controller: 'BankHolidayListController',
           controllerAs: 'ctrl',
           templateUrl: '/holidays/',
-          resolve: WebHelper.loadScript(['js/app/modules/holiday/holiday-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+          resolve: WebHelper.loadScript(['js/app/modules/holiday/controllers/HolidayListController.js', 'js/app/modules/holiday/controllers/HolidayController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
         }).state('/monitoring/activity-log', {
           url: '/monitoring/activity-log',
           controller: 'ActivityLogController',
@@ -240,7 +240,7 @@ var app = angular.module('scfApp', ['ui.router'])
             mode: 'all'
           },
           templateUrl: '/activity-log',
-          resolve: WebHelper.loadScript(['js/app/modules/activity-log/activity-log-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+          resolve: WebHelper.loadScript(['js/app/modules/holiday/controllers/HolidayListController.js', 'js/app/modules/holiday/controllers/HolidayController.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
         }).state('/my-activity-log', {
           url: '/my-activity-log',
           controller: 'ActivityLogController',

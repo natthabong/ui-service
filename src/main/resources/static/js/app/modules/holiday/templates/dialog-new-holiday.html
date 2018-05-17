@@ -1,0 +1,65 @@
+<div class="modal-content">
+	<form name="holidayForm" class="form-horizontal"
+		ng-submit="ctrl.save(closeThisDialog)">
+		<div class="modal-header">
+			<div class="row col-md-12 col-sm-12">
+				<div class="col-md-10 col-sm-10">
+					<h3>
+						<span id="holiday-popup-header-message-label" class="popup-text"
+							ng-bind="ctrl.getHeaderMessage() | translate"></span>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+							style="padding-top: 7px">
+							<label for="group-name" id="holiday-label"><span
+								ng-bind="'Holiday' | translate"></span>:</label>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<scf-date-picker text-id="holiday-textbox"
+									button-id="holiday-calendar-button"
+									text-model="ctrl.holiday"
+									date-format="{{ctrl.dateFormat}}" is-open="ctrl.openDate"
+									open-calendar-action="ctrl.openCalendarDate()"
+									disabled-weekend="true"
+									min-date="ctrl.today"
+									ng-disabled="ctrl.isEditMode">
+								</scf-date-picker>
+							<span class="error-msg" id="holiday-warning-message-label" ng-show="errors.holiday"
+								ng-bind="errors.holiday.message | translate"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+							<label id="description-label">{{'Description' |
+									translate}}:<label>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<scf-input-text id="description-textbox"
+								ng-model="ctrl.holidayName" maxlength="255"></scf-input-text>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row col-lg-12 col-md-12 col-xs-12">
+				<div class="col-lg-12 col-md-12 col-xs-12 text-right">
+					<scf-button id="popup-cancel-button" class="popup-button"
+						ng-click="closeThisDialog()" ng-bind="'Cancel' | translate"></scf-button>
+					<scf-button id="popup-save-button" class="popup-button"
+						type="submit" ng-bind="'Save' | translate"></scf-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

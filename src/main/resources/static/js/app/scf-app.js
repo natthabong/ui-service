@@ -247,7 +247,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					resolve: WebHelper.loadScript(['js/app/sponsor-configuration/workflow/controllers/setup-workflow-controller.js', 'js/app/sponsor-configuration/workflow/services/workflow-service.js'])
 				}).state('/bank-information/holidays', {
 					url: '/bank-information/holidays',
-					controller: 'BankHolidayController',
+					controller: 'BankHolidayListController',
 					controllerAs: 'ctrl',
 					params : {
 						viewMode : 'FUNDING',
@@ -255,10 +255,10 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						backAction : false
 					},
 					templateUrl: '/holidays/',
-					resolve: WebHelper.loadScript(['js/app/modules/holiday/holiday-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+					resolve: WebHelper.loadScript(['js/app/modules/holiday/controllers/HolidayListController.js', 'js/app/modules/holiday/controllers/HolidayController.js', 'js/app/modules/holiday/services/HolidayService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/bank-information/holidays/all-funding', {
 					url: '/bank-information/holidays/all-funding',
-					controller: 'BankHolidayController',
+					controller: 'BankHolidayListController',
 					controllerAs: 'ctrl',
 					params : {
 						viewMode : 'ALLFUNDING',
@@ -266,7 +266,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 						backAction : false
 					},
 					templateUrl: '/holidays/',
-					resolve: WebHelper.loadScript(['js/app/modules/holiday/holiday-controller.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
+					resolve: WebHelper.loadScript(['js/app/modules/holiday/controllers/HolidayListController.js', 'js/app/modules/holiday/controllers/HolidayController.js', 'js/app/modules/holiday/services/HolidayService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
 				}).state('/monitoring/activity-log', {
 					url: '/monitoring/activity-log',
 					controller: 'ActivityLogController',

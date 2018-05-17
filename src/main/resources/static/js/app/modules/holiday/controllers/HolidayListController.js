@@ -1,6 +1,6 @@
 'use strict';
 var scfApp = angular.module('scfApp');
-scfApp.controller('BankHolidayController', [
+scfApp.controller('BankHolidayListController', [
 	'$scope',
 	'$stateParams',
 	'$log',
@@ -85,6 +85,21 @@ scfApp.controller('BankHolidayController', [
     			vm.searchHoliday();
 			});
 	    }
+	    
+	    vm.addHoliday = function () {
+			UIFactory.showDialog({
+				templateUrl: '/js/app/modules/holiday/templates/dialog-new-holiday.html',
+				controller: 'BankHolidayController',
+				data: {
+					mode: 'ADD'
+				},
+				preCloseCallback: function (data) {
+					if (data) {
+						vm.searchHoliday();
+					}
+				}
+			});
+		}
 
 	    var initial = function() {
 	    	if(viewMode == 'FUNDING'){
