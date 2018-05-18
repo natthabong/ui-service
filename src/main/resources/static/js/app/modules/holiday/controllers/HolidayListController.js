@@ -95,7 +95,7 @@ scfApp.controller('BankHolidayListController', [
 				},
 				preCloseCallback: function (data) {
 					if (data) {
-						vm.searchHoliday();
+						initial();
 					}
 				}
 			});

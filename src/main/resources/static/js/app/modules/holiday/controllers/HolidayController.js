@@ -79,18 +79,17 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 							});
 						},
 						onFail: function (response) {
-							if (response.status != 400) {
-								var msg = {
-										400: 'Holiday is existed.'
-								};
-								UIFactory.showFailDialog({
-									data: {
-										headerMessage: 'Add holiday fail.',
-										bodyMessage: msg[response.status] ? msg[response.status]
-											: response.data.message
-									}
-								});
-							}
+							var msg = {
+									400: 'Holiday is existed.',
+									406: 'Cannot add current date to the holiday list.'
+							};
+							UIFactory.showFailDialog({
+								data: {
+									headerMessage: 'Add holiday fail.',
+									bodyMessage: msg[response.status] ? msg[response.status]
+										: response.data.message
+								}
+							});
 						},
 						onSuccess: function (response) {
 							if(response.status == 202){
