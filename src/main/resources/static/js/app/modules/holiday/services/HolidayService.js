@@ -42,7 +42,7 @@ angular.module('scfApp').factory('BankHolidayService', ['$http', '$q', function(
     }
 
     function deleteHoliday(holiday){		
-		var serviceUrl = '/api/v1/holidays/'+holiday.holidayDate;
+		var serviceUrl = '/api/v1/holidays/';
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',

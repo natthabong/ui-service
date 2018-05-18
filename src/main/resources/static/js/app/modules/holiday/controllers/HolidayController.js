@@ -71,8 +71,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 							bodyMessage: bodyMessage,
 						},
 						confirm: function () {
-							return BankHolidayService
-							.save({
+							return BankHolidayService.save({
 								holidayDate: vm.holiday,
 								holidayName: vm.holidayName
 							});
@@ -121,8 +120,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 					headerMessage: 'Confirm save?'
 				},
 				confirm: function () {
-					return BankHolidayService
-					.update({
+					return BankHolidayService.update({
 						holidayDate: holiday.holidayDate,
 						holidayName: vm.holidayName,
 						version: holiday.version
@@ -133,7 +131,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 						var msg = {
 								409: 'Holiday has been modified.',
 								404: 'Holiday has been deleted.'
-						}
+						};
 						UIFactory.showFailDialog({
 							data: {
 								headerMessage: 'Edit holiday fail.',
