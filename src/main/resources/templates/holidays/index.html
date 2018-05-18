@@ -48,7 +48,7 @@
 						<div class="col-md-12 text-right">
 							<scf-button id="new-button"
 											ng-disabled="ctrl.unauthenManage()"
-											class="btn btn-default" ng-click="ctrl.addHoliday()"> <i class="fa fa-lg fa-plus"></i> {{'New'
+											class="btn btn-default" ng-click="ctrl.openPopupHoliday()"> <i class="fa fa-lg fa-plus"></i> {{'New'
 										| translate}}</scf-button>
 						</div>
 					</div>
@@ -78,7 +78,7 @@
 												<span id="holidayName-{{record.holidayDate}}-label" ng-bind="record.holidayName | translate"></span>
 											</td>
 											<td class="text-center">
-												<scf-button id="holiday-{{record.holidayDate}}-edit-button" class="btn btn-sm" ng-click="ctrl.editHoliday(record)"
+												<scf-button id="holiday-{{record.holidayDate}}-edit-button" class="btn btn-sm" ng-click="ctrl.openPopupHoliday(record)"
 			                                        ng-disabled="ctrl.unauthenManage()" title="Edit">
 			                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 			                                    </scf-button>

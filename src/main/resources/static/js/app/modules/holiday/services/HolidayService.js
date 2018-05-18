@@ -22,13 +22,13 @@ angular.module('scfApp').factory('BankHolidayService', ['$http', '$q', function(
     }
     
      function update(holiday){
-        var serviceUrl = '/api/v1/holidays/'+holiday.holidayDate;
+        var serviceUrl = '/api/v1/holidays/';
 		var deferred = $q.defer();
 		$http({
 			method : 'POST',
 			url : serviceUrl,
 			headers : {
-				'If-Match' : null,
+				'If-Match' : holiday.version,
 				'X-HTTP-Method-Override': 'PUT'
 			},
 			data: holiday
@@ -48,7 +48,7 @@ angular.module('scfApp').factory('BankHolidayService', ['$http', '$q', function(
 			method : 'POST',
 			url : serviceUrl,
 			headers : {
-				'If-Match' : null,
+				'If-Match' : holiday.version,
 				'X-HTTP-Method-Override': 'DELETE'
 			},
 			data: holiday

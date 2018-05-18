@@ -5,11 +5,10 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 
 		var vm = this;
 		var dialogData = $scope.ngDialogData;
-		var record = dialogData.record;
-		vm.mode = dialogData.mode;
+		var holiday = dialogData.holiday;
 		vm.isEditMode = true;
-		
-		if(vm.mode == 'ADD'){
+		console.log(holiday);
+		if(!angular.isDefined(holiday)){
 			vm.isEditMode = false;
 		}
 		
@@ -22,7 +21,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 		}
 		
 		vm.getHeaderMessage = function(){
-			if(vm.mode == 'ADD'){
+			if(!vm.isEditMode){
 				return 'Add holiday';
 			}else{
 				return 'Edit holiday';
@@ -30,8 +29,8 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 		}
 		
 		vm.loadHoliday = function() {
-	    	if(vm.mode == 'EDIT'){
-	    		vm.holiday = new Date(response.data.holidayDate);
+	    	if(vm.isEditMode){
+	    		vm.holiday = new Date(holiday.holidayDate);
 	    	}
 		};
 		vm.loadHoliday();
@@ -51,7 +50,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 		}
 		
 		vm.save = function (callback){
-			if(vm.mode == 'ADD'){
+			if(!vm.isEditMode){
 				vm.add(callback);
 			}else{
 				vm.edit(callback);
@@ -81,7 +80,8 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 						onFail: function (response) {
 							var msg = {
 									400: 'Holiday is existed.',
-									406: 'Cannot add current date to the holiday list.'
+									406: 'Cannot add current date to the holiday list.',
+									409: 'Cannot add holiday to the holiday modified list.'
 							};
 							UIFactory.showFailDialog({
 								data: {
@@ -118,19 +118,18 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 					headerMessage: 'Confirm save?'
 				},
 				confirm: function () {
-					return AccountService
-						.update({
-							accountId: record.accountId,
-							accountNo: record.accountNo,
-							organizeId: record.organizeId,
-							suspend: vm.isSuspend,
-							version: record.version
-						});
+					return BankHolidayService
+					.update({
+						holidayDate: holiday.holidayDate,
+						holidayName: vm.holidayName,
+						version: holiday.version
+					});
 				},
 				onFail: function (response) {
 					if (response.status != 400) {
 						var msg = {
-								409: 'Holiday has been modified.'
+								409: 'Holiday has been modified.',
+								404: 'Holiday has been deleted.'
 						}
 						UIFactory.showFailDialog({
 							data: {
