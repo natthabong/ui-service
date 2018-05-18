@@ -139,13 +139,15 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 								headerMessage: 'Edit holiday fail.',
 								bodyMessage: msg[response.status] ? msg[response.status]
 									: response.data.message
+							},
+							preCloseCallback: function () {
+								preCloseCallback(response.data);
 							}
 						});
 					}
 				},
 				onSuccess: function (response) {
-					UIFactory
-						.showSuccessDialog({
+					UIFactory.showSuccessDialog({
 							data: {
 								headerMessage: 'Edit holiday complete.',
 								bodyMessage: ''
