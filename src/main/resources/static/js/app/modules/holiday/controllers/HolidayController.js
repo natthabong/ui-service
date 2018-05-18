@@ -7,7 +7,6 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 		var dialogData = $scope.ngDialogData;
 		var holiday = dialogData.holiday;
 		vm.isEditMode = true;
-		console.log(holiday);
 		if(!angular.isDefined(holiday)){
 			vm.isEditMode = false;
 		}
@@ -31,6 +30,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 		vm.loadHoliday = function() {
 	    	if(vm.isEditMode){
 	    		vm.holiday = new Date(holiday.holidayDate);
+	    		vm.holidayName = holiday.holidayName;
 	    	}
 		};
 		vm.loadHoliday();
@@ -112,6 +112,9 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 		}
 		
 		vm.edit = function(callback){
+			var preCloseCallback = function (holiday) {
+				callback(holiday);
+			}
 			UIFactory
 			.showConfirmDialog({
 				data: {
@@ -148,7 +151,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 								bodyMessage: ''
 							},
 							preCloseCallback: function () {
-								callback(response.data);
+								preCloseCallback(response.data);
 							}
 						});
 				}
