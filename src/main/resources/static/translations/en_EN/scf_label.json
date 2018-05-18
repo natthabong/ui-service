@@ -615,6 +615,7 @@
 	"SEND_FILE_TO_RECEIVER_FAIL": "Send file ({{fileName}}) to receiver fail.",
 	"END_BATCH_JOB_IMPORT_FILE_SUCCESS": "End batch job import file success.",
 	"FILE_NOT_FOUND": "File not found.",
+	"FILE_SIZE_EXCEED_LIMIT_FAILED": "Upload file fail. Exceeds the maximum file size ({{maxfileSize}} MB).",
 	"START_DELETE_FILE_FTP": "Start deleting file ({{fileName}}) from FTP server.",
 	"END_DELETE_FILE_FTP_SUCCESS": "Delete file ({{fileName}}) from FTP server success.",
 	"END_DELETE_FILE_FTP_FAILED": "Delete file ({{fileName}}) from FTP server fail. <{{message}}>",
