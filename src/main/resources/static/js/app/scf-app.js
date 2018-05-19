@@ -251,8 +251,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					controllerAs: 'ctrl',
 					params : {
 						viewMode : 'FUNDING',
-						criteria : null,
-						backAction : false
+						criteria : null
 					},
 					templateUrl: '/holidays/',
 					resolve: WebHelper.loadScript(['js/app/modules/holiday/controllers/HolidayListController.js', 'js/app/modules/holiday/controllers/HolidayController.js', 'js/app/modules/holiday/services/HolidayService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
@@ -262,8 +261,7 @@ var app = angular.module('scfApp', ['pascalprecht.translate', 'ui.router', 'ui.b
 					controllerAs: 'ctrl',
 					params : {
 						viewMode : 'ALLFUNDING',
-						criteria : null,
-						backAction : false
+						criteria : null
 					},
 					templateUrl: '/holidays/',
 					resolve: WebHelper.loadScript(['js/app/modules/holiday/controllers/HolidayListController.js', 'js/app/modules/holiday/controllers/HolidayController.js', 'js/app/modules/holiday/services/HolidayService.js', 'js/app/common/scf-component.js', 'js/app/common/scf-component.css'])
