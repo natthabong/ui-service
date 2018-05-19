@@ -569,7 +569,7 @@ angular.module('scfApp').controller('ListTransactionController', ['ListTransacti
 				}, {
 					fieldName: 'bankTransactionNo',
 					field: 'bankTransactionNo',
-					label: 'Bank Transaction No',
+					label: 'Lender Transaction No',
 					idValueField: 'transactionNo',
 					id: 'transaction-{value}-bank-transaction-no-label',
 					sortData: true,

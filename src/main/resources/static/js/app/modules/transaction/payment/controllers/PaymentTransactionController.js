@@ -780,7 +780,7 @@ txnMod.controller('PaymentTransactionController', ['$rootScope', '$scope', '$log
 	        },{
 				fieldName: 'bankTransactionNo',
 	            field: 'bankTransactionNo',
-	            label: 'Bank transaction no',
+	            label: 'Lender transaction no',
 	            idValueField: 'transactionNo',
 	            id: 'transaction-{value}-bank-transaction-no',
 	            sortData: true,
