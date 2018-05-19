@@ -259,7 +259,7 @@
 	"E1017": "Trade finance has been suspended.",
 	"E1018": "Account has been suspended.",
 	"E1019": "Trading partner has been suspended.",
-	"Today is bank holiday.": "Can't create transaction. Please create next working day.",
+	"Today is lender holiday.": "Can't create transaction. Please create next working day.",
 	"ULE1001": "ช่องทางนำเข้าเอกสารผ่านเว็ปถูกปิด (Inactive)",
 	"drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",
