@@ -8,11 +8,12 @@ scfApp.controller('BankHolidayListController', [
 	'$rootScope',
 	'$http',
 	'Service',
-	'SCFCommonService',
+	'SCFCommonService', 
+	'BankHolidayService',
 	'UIFactory',
 	'PagingController',
 	function($scope, $stateParams, $log, $q, $rootScope, $http, Service,
-		SCFCommonService, UIFactory, PagingController) {
+		SCFCommonService, BankHolidayService, UIFactory, PagingController) {
 
 	    var vm = this;
 	    var log = $log;
