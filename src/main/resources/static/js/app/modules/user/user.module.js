@@ -41,7 +41,8 @@ angular.module('gecscf.user', [ 'ui.router', 'gecscf.ui' ]).config(
       templateUrl: '/user/new',
       params: {
         mode: 'newUser',
-        userModel: null
+        userModel: null,
+        viewMode: null
       },
       resolve: WebHelper.loadScript(dependencies)
     }).state('/user/edit', {
@@ -51,7 +52,8 @@ angular.module('gecscf.user', [ 'ui.router', 'gecscf.ui' ]).config(
       templateUrl: '/user/new',
       params: {
         mode: 'editUser',
-        userModel: null
+        userModel: null,
+        viewMode: null
       },
       resolve: WebHelper.loadScript(dependencies)
     }).state('/user/view', {

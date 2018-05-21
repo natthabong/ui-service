@@ -106,6 +106,7 @@ userModule
 			    }
 			    
 			    var currentMode = $stateParams.mode;
+			    var viewMode = $stateParams.viewMode;
 			    vm.loadUser = function() {
 			    	if(currentMode == mode.VIEW || currentMode == mode.EDIT){
 			    		var userId = $stateParams.userModel.userId;
@@ -180,6 +181,9 @@ userModule
 					    controllerAs : 'ctrl',
 					    scope : $scope,
 					    disableAnimation : true,
+					    params: {
+					    	viewMode: viewMode
+						},
 					    preCloseCallback : function(value) {
 						if (value) {
 						    value.forEach(function(data){

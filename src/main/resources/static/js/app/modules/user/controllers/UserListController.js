@@ -318,7 +318,8 @@ userModule
 
 				vm.newUser = function() {
 					var params = {
-						userModel : null
+						userModel : null, 
+						viewMode : mode
 					};
 					
 					PageNavigation.nextStep('/user/new', params, {criteria : _criteria ,userListModel : vm.userListModel});
@@ -335,7 +336,8 @@ userModule
 
 			    vm.editUser = function(data) {
 					var params = {
-						userModel : data
+						userModel : data, 
+						viewMode : mode
 					};
 					$timeout(function() {
 						PageNavigation.nextStep('/user/edit', params, {criteria : _criteria ,userListModel : vm.userListModel});
