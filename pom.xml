@@ -17,7 +17,7 @@
 		<version>1.5.8.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-
+ 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -253,7 +253,7 @@
 								<artifactItem>
 									<groupId>org.webjars</groupId>
 									<artifactId>bootstrap</artifactId>
-									<version>4.0.0</version>
+									<version>3.3.6</version>
 									<type>jar</type>
 									<overWrite>false</overWrite>
 								</artifactItem>
