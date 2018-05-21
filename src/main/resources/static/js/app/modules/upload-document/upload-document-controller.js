@@ -13,6 +13,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
         vm.storeFileTypeDatas = [];
         vm.acceptFileExtention = '';
         vm.errorFileFormat = '';
+        vm.errorFileSize = '';
         vm.showConfirmBtn = true;
         vm.isShowConfirmation = false;
         vm.tableUploadErrorRowCollection = [];
@@ -148,7 +149,13 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                     }
 
                 }).catch(function(response) {
-                    log.error('Upload file fail');
+                    console.log(response);
+                	if(response.status === 403){
+                		vm.errorFileSize = response.data.message;
+                		vm.errorMsgKey = 'Upload filesize err';
+                		vm.showErrorMsg = true;
+                        log.error('Upload file fail');
+                	}
                 });
             } else {
                 vm.showErrorMsg = true;
@@ -186,7 +193,13 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
                 vm.uploadResult = response.data;
                 $scope.showUploadPopUp = true;
             }).catch(function(response) {
-                log.error('Confirm upload fail');
+            	console.log(response);
+            	if(response.status === 403){
+            		vm.errorFileSize = response.data.message;
+            		vm.errorMsgKey = 'Upload filesize err';
+                    validateResult = false;
+                    log.error('Confirm upload fail');
+            	}
             });
         };
 
@@ -195,11 +208,7 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             if (angular.equals(data.file, '')) {
                 validateResult = false;
                 vm.errorMsgKey = 'Upload Msg err';
-            } else if (data.file.size > 1024 * 1024) {
-                log.error('Upload file fail');
-                vm.errorMsgKey = 'Upload filesize err';
-                validateResult = false;
-            } else {
+            }  else {
                 var fileName = data.file.name;
                 var fileSelectExtention = fileName.slice(fileName.lastIndexOf('.'), fileName.length);
                 // Check file extention name exists in acceptFileExtention ?.

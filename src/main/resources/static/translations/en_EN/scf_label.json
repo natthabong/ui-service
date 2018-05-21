@@ -309,7 +309,7 @@
 	"Upload Msg err": "Please select file to upload.",
 	"Upload complete": "Upload complete.",
 	"File extension error": "File extension incorrect ({{fileFormat}})",
-	"Upload filesize err": "Your file size exceeds. Maximum allowed (1 MB)",
+	"Upload filesize err": "Your file size exceeds. Maximum allowed ({{fileSize}} MB)",
 	"File upload confirmation": "File upload confirmation",
 	"Data correction needed": "Data correction needed",
 	"Total amount": "Total amount",
