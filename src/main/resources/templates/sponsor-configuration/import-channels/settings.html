@@ -69,12 +69,10 @@
 										<div class="col-md-4 col-sm-4"></div>
 									</div>
 									<div class="form-group row" ng-show="errors.displayName">
-										<div ng-show="errors.displayName">
 											<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label>
 											<span class="col-md-3 col-sm-3 col-xs-12 error-msg"
 												id="dispplay-name-warning-message-label"
 												ng-bind="errors.displayName.message"> </span>
-										</div>
 									</div>
 									<div class="form-group row">
 										<label id="file-layout-label" for="dealer"
@@ -100,11 +98,13 @@
 											class="col-md-2 col-sm-3 col-xs-12 control-label">{{'Maximum file size (MB)' | translate}}: </label>
 										<div class="col-md-3 col-sm-4 col-xs-12">
 											<input name="maxFileSize" restrict-to="[0-9]"
-													id="maximum-file-size-number" type="number" min="1" max="10"
+													id="maximum-file-size-number" type="number" min="1" max="ctrl.isSetupFTP ? 50 : 10"
 													required="false" ng-model="ctrl.channelModel.maximumFileSize" maxlength="2"  class="form-control-input"></input>
 										</div>
 									</div>
-									<div ng-show="errors.limitedFileSize">
+									<div class="form-group row" ng-show="errors.limitedFileSize">
+										<label id="maximum-file-size-label" for="dealer"
+											class="col-md-2 col-sm-3 col-xs-0 control-label"></label>
 										 <span class="col-md-3 col-sm-3 col-xs-12 error-msg"
 											id="limited-file-size-warning-message-label"
 											ng-bind="errors.limitedFileSize.message"> </span>

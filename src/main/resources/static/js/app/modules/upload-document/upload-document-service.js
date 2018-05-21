@@ -5,7 +5,8 @@ function UploadDocumentService($http, $q, blockUI) {
         upload: upload,
         getFileType: getFileType,
         confirmUpload: confirmUpload,
-        verifyChannel: verifyChannel
+        verifyChannel: verifyChannel,
+        verifyFileSize: verifyFileSize
     }
 
     function upload(fileModel) {
@@ -15,6 +16,28 @@ function UploadDocumentService($http, $q, blockUI) {
         formData.append('file', fileModel.file);
         formData.append('fileConfigId', fileModel.fileConfigId);
         $http.post('/api/upload-document/upload', formData, {
+            transformRequest: angular.identity,
+            headers: { 'Content-type': undefined }
+        }).then(function(response) {
+            blockUI.stop();
+            deffered.resolve(response);
+        }).catch(function(response) {
+            blockUI.stop();
+            deffered.reject(response);
+        });
+        return deffered;
+    }
+    
+    function verifyFileSize(fileModel) {
+        blockUI.start();
+        var deffered = $q.defer();
+        var formData = new FormData();
+        console.log(fileModel.file);
+        console.log(fileModel.file.size+"");
+        formData.append('fileSize', fileModel.file.size+"");
+        formData.append('fileName', fileModel.file.name);
+        formData.append('fileConfigId', fileModel.fileConfigId);
+        $http.post('/api/upload-document/verify', formData, {
             transformRequest: angular.identity,
             headers: { 'Content-type': undefined }
         }).then(function(response) {

@@ -131,25 +131,34 @@ angular.module('scfApp').controller('UploadDocumentController', ['$log', 'Upload
             if (validateFileUpload(vm.uploadModel, vm.acceptFileExtention)) {
                 var fileTypeConfigObject = vm.getFileTypeByIndex(vm.uploadModel.fileTypeIndex);
                 vm.uploadModel.fileConfigId = fileTypeConfigObject.layoutConfigId;
+                
+                var deffered2 = UploadDocumentService.verifyFileSize(vm.uploadModel);
+                deffered2.promise.then(function(response) {
+                	var deffered = UploadDocumentService.upload(vm.uploadModel);
+                    deffered.promise.then(function(response) {
 
-                var deffered = UploadDocumentService.upload(vm.uploadModel);
-                deffered.promise.then(function(response) {
-
-                    vm.uploadResult = response.data;
-                    if (vm.uploadResult.complete) {
-                        $scope.showUploadPopUp = true;
-                    } else {
-                        vm.isShowConfirmation = true;
-                        if (vm.uploadResult.success == null || vm.uploadResult.success == 0) {
-                            vm.showConfirmBtn = false;
+                        vm.uploadResult = response.data;
+                        if (vm.uploadResult.complete) {
+                            $scope.showUploadPopUp = true;
                         } else {
-                            vm.showConfirmBtn = true;
+                            vm.isShowConfirmation = true;
+                            if (vm.uploadResult.success == null || vm.uploadResult.success == 0) {
+                                vm.showConfirmBtn = false;
+                            } else {
+                                vm.showConfirmBtn = true;
+                            }
+                            vm.uploadNextPage();
                         }
-                        vm.uploadNextPage();
-                    }
 
+                    }).catch(function(response) {
+                    	if(response.status === 403){
+                    		vm.errorFileSize = response.data.message;
+                    		vm.errorMsgKey = 'Upload filesize err';
+                    		vm.showErrorMsg = true;
+                            log.error('Upload file fail');
+                    	}
+                    });
                 }).catch(function(response) {
-                    console.log(response);
                 	if(response.status === 403){
                 		vm.errorFileSize = response.data.message;
                 		vm.errorMsgKey = 'Upload filesize err';
