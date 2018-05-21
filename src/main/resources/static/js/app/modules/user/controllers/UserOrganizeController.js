@@ -1,13 +1,14 @@
 'use strict';
 var userModule = angular.module('gecscf.user');
-userModule.controller('UserOrganizeController', ['$scope', '$http', 'UserService', 'UIFactory', function ($scope, $http, UserService, UIFactory) {
+userModule.controller('UserOrganizeController', ['$scope', '$http', 'UserService', 'UIFactory', '$stateParams', function ($scope, $http, UserService, UIFactory, $stateParams) {
 	var vm = this;
 
 	vm.organize = [];
 	vm.roles = [];
-
-	var organizeAutoSuggestServiceUrl = 'api/v1/organizes';
-	var searchOrganizeTypeHead = function (value) {
+	var mode = $stateParams.viewMode;
+	
+	var organizeAutoSuggestServiceUrl = (mode=='ALL'? '/api/v1/all-organizes' : '/api/v1/organizes');
+    var searchOrganizeTypeHead = function (value) {
 
 		value = UIFactory.createCriteria(value);
 		return $http.get(organizeAutoSuggestServiceUrl, {
@@ -95,8 +96,4 @@ userModule.controller('UserOrganizeController', ['$scope', '$http', 'UserService
 		});
 
 	}();
-
-
-
-
 }]);

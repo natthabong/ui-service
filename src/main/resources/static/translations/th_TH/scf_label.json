@@ -259,7 +259,7 @@
 	"E1017": "Trade finance has been suspended.",
 	"E1018": "Account has been suspended.",
 	"E1019": "Trading partner has been suspended.",
-	"Today is bank holiday.": "Can't create transaction. Please create next working day.",
+	"Today is lender holiday.": "Can't create transaction. Please create next working day.",
 	"ULE1001": "ช่องทางนำเข้าเอกสารผ่านเว็ปถูกปิด (Inactive)",
 	"drawdown_fail": "Drawdown fail",
 	"drawdown_success": "Drawdown success",
@@ -738,5 +738,9 @@
 	"TRANSACTION_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" : "Transaction date for loan with drawdown (job)",
 	"TRANSACTION_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" : "Transaction date for loan with overdraft (job)",
 	"MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" : "Maturity date for loan with drawdown (job)",
-	"MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" : "Maturity date for loan with overdraft (job)"
+	"MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" : "Maturity date for loan with overdraft (job)",
+	
+	"Lender transaction no.": "Lender transaction no.",
+	"Pay only bank working day": "Pay only bank working day",
+	"In case of last payment date is equal to lender holiday": "In case of last payment date is equal to lender holiday"
 }

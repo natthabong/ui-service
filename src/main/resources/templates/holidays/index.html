@@ -83,7 +83,7 @@
 			                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 			                                    </scf-button>
 												<scf-button id="holiday-{{record.holidayDate}}-delete-button" class="btn btn-sm" ng-click="ctrl.deleteHoliday(record)"
-			                                        ng-disabled="ctrl.unauthenManage()" title="Delete">
+			                                        ng-disabled="!ctrl.canDelete(record.holidayDate)" title="Delete">
 			                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
 			                                    </scf-button>
 											</td>

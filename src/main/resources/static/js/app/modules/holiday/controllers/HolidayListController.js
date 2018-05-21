@@ -8,21 +8,36 @@ scfApp.controller('BankHolidayListController', [
 	'$rootScope',
 	'$http',
 	'Service',
-	'SCFCommonService',
+	'SCFCommonService', 
+	'BankHolidayService',
 	'UIFactory',
 	'PagingController',
 	function($scope, $stateParams, $log, $q, $rootScope, $http, Service,
-		SCFCommonService, UIFactory, PagingController) {
+		SCFCommonService, BankHolidayService, UIFactory, PagingController) {
 
 	    var vm = this;
 	    var log = $log;
 	    var viewMode = $stateParams.viewMode;
+	    vm.today = new Date();
+	    vm.today.setHours(0,0,0,0);
 	    vm.canManage = false;
 	    vm.unauthenManage = function() {
             if (vm.canManage) {
                 return false;
             } else {
                 return true;
+            }
+        }
+	    
+	    vm.canDelete = function(date) {
+	    	var holidayDate = new Date(date);
+	    	holidayDate.setHours(0,0,0,0);
+	    	var sameDay = vm.today.getTime() === holidayDate.getTime();
+
+            if (vm.canManage && !sameDay) {
+                return true;
+            } else {
+                return false;
             }
         }
 	    
@@ -101,9 +116,9 @@ scfApp.controller('BankHolidayListController', [
 			});
 		}
 	    
-	    vm.deleteAccount = function (record) {
+	    vm.deleteHoliday = function (holiday) {
 			var preCloseCallback = function (confirm) {
-				loadTableData();
+				initial();
 			}
 
 			UIFactory.showConfirmDialog({
@@ -111,24 +126,30 @@ scfApp.controller('BankHolidayListController', [
 					headerMessage: 'Confirm delete?'
 				},
 				confirm: function () {
-					return AccountService.deleteAccountOwner(vm.criteria.organizeId, record);
+					return BankHolidayService.deleteHoliday({
+						holidayDate: holiday.holidayDate,
+						version: holiday.version
+					});
 				},
 				onFail: function (response) {
 					var msg = {
-						404: 'Organization account has been deleted.',
-						405: 'Organization account has been used.'
+							409: 'Holiday has been modified.',
+							404: 'Holiday has been deleted.',
+							406: 'Cannot delete current date.'
 					};
 					UIFactory.showFailDialog({
 						data: {
-							headerMessage: 'Delete organization account fail.',
-							bodyMessage: msg[response.status] ? msg[response.status] : response.statusText
-						}
+							headerMessage: 'Delete holiday fail.',
+							bodyMessage: msg[response.status] ? msg[response.status]
+								: response.data.message
+						},
+						preCloseCallback: preCloseCallback
 					});
 				},
 				onSuccess: function (response) {
 					UIFactory.showSuccessDialog({
 						data: {
-							headerMessage: 'Delete organization account success.',
+							headerMessage: 'Delete holiday success.',
 							bodyMessage: ''
 						},
 						preCloseCallback: preCloseCallback
