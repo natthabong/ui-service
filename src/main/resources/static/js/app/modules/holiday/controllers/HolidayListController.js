@@ -135,7 +135,7 @@ scfApp.controller('BankHolidayListController', [
 					var msg = {
 							409: 'Holiday has been modified.',
 							404: 'Holiday has been deleted.',
-							406: 'Cannot delete current date.'
+							405: 'Cannot delete current date.'
 					};
 					UIFactory.showFailDialog({
 						data: {

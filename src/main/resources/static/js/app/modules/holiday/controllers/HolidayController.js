@@ -79,7 +79,7 @@ scfApp.controller('BankHolidayController', ['$scope', '$stateParams', '$http', '
 						onFail: function (response) {
 							var msg = {
 									400: 'Holiday is existed.',
-									406: 'Cannot add current date to the holiday list.',
+									405: 'Cannot add current date to the holiday list.',
 									409: 'Cannot add holiday to the holiday modified list.'
 							};
 							UIFactory.showFailDialog({
