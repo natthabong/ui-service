@@ -740,6 +740,13 @@
 	"MATURITY_DATE_FOR_LOAN_WITH_DRAWDOWN_JOB" : "Maturity date for loan with drawdown (job)",
 	"MATURITY_DATE_FOR_LOAN_WITH_OVERDRAFT_JOB" : "Maturity date for loan with overdraft (job)",
 	
+	"PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_DRAWDOWN" : "Payment date for create payment with drawdown",
+	"PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_DEBIT_OVERDRAFT" : "Payment date for create payment with debit/overdraft",
+	"PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_SPECIAL_DEBIT" : "Payment date for create payment with special debit",
+	"PAYMENT_DATE_FOR_PAYMENT_WITH_DRAWDOWN_JOB" : "Payment date for payment with drawdown (job)",
+	"PAYMENT_DATE_FOR_PAYMENT_WITH_DEBIT_OVERDRAFT_JOB" : "Payment date for payment with debit/overdraft (job)",
+	"PAYMENT_DATE_FOR_PAYMENT_WITH_SPECIAL_DEBIT_JOB" : "Payment date for payment with special debit (job)",
+	
 	"Lender transaction no.": "Lender transaction no.",
 	"Pay only bank working day": "Pay only bank working day",
 	"In case of last payment date is equal to lender holiday": "In case of last payment date is equal to lender holiday",
