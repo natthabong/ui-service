@@ -1,0 +1,42 @@
+<div th:fragment="content">
+    <div id="wrapper" ng-controller="ShiftingDateStrategyController as ctrl">
+        <input type="hidden" ng-init="ctrl.manageConfig=true" sec:authorize="hasAuthority('MANAGE_CUSTOMER_ORGANIZATION_SHIFT_DATE_WHEN_FALLS_ON_HOLIDAY')" />
+        <input type="hidden" ng-init="ctrl.viewAction=true" sec:authorize="hasAuthority('VIEW_CUSTOMER_ORGANIZATION_SHIFT_DATE_WHEN_FALLS_ON_HOLIDAY')" />
+
+        <div class="panel panel-default col-md-12 padding-0">
+            <div class="panel-body" style="min-height: 360px;">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-xs-10">
+                        <h5 class="animated fadeInLeft"><br/></h5>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-xs-2 text-right">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 text-right">
+
+                        <table id="shifting-date-strategy-table" class="table table-striped table-bordered" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th><br/></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-left">
+                                        <span id="shifting-date-strategy-label">{{'If a date falls on a weekend or holiday?' | translate}}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <scf-button ng-disabled="ctrl.unauthenView()" class="btn btn-sm" id="ar-shifting-date-strategy-view-button" ng-click="ctrl.view('RECEIVABLE')" title="View a shifting date strategy"><i class="fa fa-search" aria-hidden="true"></i></scf-button>
+                                        <scf-button ng-disabled="ctrl.unauthenConfig()" id="ar-shifting-date-strategy-setup-button" class="btn btn-sm" ng-click="ctrl.config('RECEIVABLE')" title="Config a shifting date strategy"><i class="fa fa-cog" aria-hidden="true"></i></scf-button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

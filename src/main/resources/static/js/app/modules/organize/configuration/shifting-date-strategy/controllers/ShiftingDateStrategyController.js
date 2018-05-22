@@ -14,8 +14,8 @@ angular.module('gecscf.organize.configuration.shiftingDateStrategy').controller(
             var vm = this;
             var log = $log;
 
-            vm.manageConfig = false;
-            vm.viewAction = false;
+            vm.manageConfig = true;
+            vm.viewAction = true;
 
             vm.config = function(accountingTransactionType) {
                 var params = {

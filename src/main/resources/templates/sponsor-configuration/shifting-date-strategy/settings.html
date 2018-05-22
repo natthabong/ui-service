@@ -142,7 +142,73 @@
 											</label>
 										</div>
 									</div>
-									<div ng-if="ctrl.showShiftingContent('RECEIVABLE')">xxxx</div>
+									<div ng-if="ctrl.showShiftingContent('RECEIVABLE')">
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="payment-date-for-create-payment-drawdown-checkbox"
+												ng-disabled="ctrl.isNotShift"
+												ng-model="ctrl.shifStrategyDisplayItemAR.PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_DRAWDOWN" />
+												<span id="buyer-payment-date-for-create-payment-drawdown-label">{{'PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_DRAWDOWN'
+													| translate}}</span>
+											</label>
+										</div>
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="payment-date-for-create-debit-overdraft-checkbox"
+												ng-disabled="ctrl.isNotShift"
+												ng-model="ctrl.shifStrategyDisplayItemAR.PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_DEBIT_OVERDRAFT" />
+												<span
+												id="payment-date-for-create-debit-overdraft-label">{{'PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_DEBIT_OVERDRAFT'
+													| translate}}</span>
+											</label>
+										</div>
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="payment-date-for-create-special-debit-checkbox"
+												ng-disabled="ctrl.isNotShift"
+												ng-model="ctrl.shifStrategyDisplayItemAR.PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_SPECIAL_DEBIT" />
+												<span
+												id="payment-date-for-create-special-debit-label">{{'PAYMENT_DATE_FOR_CREATE_PAYMENT_WITH_SPECIAL_DEBIT'
+													| translate}}</span>
+											</label>
+										</div>
+										<br />
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="payment-date-for-payment-drawdown-checkbox"
+												ng-disabled="ctrl.isNotShift"
+												ng-model="ctrl.shifStrategyDisplayItemAR.PAYMENT_DATE_FOR_PAYMENT_WITH_DRAWDOWN_JOB" />
+												<span id="payment-date-for-payment-drawdown-label">{{'PAYMENT_DATE_FOR_PAYMENT_WITH_DRAWDOWN_JOB'
+													| translate}}</span>
+											</label>
+										</div>
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="payment-date-for-payment-overdraft-checkbox"
+												ng-disabled="ctrl.isNotShift"
+												ng-model="ctrl.shifStrategyDisplayItemAR.PAYMENT_DATE_FOR_PAYMENT_WITH_DEBIT_OVERDRAFT_JOB" />
+												<span
+												id="payment-date-for-payment-overdraft-label">{{'PAYMENT_DATE_FOR_PAYMENT_WITH_DEBIT_OVERDRAFT_JOB'
+													| translate}}</span>
+											</label>
+										</div>
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<label class="checkbox-inline"> <input
+												type="checkbox"
+												id="payment-date-for-payment-special-debit-checkbox"
+												ng-disabled="ctrl.isNotShift"
+												ng-model="ctrl.shifStrategyDisplayItemAR.PAYMENT_DATE_FOR_PAYMENT_WITH_SPECIAL_DEBIT_JOB" />
+												<span
+												id="payment-date-for-payment-special-debit-label">{{'PAYMENT_DATE_FOR_PAYMENT_WITH_SPECIAL_DEBIT_JOB'
+													| translate}}</span>
+											</label>
+										</div>
+									</div>
 
 								</form>
 								<div class="col-md-12 col-sm-12 text-right">
