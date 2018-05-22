@@ -798,5 +798,10 @@
 	
 	"Lender transaction no.": "Lender transaction no.",
 	"Pay only lender working day": "Pay only lender working day",
-	"In case of last payment date is equal to lender holiday": "In case of last payment date is equal to lender holiday"
+	"In case of last payment date is equal to lender holiday": "In case of last payment date is equal to lender holiday",
+	
+	"SHIFT_PAYMENT_DATE_AP_DOCUMENT_SUCCESS":"Shift buyer payment date for AP document completed. ({{transactionNo}})",
+	"SHIFT_PAYMENT_DATE_AP_DOCUMENT_FAIL_LESS_THAN_PRE_SHIFT_DATE":"Shift buyer payment date for AP document fail. Shifted Date must be later than document date. ({{transactionNo}})",
+	"SHIFT_PAYMENT_DATE_AP_DOCUMENT_FAIL_LESS_THAN_CURRENT_DATE":"Shift buyer payment date for AP document fail. Shifted date cannot be past date. ({{transactionNo}})"
+	
 }
