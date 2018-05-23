@@ -143,7 +143,7 @@ module.controller('ExportPaymentController', [
                 delimeter: null,
                 fileType: 'FIXED_LENGTH',
                 sponsorId: ownerId,
-                displayName: 'Export file layout',
+                displayName: 'Export display name',
                 sponsorConfigId: 'BFP',
                 fileExtensions: 'txt',
                 integrateType: 'EXPORT',
