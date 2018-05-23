@@ -33,20 +33,17 @@
 			</div>
 		</div>
 		<div class="form-group row" ng-show="errors.hostName || errors.portNumber">
-			<div ng-show="errors.hostName">
-				<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+				<label class="col-md-2 col-sm-2 col-xs-12 control-label" ng-show="errors.hostName"></label> 
+					<span ng-show="errors.hostName"
 					class="col-md-3 col-sm-3 col-xs-12 error-msg"
 					id="host-name-warning-message-label"
 					ng-bind="errors.hostName.message"> </span>
-			</div>
-			<div ng-show="errors.portNumber">
 				<label class="col-md-5 col-sm-3 col-xs-12 control-label"
-					ng-show="!errors.hostName"></label> <label
-					class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+					ng-show="!errors.hostName"></label> <label ng-show="errors.portNumber"
+					class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span ng-show="errors.portNumber"
 					class="col-md-3 col-sm-3 col-xs-12 error-msg"
 					id="port-number-warning-message-label"
 					ng-bind="errors.portNumber.message"> </span>
-			</div>
 		</div>
 		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12 control-label">
@@ -109,13 +106,11 @@
 			</div>
 		</div>
 		<div class="form-group row"
-			ng-show="errors.remoteFilenamePattern || errors.limitedFileSize">
-			<div ng-show="errors.remoteFilenamePattern">
+			ng-show="errors.remoteFilenamePattern ">
 				<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
 					class="col-md-3 col-sm-3 col-xs-12 error-msg"
 					id="file-name-pattern-warning-message-label"
 					ng-bind="errors.remoteFilenamePattern.message"> </span>
-			</div>
 		</div>
 
 		<div class="form-group row">
@@ -166,20 +161,16 @@
 
 		<div class="form-group row"
 			ng-show="errors.connectionRetry || errors.connectionRetryInterval">
-			<div ng-show="errors.connectionRetry">
-				<label class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+				<label ng-show="errors.connectionRetry" class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span ng-show="errors.connectionRetry"
 					class="col-md-3 col-sm-3 col-xs-12 error-msg"
 					id="retry-warning-message-label"
 					ng-bind="errors.connectionRetry.message"> </span>
-			</div>
-			<div ng-show="errors.connectionRetryInterval">
 				<label class="col-md-5 col-sm-3 col-xs-12 control-label"
-					ng-show="!errors.connectionRetry"></label> <label
-					class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span
+					ng-show="!errors.connectionRetry"></label> <label ng-show="errors.connectionRetryInterval"
+					class="col-md-2 col-sm-3 col-xs-12 control-label"></label> <span ng-show="errors.connectionRetryInterval"
 					class="col-md-3 col-sm-3 col-xs-12 error-msg"
 					id="retry-delayed-interval-warning-message-label"
 					ng-bind="errors.connectionRetryInterval.message"> </span>
-			</div>
 		</div>
 
 
