@@ -176,10 +176,8 @@ angular.module('gecscf.organize.configuration.fileLayout').service('FileLayoutSe
 				errors.requireLayoutName = false;
 			}
 			
-			if (layout.paymentDateConfig.strategy == 'FIELD') {
-				if (layout.paymentDateConfig.documentDateField != null) {
-					errors.requirePaymentDateField = false;
-				}
+			if (layout.paymentDateConfig.documentDateField != null) {
+				errors.requirePaymentDateField = false;
 			}
 
 			layout.items.forEach(function (item) {
