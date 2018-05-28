@@ -100,8 +100,9 @@ shiftingDateStrategyModule.controller('ShiftingDateStrategySettingController', [
 			}
 			var deffered = ShiftingDateStrategyService.getShiftStrategy(vm.organizeId , accountingTransactionType);
 			deffered.promise.then(function (response) {
-
-				vm.shiftingModel = response.data;
+				if (response.data != null){
+					vm.shiftingModel = response.data;
+				}
 				vm.shiftingMethodDisplay = vm.shiftingModel.shiftingMethod;
 				vm.shiftStrategyChange(vm.shiftingMethodDisplay);
 				if (vm.shiftingModel.items != null && vm.shiftingModel.items.length > 0) {
