@@ -21,9 +21,9 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="record in ctrl.data.documentGroupByDuedateList track by $index">
-							<td class="text-center">
+							<td class="text-center" id="invoice-to-pay-{{$index+1}}-TP-label">
 								<img id="general-info-funding-{{$index+1}}-img" title="{{record.supplierName}}" style="height: 32px; width: 32px;" data-ng-src="data:image/png;base64,{{ctrl.decodeBase64(record.supplierLogo)}}"
-								/>
+								/>{{ctrl.showProductType(record.productTypeDiplay)}}
 							</td>
 							<td class="text-center" id="invoice-to-pay-{{$index+1}}-due-date-label" ng-bind="record.dueDate | date : 'dd/MM/yyyy'"></td>
 							<td class="text-center" id="invoice-to-pay-{{$index+1}}-buyer-code-label" ng-bind="record.buyerCode"></td>

@@ -40,6 +40,14 @@ angular.module('scfApp').controller('InvoiceToPayDashboardController', [
 				log.error('Fail to load invoice to pay (top 10).');
 			});
 		}
+		
+		vm.showProductType = function (productType){
+			if(productType == 'NONE'){
+				return '';
+			}else{
+				return ' '+productType;
+			}
+		}
 
 		function init() {
 			vm.getInvoiceToPay();
