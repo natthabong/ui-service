@@ -133,16 +133,18 @@ tradeFinanceModule.controller('TradeFinanceController', ['$scope', '$stateParams
                 	accountType = account.type;
                 }
             });
+			if(vm.isNewMode){
+				vm.tradeFinanceModel.percentageLoan = '';
+				vm.tradeFinanceModel.tenor = '';
+				vm.tradeFinanceModel.interestRate = '';
+				vm.isUseExpireDate = false;
+			}
 			if (accountType === 'LOAN') {
 				vm.isLoanType = true;
 				vm.accountType = 'Term loan';
 			} else if (accountType === 'OVERDRAFT') {
 				vm.isLoanType = false;
 				vm.accountType = 'Overdraft';
-				vm.tradeFinanceModel.percentageLoan = '';
-				vm.tradeFinanceModel.tenor = '';
-				vm.tradeFinanceModel.interestRate = '';
-				vm.isUseExpireDate = false;
 			}else{
 				vm.isLoanType = false;
 				vm.accountType = '';
