@@ -118,7 +118,7 @@
 												ng-bind="'Header field layout' | translate"></legend>
 											<div class="responsive-table">
 												<table id="header-config-table"
-													class="table table-striped table-bordered" width="100%"
+													class="table table-hover table-bordered table-striped" width="100%"
 													cellspacing="0">
 													<thead>
 														<tr>
@@ -133,8 +133,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														<tr ng-repeat="record in ctrl.headerItems track by $index"
-															ng-class="$even?'tr-odd':'tr-even'">
+														<tr ng-repeat="record in ctrl.headerItems track by $index">
 															<td class="text-center" style="width: 10%"><label
 																id="body-no-{{$index+1}}-header-config-label"
 																class="control-label" ng-bind="$index+1"></label></td>
@@ -165,7 +164,7 @@
 												ng-bind="'Payment field layout' | translate"></legend>
 											<div class="responsive-table">
 												<table id="payment-config-table"
-													class="table table-striped table-bordered" width="100%"
+													class="table table-hover table-bordered table-striped" width="100%"
 													cellspacing="0">
 													<thead>
 														<tr>
@@ -181,8 +180,7 @@
 													</thead>
 													<tbody>
 														<tr
-															ng-repeat="record in ctrl.paymentItems track by $index"
-															ng-class="$even?'tr-odd':'tr-even'">
+															ng-repeat="record in ctrl.paymentItems track by $index">
 															<td class="text-center" style="width: 10%"><label
 																id="body-no-{{$index+1}}-payment-config-label"
 																class="text-right control-label" ng-bind="$index+1"></label>
@@ -221,7 +219,7 @@
 											</label>
 											<div class="responsive-table">
 												<table id="document-config-table"
-													class="table table-striped table-bordered" width="100%"
+													class="table table-hover table-bordered table-striped" width="100%"
 													cellspacing="0">
 													<thead>
 														<tr>
@@ -239,8 +237,7 @@
 													</thead>
 													<tbody>
 														<tr
-															ng-repeat="record in ctrl.documentItems track by $index"
-															ng-class="$even?'tr-odd':'tr-even'">
+															ng-repeat="record in ctrl.documentItems track by $index">
 															<td class="text-center" style="width: 10%"><label
 																id="body-no-{{$index+1}}-document-config-label"
 																class="control-label" ng-bind="$index+1"></label></td>
@@ -275,7 +272,7 @@
 												ng-bind="'Footer field layout' | translate"></legend>
 											<div class="responsive-table">
 												<table id="footer-config-table"
-													class="table table-striped table-bordered" width="100%"
+													class="table table-hover table-bordered table-striped" width="100%"
 													cellspacing="0">
 													<thead>
 														<tr>
@@ -290,8 +287,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														<tr ng-repeat="record in ctrl.footerItems track by $index"
-															ng-class="$even?'tr-odd':'tr-even'">
+														<tr ng-repeat="record in ctrl.footerItems track by $index">
 															<td class="text-center" style="width: 10%"><label
 																id="body-no-{{$index+1}}-footer-config-label"
 																class="control-label" ng-bind="$index+1"></label></td>

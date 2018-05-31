@@ -178,7 +178,7 @@
 											ng-bind="'Header field layout' | translate"></legend>
 										<div class="responsive-table">
 											<table id="config-header-table"
-												class="table table-striped table-bordered" width="100%"
+												class="table table-hover table-bordered table-striped" width="100%"
 												cellspacing="0">
 
 												<thead>
@@ -203,8 +203,7 @@
 												</thead>
 												<tbody>
 													<tr
-														ng-repeat-start="record in ctrl.headerItems track by $index"
-														ng-class="$even?'tr-odd':'tr-even'">
+														ng-repeat-start="record in ctrl.headerItems track by $index">
 														<td class="text-right" style="width: 3%"></td>
 														<td class="text-right" style="width: 3%"><label
 															id="header-layout-item-{{$index+1}}-no-label"
@@ -250,7 +249,7 @@
 																ng-disabled="!ctrl.manageAll"> <i
 																class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 													</tr>
-													<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+													<tr ng-repeat-end="" >
 														<td colspan="10">
 															<p id="header-description-{{$index+1}}-label"
 																ng-bind="ctrl.displayExample(record)"></p>
@@ -282,7 +281,7 @@
 												ng-bind="'Detail field layout' | translate"></legend>
 											<div class="responsive-table">
 												<table id="config-item-table"
-													class="table table-striped table-bordered" width="100%"
+													class="table table-hover table-bordered table-striped" width="100%"
 													cellspacing="0">
 													<thead>
 														<tr>
@@ -305,8 +304,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														<tr ng-repeat-start="record in ctrl.items track by $index"
-															ng-class="$even?'tr-odd':'tr-even'">
+														<tr ng-repeat-start="record in ctrl.items track by $index">
 
 															<td class="text-center" style="width: 3%"><input
 																id="key-{{$index+1}}-checkbox" type="checkbox"
@@ -364,8 +362,7 @@
 																<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 														</tr>
 														<tr
-															ng-repeat="cloneFieldRecord in record.valueCloningFields"
-															ng-class="$even?'tr-odd':'tr-even'">
+															ng-repeat="cloneFieldRecord in record.valueCloningFields">
 
 															<td class="text-center" style="width: 3%"></td>
 															<td class="text-right" style="width: 3%"></td>
@@ -388,7 +385,7 @@
 																ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength"></td>
 															<td class="text-center" style="width: 10%"></td>
 														</tr>
-														<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+														<tr ng-repeat-end="">
 
 															<td colspan="10"
 																ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength">
@@ -405,8 +402,7 @@
 														</tr>
 														<!-- Detail Data -->
 														<tr
-															ng-repeat-start="record in ctrl.dataDetailItems track by $index"
-															ng-class="ctrl.isEven(ctrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
+															ng-repeat-start="record in ctrl.dataDetailItems track by $index">
 
 															<td class="text-center" style="width: 3%"><input
 																type="checkbox" ng-disabled="!ctrl.manageAll"
@@ -445,8 +441,7 @@
 																<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 														</tr>
 
-														<tr ng-repeat-end=""
-															ng-class="ctrl.isEven(ctrl.getDetailFieldSize(), $index)?'tr-odd':'tr-even'">
+														<tr ng-repeat-end="">
 															<td colspan="10"
 																ng-show="ctrl.model.fileType == ctrl.fileType.fixedLength">
 																<p
@@ -493,7 +488,7 @@
 												ng-bind="'Footer field layout' | translate"></legend>
 											<div class="responsive-table">
 												<table id="config-footer-table"
-													class="table table-striped table-bordered" width="100%"
+													class="table table-hover table-bordered table-striped" width="100%"
 													cellspacing="0">
 													<thead>
 														<tr>
@@ -518,8 +513,7 @@
 													</thead>
 													<tbody>
 														<tr
-															ng-repeat-start="record in ctrl.footerItems track by $index"
-															ng-class="$even?'tr-odd':'tr-even'">
+															ng-repeat-start="record in ctrl.footerItems track by $index">
 															<td class="text-right" style="width: 3%"></td>
 															<td class="text-right" style="width: 3%"><label
 																id="footer-layout-item-{{$index+1}}-no-label"
@@ -565,7 +559,7 @@
 																	ng-click="ctrl.removeDataItem(ctrl.footerItems,record)">
 																<i class="fa fa-trash" aria-hidden="true"></i> </scf-button></td>
 														</tr>
-														<tr ng-repeat-end="" ng-class="$even?'tr-odd':'tr-even'">
+														<tr ng-repeat-end="">
 															<td colspan="10">
 																<p id="footer-description-{{$index+1}}-label"
 																	ng-bind="ctrl.displayExample(record)"></p>

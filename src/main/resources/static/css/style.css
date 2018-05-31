@@ -47,17 +47,22 @@ table .btn-sm{
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: #007bff;
-   color: white;
    text-align: center;
 }
 
 .footer-container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+ 	z-index: 100;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    position: sticky;
+    width: 100%;
+    background-color: #6F5F5E;
 }
 
 .login-box {
@@ -285,7 +290,14 @@ html.ngdialog-open, body.ngdialog-open {
 
 @media (min-width: 768px) {
   .app-footer {
-    margin-left: 230px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
   }
 }
 
@@ -351,4 +363,57 @@ html.ngdialog-open, body.ngdialog-open {
 
 .uib-datepicker-popup .btn-group {
 	padding-bottom: 5px !important;
+}
+
+
+/* font setting */
+
+.footer-row {
+	display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    vertical-align: middle;
+    width: 100%;
+    font-size: 14px !important;
+}
+
+.user-name {
+	font-size: 12px;
+    font-weight: 900;
+}
+
+.org-name {
+	font-size: 12px;
+    font-weight: 900;
+}
+
+.app-menu__item {
+	font-size: 14px;
+}
+
+.app-title  h1 {
+	font-size: 16px ;
+    font-weight: bold;
+}
+
+.app-title  h3 {
+	font-size: 16px ;
+    font-weight: bold;
+}
+
+table th {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+table td {
+	font-size: 14px;
+}
+
+.body {
+	font-size: 14px;
+}
+
+.form-group {
+	font-size: 14px;
 }
