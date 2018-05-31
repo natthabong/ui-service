@@ -13151,6 +13151,11 @@ be a descendant of the grid when it is being dragged.
   padding-right: 15px;
 }
 
+.footer-container {
+  background-color: #0D47A1;
+  color: #fff;
+}
+
 @media (min-width: 768px) {
   .app-header {
     padding-right: 30px;

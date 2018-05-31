@@ -47,17 +47,21 @@ table .btn-sm{
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: #007bff;
-   color: white;
    text-align: center;
 }
 
 .footer-container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+ 	z-index: 100;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    position: sticky;
+    width: 100%;
 }
 
 .login-box {
@@ -285,7 +289,14 @@ html.ngdialog-open, body.ngdialog-open {
 
 @media (min-width: 768px) {
   .app-footer {
-    margin-left: 230px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
   }
 }
 
@@ -351,4 +362,17 @@ html.ngdialog-open, body.ngdialog-open {
 
 .uib-datepicker-popup .btn-group {
 	padding-bottom: 5px !important;
+}
+
+.footer-row {
+	display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.user-name {
+	font-size: 12px !important;
+    font-weight: 900 !important;
 }
