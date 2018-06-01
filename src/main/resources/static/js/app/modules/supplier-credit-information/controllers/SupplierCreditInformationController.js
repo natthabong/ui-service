@@ -206,7 +206,7 @@ sciModule.controller('SupplierCreditInformationController', [
 				buyerId: data.tradeFinances[0].buyer.memberId,
 				supplierId: data.tradeFinances[0].supplier.memberId,
 				accountId: data.accountId,
-                borrowerType: 'SUPPILER',
+                borrowerType: 'SUPPLIER',
                 fundingId: data.fundingId,
                 organizeId: data.tradeFinances[0].supplier.memberId
 			}
