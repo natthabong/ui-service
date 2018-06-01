@@ -14,15 +14,15 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
-					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-primary"
+					<div class="col-md-12 text-right filter-container">
+						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-search"></i> Search
+							<i class="fa fa-fw fa-lg fa-filter"></i> {{'Filter' | translate}}	
 						</button>
 					</div>
 				</div>
 				
-				<div id="advance-search">
+				<div id="advance-search" class="collapse show">
 					<form name="accountSearchForm" ng-submit="ctrl.search()" autocomplete="off" class="form-horizontal">
 						<div class="form-group row">
 							<label for="organization-textbox" class="col-md-2 col-sm-3 col-xs-12 control-label" id="organization-label" ng-bind="'Organization: ' | translate">Organization: </label>
@@ -42,7 +42,7 @@
 								<scf-dropdown id="status-dropdown" ng-model="ctrl.criteria.suspend" component-data="ctrl.accountStatusDrpodowns"></scf-dropdown>
 							</div>
 							<div class="col-md-6 col-sm-5">
-								<scf-button type="submit" id="search-button" class="btn-default" ng-bind="'Search' | translate" ng-click="ctrl.submitted = true">Search</scf-button>
+								<scf-button type="submit" id="search-button" class="btn-primary" ng-bind="'Search' | translate" ng-click="ctrl.submitted = true">Search</scf-button>
 							</div>
 						</div>
 					</form>

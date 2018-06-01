@@ -13,13 +13,13 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
-					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-primary"
+					<div class="col-md-12 text-right filter-container">
+						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-search"></i> Search
+							<i class="fa fa-fw fa-lg fa-search"></i> {{'Filter' | translate}}
 						</button>
 					</div>
-					<div id="advance-search">
+					<div id="advance-search" class="collapse show">
 						<form name="transactionTrackingForm" class="form-horizontal"
 							novalidate="" ng-submit="ctrl.searchTrackingLog()"
 							autocomplete="off">
@@ -104,7 +104,7 @@
 								</div>
 								<div class="col-md-3 col-sm-3">
 									<scf-button type="submit" id="search-button"
-										class="btn-default" ng-bind="'Search' | translate"></scf-button>
+										class="btn-primary" ng-bind="'Search' | translate"></scf-button>
 								</div>
 							</div>
 						</form>
