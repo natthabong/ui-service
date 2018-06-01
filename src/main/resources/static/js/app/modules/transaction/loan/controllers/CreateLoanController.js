@@ -478,7 +478,7 @@ createapp.controller('CreateLoanController', ['TransactionService', '$state',
                     buyerId: vm.createTransactionModel.sponsorIdSelected,
                     supplierId: ownerId,
                     accountId: vm.createTransactionModel.payerAccountId,
-                    borrowerType: 'SUPPILER',
+                    borrowerType: 'SUPPLIER',
                     fundingId: vm.tradingpartnerInfoModel.fundingId,
                     organizeId: ownerId
                 }
