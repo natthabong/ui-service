@@ -365,10 +365,20 @@ html.ngdialog-open, body.ngdialog-open {
 	padding-bottom: 5px !important;
 }
 
-.table-bordered th, .table-bordered td {
+.table-bordered th {
     border: 0px solid #dee2e6;
 }
 
 .filter-container {
-	margin-bottom: 10px;
+	padding-bottom: 10px;
+    padding-right: 0px;
+}
+
+
+.org-config-group {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
+    padding: 5px;
+    margin-bottom: 5px;
 }

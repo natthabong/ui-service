@@ -29,13 +29,13 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
-					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-primary"
+					<div class="col-md-12 text-right filter-container">
+						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-search"></i> Search
+							<i class="fa fa-fw fa-lg fa-filter"></i> {{'Filter' | translate}}
 						</button>
 					</div>
-					<div id="advance-search">
+					<div id="advance-search" class="collapse">
 						<div class="col-md-12">
 							<form name="createForm" class="form-horizontal">
 								<div class="form-group row"
@@ -80,8 +80,8 @@
 									</div>
 									<div class="col-md-5 col-sm-5"
 										ng-show="ctrl.canViewCusCodeReferToMyOrg">
-										<scf-button id="search-button" class="btn-default"
-											ng-click="ctrl.searchDocument()">Search</scf-button>
+										<scf-button id="search-button" class="btn-primary"
+											ng-click="ctrl.searchDocument()">{{'Search' | translate}}</scf-button>
 									</div>
 								</div>
 								<div class="form-group row" ng-show="ctrl.requireSponsorPaymentDate">
@@ -135,7 +135,7 @@
 						</div>
 						<div class="col-md-12 col-sm-12 text-right">
 							<div class="row">
-								<div class="col-md-12 col-sm-12">
+								<div class="col-md-12 col-sm-12 filter-container">
 									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 										id="create-transaction-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 											dropdown-id="page-limit-dropdown" name="create-transaction"

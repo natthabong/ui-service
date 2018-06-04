@@ -14,7 +14,7 @@
 							<i class="fa fa-fw fa-lg fa-filter"></i> {{'Filter' | translate}}
 						</button>
 					</div>
-					<div id="advance-search" class="collapse show">
+					<div id="advance-search" class="collapse">
 						<form name="createForm" class="form-horizontal">
 							<div class="form-group row">
 								<label for="dateTypeRadio" class="col-md-2 col-sm-3 control-label"></label>
@@ -190,7 +190,7 @@
 						</table>
 					</div>
 					<div class="col-md-12 col-sm-12 text-right">
-						<div class="col-md-12 col-sm-12">
+						<div class="col-md-12 col-sm-12 filter-container">
 							<span>
 								<b ng-bind="ctrl.pagingController.splitePageTxt" id="remittance-advice-paging-label"></b> &nbsp;&nbsp;
 								<scf-pagination dropdown-id="remittance-advice-page-limit-dropdown" name="remittance-advice" page-size-model="ctrl.pagingController.pagingModel.pageSizeSelectModel"

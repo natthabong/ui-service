@@ -19,10 +19,10 @@
 					<div class="col-md-12 text-right filter-container">
 						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-search"></i> {{'Filter' | translate}}
+							<i class="fa fa-fw fa-lg fa-filter"></i> {{'Filter' | translate}}
 						</button>
 					</div>
-					<div id="advance-search" class="collapse show">
+					<div id="advance-search" class="collapse">
 						<form name="ctrl.documentListSponsorForm" class="form-horizontal"
 							novalidate="" ng-submit="ctrl.searchDocument()"
 							autocomplete="off">
@@ -157,7 +157,7 @@
 						</div>
 						<div class="col-md-11 col-sm-11 text-right">
 							<div class="row">
-								<div class="col-md-12 col-sm-12">
+								<div class="col-md-12 col-sm-12 filter-container">
 									<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 										id="document-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 											dropdown-id="page-limit-dropdown" name="document"

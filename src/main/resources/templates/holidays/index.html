@@ -16,6 +16,12 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
+					<div class="col-md-12 text-right filter-container">
+							<scf-button id="new-button"
+											ng-disabled="ctrl.unauthenManage()"
+											class="btn btn-default" ng-click="ctrl.openPopupHoliday()"> <i class="fa fa-lg fa-plus"></i> {{'New'
+										| translate}}</scf-button>
+					</div>
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<form name="holidaySearchForm" class="form-horizontal"
 							ng-submit="ctrl.searchHoliday()" autocomplete="off">
@@ -44,12 +50,6 @@
 								</div>
 							</div>
 						</form>
-						<div class="col-md-12 text-right">
-							<scf-button id="new-button"
-											ng-disabled="ctrl.unauthenManage()"
-											class="btn btn-default" ng-click="ctrl.openPopupHoliday()"> <i class="fa fa-lg fa-plus"></i> {{'New'
-										| translate}}</scf-button>
-						</div>
 					</div>
 					<br />
 					<!-- Start Table-->
@@ -92,7 +92,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12 col-sm-12 text-right">
+					<div class="col-md-12 col-sm-12 text-right filter-container">
 						<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 							id="holiday-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 								dropdown-id="page-limit-dropdown" name="holiday"

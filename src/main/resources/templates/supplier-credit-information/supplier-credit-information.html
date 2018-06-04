@@ -11,14 +11,14 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
-					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-primary"
+					<div class="col-md-12 text-right filter-container">
+						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-search"></i> Search
+							<i class="fa fa-fw fa-lg fa-filter"></i> {{'Filter' | translate}}
 						</button>
 					</div>
 				</div>
-				<div id="advance-search">
+				<div id="advance-search" class="collapse">
 					<form name="supplierCreditInformationForm" autocomplete="off" class="form-horizontal">
 						<br />
 						<div class="form-group row" ng-show="ctrl.showSupplier">
@@ -34,7 +34,7 @@
 								<gec-auto-suggest model="ctrl.buyerAutoSuggestModel" ng-model="ctrl.buyer" id="buyer-auto-suggest-tag" name="buyerCode" maxlength="100"></gec-auto-suggest>
 							</div>
 							<div class="col-md-3 col-sm-2">
-								<scf-button type="submit" id="search-button" class="btn-default" ng-bind="'Search' | translate" ng-click="ctrl.search()"></scf-button>
+								<scf-button type="submit" id="search-button" class="btn-primary" ng-bind="'Search' | translate" ng-click="ctrl.search()"></scf-button>
 							</div>
 						</div>
 					</form>
@@ -91,7 +91,7 @@
 				</div>
 				<div class="col-md-12 col-sm-12 text-right">
 					<div class="row">
-						<div class="col-md-12 col-sm-12">
+						<div class="col-md-12 col-sm-12 filter-container">
 							<span>
 								<b ng-bind="ctrl.pagingController.splitePageTxt" id="supplier-credit-information-paging-label"></b>
 								&nbsp;&nbsp;

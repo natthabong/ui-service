@@ -13,10 +13,10 @@
 					<div class="col-md-12 text-right filter-container">
 						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-filter"></i> Search
+							<i class="fa fa-fw fa-lg fa-filter"></i>  {{'Filter' | translate}}
 						</button>
 					</div>
-					<div id="advance-search" class="collapse show">
+					<div id="advance-search" class="collapse">
 						<form name="activityLogForm" class="form-horizontal" novalidate=""
 							ng-submit="ctrl.searchLog()" autocomplete="off">
 							
@@ -168,7 +168,7 @@
 					</div>
 					<div class="col-md-12 col-sm-12 text-right">
 						<div class="row">
-							<div class="col-md-12 col-sm-12">
+							<div class="col-md-12 col-sm-12 filter-container">
 								<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 									id="organize-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 										dropdown-id="page-limit-dropdown" name="organize"

@@ -16,17 +16,17 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
-					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-primary"
+					<div class="col-md-12 text-right filter-container">
+						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-search"></i> Search
+							<i class="fa fa-fw fa-lg fa-filter"></i> {{'Filter' | translate}}
 						</button>
 						<scf-button id="new-button"
 										th:attr="ng-disabled=${#authorization.expression('!hasAnyAuthority(''MANAGE_ALL_USERS'' )')}"
 										class="btn btn-default" ng-click="ctrl.newUser()"> <i class="fa fa-lg fa-plus"></i> {{'New'
 									| translate}}</scf-button>
 					</div>
-					<div id="advance-search">
+					<div id="advance-search" class="collapse">
 						<form name="userListForm" class="form-horizontal" novalidate=""
 							ng-submit="ctrl.searchUser()" autocomplete="off">
 							<div class="form-group row">
@@ -69,7 +69,7 @@
 										component-data="ctrl.passwordStatusDropdowns"></scf-dropdown>
 								</div>
 								<div class="col-md-5 col-sm-4">
-									<scf-button type="submit" id="search-button" class="btn-default"
+									<scf-button type="submit" id="search-button" class="btn-primary"
 										ng-bind="'Search' | translate"></scf-button>
 								</div>
 								
@@ -90,7 +90,7 @@
 					</div>
 					<div class="col-md-12 col-sm-12 text-right">
 						<div class="row">
-							<div class="col-md-12 col-sm-12">
+							<div class="col-md-12 col-sm-12 filter-container">
 								<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 									id="user-list-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 										dropdown-id="page-limit-dropdown" name="user-list"

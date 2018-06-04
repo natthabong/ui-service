@@ -21,13 +21,13 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
-					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-primary"
+					<div class="col-md-12 text-right filter-container">
+						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-search"></i> Search
+							<i class="fa fa-fw fa-lg fa-filter"></i> {{'Filter' | translate}}
 						</button>
 					</div>
-					<div id="advance-search">
+					<div id="advance-search" class="collapse">
 						<div class="col-md-12">
 							<div
 								ng-include="'/payment-transaction/components/criteria-search'"></div>

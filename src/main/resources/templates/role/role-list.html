@@ -14,7 +14,7 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
-					<div class="col-md-12 text-right">
+					<div class="col-md-12 text-right filter-container">
 						<scf-button id="new-button"
 											class="btn btn-default" ng-click="ctrl.newRole()"><i class="fa fa-lg fa-plus"></i>{{'New'
 										| translate}}</scf-button>
@@ -31,7 +31,7 @@
 					</div>
 					<div class="col-md-12 col-sm-12 text-right">
 						<div class="row">
-							<div class="col-md-12 col-sm-12">
+							<div class="col-md-12 col-sm-12 filter-container">
 								<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 										id="role-list-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 											dropdown-id="page-limit-dropdown" name="role-list"

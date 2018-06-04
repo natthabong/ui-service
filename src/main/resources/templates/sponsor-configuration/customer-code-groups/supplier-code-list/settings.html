@@ -16,17 +16,17 @@
 		<div class="col-md-12">
 			<div class="tile">
 				<div class="tile-body">
-					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-primary"
+					<div class="col-md-12 text-right  filter-container">
+						<button type="button" class="btn"
 							data-toggle="collapse" data-target="#advance-search">
-							<i class="fa fa-fw fa-lg fa-search"></i> Search
+							<i class="fa fa-fw fa-lg fa-filter"></i> {{'Filter' | translate}}
 						</button>
 						<scf-button id="new-button" class="btn-default gec-btn-action"
 							ng-disabled="ctrl.unauthen()" ng-click="ctrl.customerCodeSetup()"
 							ng-show="ctrl.isEditMode"> <i class="fa fa-plus"
 							aria-hidden="true"></i>{{'New' | translate}}</scf-button>
 					</div>
-					<div id="advance-search">
+					<div id="advance-search" class="collapse">
 						<form name="manageForm" class="form-horizontal">
 							<br />
 							<div class="form-group row" ng-hide="ctrl.hiddenFundingColumn">
@@ -66,7 +66,7 @@
 										component-data="ctrl.statusDropdown" translate-label="true"></scf-dropdown>
 								</div>
 								<div class="col-md-2 col-sm-3">
-									<scf-button id="search-button" class="popup-button"
+									<scf-button id="search-button" class="btn-primary"
 										data-dismiss="modal" ng-click="ctrl.search()"
 										ng-bind="'Search' | translate"></scf-button>
 								</div>
@@ -146,7 +146,7 @@
 					</div>
 					<div class="col-md-12 col-sm-12 text-right">
 						<div class="row">
-							<div class="col-md-12 col-sm-12">
+							<div class="col-md-12 col-sm-12 filter-container">
 								<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 									id="customer-code-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 										dropdown-id="customer-code-page-limit-dropdown"

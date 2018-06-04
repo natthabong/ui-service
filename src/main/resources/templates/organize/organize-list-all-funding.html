@@ -22,7 +22,7 @@
 						</button>
 					</div>
 
-					<div id="advance-search" class="collapse show">
+					<div id="advance-search" class="collapse">
 						<form name="organizeForm" ng-submit="ctrl.searchOrganize()"
 							autocomplete="off" class="form-horizontal">
 							<div class="form-group row">
@@ -108,7 +108,7 @@
 					</div>
 					<div class="col-md-12 col-sm-12 text-right">
 						<div class="row">
-							<div class="col-md-12 col-sm-12">
+							<div class="col-md-12 col-sm-12 filter-container">
 								<span> <b ng-bind="ctrl.pagingController.splitePageTxt"
 									id="organize-paging-label"></b> &nbsp;&nbsp; <scf-pagination
 										dropdown-id="page-limit-dropdown" name="organize"
