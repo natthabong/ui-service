@@ -376,14 +376,15 @@ txnMod.controller('CreatePaymentController', ['$rootScope', '$scope', '$log', '$
                 }
                 
             	var _criteria = {};
-                angular.copy(vm.criteria, _criteria);
-                vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
-                vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
 
                 vm.documentSelection = response.documentSelection;
                 vm.criteria.displayNegativeDocument = response.displayNegativeDocument;
                 vm.criteria.overDuePeriod = response.overDuePeriod;
                 vm.criteria.sort = response.sort;
+
+                angular.copy(vm.criteria, _criteria);
+                vm.pagingAllController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
+                vm.pagingController = PagingController.create('api/v1/documents/matching-by-fields', _criteria, 'GET');
 
                 if (vm.documentSelection != 'ANY_DOCUMENT') {
                 	vm.checkSelectMatchingRef = true;
